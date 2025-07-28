@@ -28,7 +28,7 @@ function Category() {
         data-aos-delay="50"
         className="lg:w-[15%] w-full flex flex-col justify-center lg:items-start items-center gap-[20px]"
       >
-        <h1 className="text-xl font-semibold text-center text-[#502EC3]">
+      <h1 className="text-xl font-semibold text-center text-[#502EC3]">
           Favorite items
         </h1>
         <h1 className="text-[42px] font-semibold text-center text-black leading-[50px] lg:text-start">

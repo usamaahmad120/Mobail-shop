@@ -32,7 +32,7 @@ function Hero() {
   ];
 
   return (
-    <div id="hero" className="w-full">
+    <div id="hero" className="w-full pt-[80px]">
       <Slider {...settings}>
         {slides.map((slide, index) => (
           <div key={index}>

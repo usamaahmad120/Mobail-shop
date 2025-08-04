@@ -11,6 +11,13 @@ import test2 from "./assets/test-2.jpg";
 import test3 from "./assets/test-3.jpg";
 import test4 from "./assets/test-4.jpg";
 import test5 from "./assets/test-5.jpg";
+import girls1 from './assets/girls.1.jpeg'
+import girls2 from './assets/girls.2.jpeg'
+import girls3 from './assets/girls.3.jpeg'
+import girls4 from './assets/girls.5.jpeg'
+import man1 from './assets/man.1.jpeg'
+import man2 from './assets/man.2.jpeg'
+import man3 from './assets/man.3.jpeg'
 
 export const products = [
   {
@@ -48,7 +55,7 @@ export const products = [
   {
     id: "prod_005",
     img: laptop,
-    category: "Computers Accessories",
+    category: "Computers",
     name: "Asus Tuff F15",
     price: "$897.28",
     maxStock: 5,
@@ -56,7 +63,7 @@ export const products = [
   {
     id: "prod_006",
     img: headset,
-    category: "Music & Videos",
+    category: "Audio",
     name: "Wireless Headset",
     price: "$67.88",
     maxStock: 12,
@@ -64,7 +71,7 @@ export const products = [
   {
     id: "prod_007",
     img: mouse,
-    category: "Computer Accessories",
+    category: "Accessories",
     name: "Wireless Mouse",
     price: "$32.78",
     maxStock: 18,
@@ -72,12 +79,69 @@ export const products = [
   {
     id: "prod_008",
     img: camera,
-    category: "Films & Gaming",
-    name: "DSLR 360 view",
+    category: "Cameras",
+    name: "DSLR 360 View",
     price: "$145.28",
     maxStock: 6,
   },
+  {
+    id: "prod_009",
+    img: girls1,
+    category: "Fashion",
+    name: "Trendy Shades",
+    price: "$25.60",
+    maxStock: 30,
+  },
+  {
+    id: "prod_010",
+    img: girls2,
+    category: "Clothing",
+    name: "Summer Dress",
+    price: "$42.00",
+    maxStock: 10,
+  },
+  {
+    id: "prod_011",
+    img: girls3,
+    category: "Fashion",
+    name: "Vintage Look",
+    price: "$51.99",
+    maxStock: 16,
+  },
+  {
+    id: "prod_012",
+    img: girls4,
+    category: "Skincare",
+    name: "Luxury Lipstick",
+    price: "$15.80",
+    maxStock: 35,
+  },
+  {
+    id: "prod_013",
+    img: man1,
+    category: "Menswear",
+    name: "Denim Jacket",
+    price: "$59.99",
+    maxStock: 11,
+  },
+  {
+    id: "prod_014",
+    img: man2,
+    category: "Menswear",
+    name: "Casual Shirt",
+    price: "$35.50",
+    maxStock: 20,
+  },
+  {
+    id: "prod_015",
+    img: man3,
+    category: "Accessories",
+    name: "Leather Wallet",
+    price: "$22.45",
+    maxStock: 40,
+  },
 ];
+
 
 export const reviewdata = [
   {

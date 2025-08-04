@@ -83,17 +83,17 @@ function Latest() {
       id="latest"
       className="w-full lg:px-20 px-5 py-[80px] bg-gray-100"
     >
-      <h1
+      {/* <h1
         data-aos="zoom-in"
         data-aos-delay="200"
         className="text-xl font-semibold text-[#502EC3] text-center"
       >
         Latest Arrivals
-      </h1>
+      </h1> */}
       <h1
         data-aos="zoom-in"
         data-aos-delay="300"
-        className="text-[42px] leading-[50px] font-semibold text-black text-center"
+        className="text-[42px] leading-[50px] font-semibold text-black text-start"
       >
         Newest Products
       </h1>
@@ -171,19 +171,7 @@ function Latest() {
                 <h1 className="text-xl font-semibold text-center">{item.name}</h1>
                 <h1 className="text-xl font-bold text-[#502EC3] mt-2">{item.price}</h1>
 
-                <div className="w-full mt-2">
-                  <hr />
-                  <div className="flex justify-center items-center mt-2 gap-6">
-                    <div className="flex items-center gap-1">
-                      {/* {[...Array(5)].map((_, i) => (
-                        <IoIosStar key={i} className="text-[#502EC3] text-lg" />
-                      ))} */}
-                    </div>
-                    <button className="bg-[#502EC3] hover:bg-yellow-500 text-white rounded-lg px-3 py-3 text-[14px] font-semibold">
-                      Shop Now
-                    </button>
-                  </div>
-                </div>
+               
               </div>
             </div>
           )})}

@@ -14,28 +14,69 @@ function Services() {
     }, []);
   return (
     <>
-    <div className="w-full lg:px-20 px-5 py-[20px] grid grid-cols-1 lg:grid-cols-4 justify-center items-center gap-10">
-      <div data-aos="zoom-in" data-aos-delay="100" className="flex flex-col justify-center items-center gap-4 p-10 rounded-lg" >
-        <img src={shipping} alt="Shipping" className="w-16 h-16" />
-        <h1 className="text-2xl font-semibold">Free Shipping</h1>
-        <p className="text-gray-600">On orders over $50</p>
+  <div className="w-full px-6 py-10 bg-gray-100 rounded-lg flex justify-center">
+  {/* Section Container with white background and inner padding */}
+  <div className="w-[1400px] bg-white shadow-lg px-6  rounded-lg mb-6">
+    <div className="flex flex-wrap justify-center gap-8">
+      
+      {/* Card 1 */}
+      <div
+        data-aos="zoom-in"
+        data-aos-delay="100"
+        className="flex items-center gap-4 p-4 w-full sm:w-[300px] h-[130px]"
+      >
+        <img src={shipping} alt="Shipping" className="w-14 h-14" />
+        <div className="flex flex-col justify-center">
+          <h1 className="text-lg font-semibold">Free Shipping</h1>
+          <p className="text-gray-600 text-sm">On orders over $50</p>
+        </div>
       </div>
-      <div data-aos="zoom-in" data-aos-delay="200" className="flex flex-col justify-center items-center gap-4 p-10 rounded-lg">
-        <img src={payment} alt="Payment" className="w-16 h-16" />
-        <h1 className="text-2xl font-semibold">Secure Payment</h1>
-        <p className="text-gray-600">100% secure payment</p>
+
+      {/* Card 2 */}
+      <div
+        data-aos="zoom-in"
+        data-aos-delay="200"
+        className="flex items-center gap-4 p-4 w-full sm:w-[300px] h-[130px]"
+      >
+        <img src={payment} alt="Payment" className="w-14 h-14" />
+        <div className="flex flex-col justify-center">
+          <h1 className="text-lg font-semibold">Secure Payment</h1>
+          <p className="text-gray-600 text-sm">100% secure payment</p>
+        </div>
       </div>
-      <div data-aos="zoom-in" data-aos-delay="300" className="flex flex-col justify-center items-center gap-4 p-10 rounded-lg">
-        <img src={refund} alt="Refund" className="w-16 h-16" />
-        <h1 className="text-2xl font-semibold">Easy Refunds</h1>
-        <p className="text-gray-600">30-day money-back guarantee</p>
+
+      {/* Card 3 */}
+      <div
+        data-aos="zoom-in"
+        data-aos-delay="300"
+        className="flex items-center gap-4 p-4 w-full sm:w-[300px] h-[130px]"
+      >
+        <img src={refund} alt="Refund" className="w-14 h-14" />
+        <div className="flex flex-col justify-center">
+          <h1 className="text-lg font-semibold">Easy Refunds</h1>
+          <p className="text-gray-600 text-sm">30-day money-back guarantee</p>
+        </div>
       </div>
-      <div data-aos="zoom-in" data-aos-delay="400" className="flex flex-col justify-center items-center gap-4 p-10 rounded-lg">
-        <img src={gift} alt="Support" className="w-16 h-16" />
-        <h1 className="text-2xl font-semibold">24/7 Support</h1>
-        <p className="text-gray-600">We're here to help you</p>
+
+      {/* Card 4 */}
+      <div
+        data-aos="zoom-in"
+        data-aos-delay="400"
+        className="flex items-center gap-4 p-4 w-full sm:w-[300px] h-[130px]"
+      >
+        <img src={gift} alt="Support" className="w-14 h-14" />
+        <div className="flex flex-col justify-center">
+          <h1 className="text-lg font-semibold">24/7 Support</h1>
+          <p className="text-gray-600 text-sm">We're here to help you</p>
+        </div>
       </div>
+
     </div>
+  </div>
+</div>
+
+
+
     </>
   )
 }

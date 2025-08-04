@@ -1,33 +1,27 @@
 import React from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css'
 import Header from './component/Header'
-import Hero from './component/Hero'
-import Category from './component/Category'
-import Type from './component/Type'
-import Services from './component/Services'
-import Product from './component/Product'
-import Baner from './component/Baner'
-import Review from './component/Review'
-import Insta from './component/Insta'
 import Footer from './component/Footer'
-
+import Home from './component/Home'
+import ProductsPage from './component/ProductsPage'
+import CartPage from './component/CartPage'
+import ShoppingCartPage from './component/ShoppingCartPage'
 
 function App() {
- 
-
   return (
-    <>
-     <Header/>
-     <Hero/>
-     <Category/>
-     <Type/>
-     <Services/>
-     <Product/>
-     <Baner/>
-     <Review/>
-     <Insta/>
-     <Footer/>
-    </>
+    <Router>
+      <div className="App">
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/shopping-cart" element={<ShoppingCartPage />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
   )
 }
 

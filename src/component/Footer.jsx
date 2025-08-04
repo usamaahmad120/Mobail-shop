@@ -73,7 +73,7 @@ const Footer = () => {
 
         {/* Useful Links */}
         <div>
-          <h3 className="font-bold text-lg mb-3">Useful Links</h3>
+          <h3 className="font-bold text-lg text-black mb-3">Useful Links</h3>
           <ul className="space-y-3 text-lg font-semibold">
             <li>
               <a
@@ -120,7 +120,7 @@ const Footer = () => {
 
         {/* Information */}
         <div>
-          <h3 className="font-bold text-lg mb-3">Information</h3>
+          <h3 className="font-bold text-lg  text-black mb-3">Information</h3>
           <ul className="space-y-3 text-lg font-semibold">
             <li>
               <a
@@ -167,7 +167,7 @@ const Footer = () => {
 
         {/* Top Category */}
         <div>
-          <h3 className="font-bold text-lg mb-3">Top Category</h3>
+          <h3 className="font-bold text-lg text-black mb-3">Top Category</h3>
           <ul className="space-y-3 text-lg font-semibold">
             <li>
               <a
@@ -214,7 +214,7 @@ const Footer = () => {
 
         {/* Contact Info */}
         <div>
-          <h3 className="font-bold text-lg mb-3">Contact Info</h3>
+          <h3 className="font-bold text-lg  text-black mb-3">Contact Info</h3>
           <ul className="space-y-3 text-lg font-semibold">
             <li>
               <a

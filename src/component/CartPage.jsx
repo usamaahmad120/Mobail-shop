@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { store } from '../store';
 import {
   addToCart,
   selectCartItemQuantity,
   loadCartFromStorage,
   selectSelectedProductId
 } from '../store/cartSlice';
-import { 
+import {
   addToWishlist,
   removeFromWishlist,
   selectIsInWishlist,
@@ -49,7 +50,8 @@ const CartPage = () => {
 
   const handleToggleWishlist = async (product) => {
     setAddingToWishlist(product.id);
-    const isInWishlist = useSelector(state => selectIsInWishlist(state, product.id));
+    // Get the current wishlist state directly from the store
+    const isInWishlist = selectIsInWishlist(store.getState(), product.id);
     
     if (isInWishlist) {
       dispatch(removeFromWishlist(product.id));

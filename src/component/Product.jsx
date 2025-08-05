@@ -48,7 +48,7 @@ function Product() {
 
   const handleEyeClick = (product) => {
     dispatch(setSelectedProduct(product.id));
-    navigate('/cart');
+    navigate('/shopping-cart');
     // Scroll to top after navigation
     window.scrollTo(0, 0);
   };
@@ -93,14 +93,16 @@ function Product() {
           key={index}
           className="group flex flex-col justify-center items-center gap-2 bg-white p-4 rounded-lg cursor-pointer relative shadow hover:shadow-lg transition duration-300"
         >
-          {/* Top Icons */}
-          <div className="flex gap-4 text-xl text-[#502EC3] absolute top-4 z-10 md:opacity-0 md:group-hover:opacity-100 opacity-100 transition duration-300 justify-center items-center">
-            <div
-              className="bg-[#502EC3] hover:bg-yellow-400 w-10 h-10 flex justify-center items-center rounded-full text-white cursor-pointer transition"
-              onClick={() => handleEyeClick(item)}
-            >
-              <FaEye />
-            </div>
+          {/* Eye Icon at Top */}
+          <div
+            className="bg-[#502EC3] hover:bg-yellow-400 w-10 h-10 flex justify-center items-center rounded-full text-white cursor-pointer transition absolute top-4 right-4 z-20"
+            onClick={() => handleEyeClick(item)}
+          >
+            <FaEye />
+          </div>
+          
+          {/* Other Icons */}
+          <div className="flex gap-4 text-xl text-[#502EC3] absolute top-4 left-4 z-10 md:opacity-0 md:group-hover:opacity-100 opacity-100 transition duration-300 justify-center items-center">
             <div
               className={`w-10 h-10 flex justify-center items-center rounded-full cursor-pointer transition ${
                 isInWishlist

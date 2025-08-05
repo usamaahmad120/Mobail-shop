@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { store } from '../store';
 import {
   addToCart,
   selectCartItemQuantity,
@@ -41,22 +42,34 @@ const ProductsPage = () => {
 
   const navigate = useNavigate();
 
-  // Get category from location state or URL query parameters
+  // Get category and search parameters from URL
   useEffect(() => {
-    // First check location state (from Link state prop)
-    if (location.state && location.state.category) {
+    // First check URL path parameters (from /category/:category)
+    const pathSegments = location.pathname.split('/');
+    if (pathSegments[1] === 'category' && pathSegments[2]) {
+      setFilterCategory(decodeURIComponent(pathSegments[2]));
+    }
+    // Then check location state (from Link state prop)
+    else if (location.state && location.state.category) {
       setFilterCategory(location.state.category);
       
       // Clear the state to prevent issues when navigating back
       navigate(location.pathname, { replace: true, state: {} });
-    } else {
-      // Fallback to URL query parameters
-      const queryParams = new URLSearchParams(location.search);
-      const categoryParam = queryParams.get('category');
-      
-      if (categoryParam) {
-        setFilterCategory(categoryParam);
-      }
+    }
+    
+    // Check for query parameters (category and search)
+    const queryParams = new URLSearchParams(location.search);
+    
+    // Handle category parameter
+    const categoryParam = queryParams.get('category');
+    if (categoryParam) {
+      setFilterCategory(categoryParam);
+    }
+    
+    // Handle search parameter
+    const searchParam = queryParams.get('search');
+    if (searchParam) {
+      setSearchTerm(searchParam);
     }
   }, [location, navigate]);
 
@@ -75,7 +88,8 @@ const ProductsPage = () => {
 
   const handleToggleWishlist = async (product) => {
     setAddingToWishlist(product.id);
-    const isInWishlist = useSelector(state => selectIsInWishlist(state, product.id));
+    // Get the current wishlist state directly from the store
+    const isInWishlist = selectIsInWishlist(store.getState(), product.id);
     
     if (isInWishlist) {
       dispatch(removeFromWishlist(product.id));
@@ -89,8 +103,10 @@ const ProductsPage = () => {
   };
 
   const handleEyeClick = (product) => {
-    setSelectedProduct(product);
-    setIsModalOpen(true);
+    dispatch(addToCart(product));
+    navigate('/shopping-cart');
+    // Scroll to top after navigation
+    window.scrollTo(0, 0);
   };
 
   const handleCloseModal = () => {
@@ -258,14 +274,14 @@ const ProductsPage = () => {
           )}
           
           {/* Hover Actions */}
-          <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center gap-3">
+          <div className="absolute inset-0 bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center gap-3">
             <button
               onClick={() => handleEyeClick(product)}
-              className="bg-white p-3 rounded-full hover:bg-gray-100 transition transform hover:scale-110"
+              className="bg-[#5C2EC0] p-3 rounded-full hover:bg-white  transition transform hover:scale-110"
             >
-              <FaEye className="text-[#5C2EC0]" />
+              <FaEye className="text-white hover:text-[#5C2EC0]" />
             </button>
-            <button
+            {/* <button
               onClick={() => handleToggleWishlist(product)}
               disabled={isAddingToWishlistState}
               className={`p-3 rounded-full transition transform hover:scale-110 ${
@@ -279,10 +295,10 @@ const ProductsPage = () => {
               ) : (
                 isInWishlist ? <FaHeart className="text-white" /> : <TiHeartOutline className="text-[#5C2EC0]" />
               )}
-            </button>
-            <button className="bg-white p-3 rounded-full hover:bg-gray-100 transition transform hover:scale-110">
+            </button> */}
+            {/* <button className="bg-white p-3 rounded-full hover:bg-gray-100 transition transform hover:scale-110">
               <MdCompareArrows className="text-[#5C2EC0]" />
-            </button>
+            </button> */}
           </div>
         </div>
 

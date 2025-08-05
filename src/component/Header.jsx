@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { FaSearch, FaUser, FaHeart, FaShoppingCart, FaBars, FaChevronDown } from "react-icons/fa";
+import { FaSearch, FaUser, FaHeart, FaShoppingCart, FaBars, FaChevronDown, FaTimes } from "react-icons/fa";
 import {
   selectCartTotalItems,
   selectCartItems,
@@ -26,6 +26,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showSearch, setShowSearch] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
   const [showWishlist, setShowWishlist] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -97,6 +98,7 @@ const Header = () => {
 
         <div className="md:hidden text-2xl cursor-pointer" onClick={toggleMenu}><FaBars /></div>
 
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex gap-6 text-sm font-medium">
           <Link to="/" className="px-4 py-1 rounded-md font-semibold hover:bg-[#5C2EC0] hover:text-white transition duration-300">HOME</Link>
 
@@ -127,16 +129,84 @@ const Header = () => {
           <a href="#testimonials" className="px-4 py-1 rounded-md font-semibold hover:bg-[#5C2EC0] hover:text-white transition duration-300">TESTIMONIALS</a>
           <a href="#contact" className="px-4 py-1 rounded-md font-semibold hover:bg-[#5C2EC0] hover:text-white transition duration-300">CONTACT</a>
         </nav>
+        
+        {/* Mobile Navigation */}
+        {menuOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden">
+            <div className="bg-white h-screen w-64 p-5 shadow-lg transform transition-transform duration-300 ease-in-out">
+              <div className="flex justify-between items-center mb-6">
+                <span className="text-xl font-bold text-[#5C2EC0]">Menu</span>
+                <button onClick={toggleMenu} className="text-gray-500 hover:text-gray-700">
+                  <FaTimes className="text-xl" />
+                </button>
+              </div>
+              <nav className="flex flex-col gap-4">
+                <Link to="/" className="px-4 py-2 rounded-md font-semibold hover:bg-[#5C2EC0] hover:text-white transition duration-300" onClick={toggleMenu}>HOME</Link>
+                
+                <div className="relative">
+                  <div
+                    className="flex items-center justify-between px-4 py-2 rounded-md font-semibold hover:bg-[#5C2EC0] hover:text-white transition duration-300 cursor-pointer"
+                    onClick={() => setActiveDropdown(activeDropdown === 'mobileCategories' ? null : 'mobileCategories')}
+                  >
+                    <span>CATEGORIES</span>
+                    <FaChevronDown className="text-xs" />
+                  </div>
+                  
+                  {activeDropdown === 'mobileCategories' && (
+                    <div className="bg-gray-100 rounded-md mt-1 p-2">
+                      {categories.map((category, index) => (
+                        <Link
+                          key={index}
+                          to={`/category/${category}`}
+                          className="block px-4 py-2 hover:bg-gray-200 rounded-md"
+                          onClick={toggleMenu}
+                        >
+                          {category}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                
+                <Link to="/products" className="px-4 py-2 rounded-md font-semibold hover:bg-[#5C2EC0] hover:text-white transition duration-300" onClick={toggleMenu}>PRODUCTS</Link>
+                <a href="#about" className="px-4 py-2 rounded-md font-semibold hover:bg-[#5C2EC0] hover:text-white transition duration-300" onClick={toggleMenu}>ABOUT</a>
+                <a href="#testimonials" className="px-4 py-2 rounded-md font-semibold hover:bg-[#5C2EC0] hover:text-white transition duration-300" onClick={toggleMenu}>TESTIMONIALS</a>
+                <a href="#contact" className="px-4 py-2 rounded-md font-semibold hover:bg-[#5C2EC0] hover:text-white transition duration-300" onClick={toggleMenu}>CONTACT</a>
+              </nav>
+            </div>
+          </div>
+        )}
 
         <div className="flex gap-4 items-center text-xl text-black relative">
           <div className="relative">
             <FaSearch className="cursor-pointer" onClick={toggleSearch} />
             {showSearch && (
-              <input
-                type="text"
-                placeholder="Search..."
-                className="absolute top-8 right-0 w-40 px-2 py-1 rounded-md border border-gray-300 shadow bg-white text-sm focus:outline-none"
-              />
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (searchTerm.trim()) {
+                    navigate(`/products?search=${encodeURIComponent(searchTerm)}`);
+                    setShowSearch(false);
+                    setSearchTerm('');
+                  }
+                }}
+                className="absolute top-8 right-0 flex"
+              >
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-40 px-2 py-1 rounded-l-md border border-gray-300 shadow bg-white text-sm focus:outline-none"
+                  autoFocus
+                />
+                <button
+                  type="submit"
+                  className="bg-[#5C2EC0] text-white px-2 py-1 rounded-r-md hover:bg-[#4a25a3] transition duration-300"
+                >
+                  <FaSearch className="text-sm" />
+                </button>
+              </form>
             )}
           </div>
 

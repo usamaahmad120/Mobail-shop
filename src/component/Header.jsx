@@ -91,7 +91,7 @@ const Header = () => {
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-[#f5f6f8] shadow">
-      <div className="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3 sm:py-6 flex items-center justify-between">
         <Link to="/" className="text-2xl sm:text-3xl font-bold italic text-[#5C2EC0] underline decoration-[#5C2EC0] hover:text-[#4a25a3] transition duration-300">
           Electra Shop
         </Link>
@@ -132,8 +132,8 @@ const Header = () => {
         
         {/* Mobile Navigation */}
         {menuOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden">
-            <div className="bg-white h-screen w-64 p-5 shadow-lg transform transition-transform duration-300 ease-in-out">
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 md:hidden">
+            <div className="bg-white h-screen w-64 p-5 shadow-lg transform transition-transform duration-300 ease-in-out fixed top-0 right-0">
               <div className="flex justify-between items-center mb-6">
                 <span className="text-xl font-bold text-[#5C2EC0]">Menu</span>
                 <button onClick={toggleMenu} className="text-gray-500 hover:text-gray-700">
@@ -215,6 +215,55 @@ const Header = () => {
           <div className="relative wishlist-icon">
             <FaHeart className="cursor-pointer" onClick={toggleWishlist} />
             {wishlistTotalItems > 0 && <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full animate-pulse">{wishlistTotalItems}</span>}
+            
+            {showWishlist && (
+              <div className="wishlist-dropdown fixed md:absolute right-4 top-16 w-72 sm:w-80 bg-white shadow-lg rounded-md p-4 z-50 max-h-[80vh] overflow-y-auto">
+                <h3 className="text-lg font-semibold mb-3 border-b pb-2">My Wishlist ({wishlistTotalItems})</h3>
+                
+                {wishlistItems.length === 0 ? (
+                  <p className="text-gray-500 text-center py-4">Your wishlist is empty</p>
+                ) : (
+                  <>
+                    <div className="max-h-60 overflow-y-auto">
+                      {wishlistItems.map((item) => (
+                        <div key={item.id} className="flex items-center gap-3 py-2 border-b">
+                          <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded" />
+                          <div className="flex-1">
+                            <h4 className="text-sm font-medium">{item.name}</h4>
+                            <p className="text-sm text-gray-600">{item.price}</p>
+                          </div>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => handleAddToCart(item)}
+                              className="text-xs bg-[#5C2EC0] text-white px-2 py-1 rounded hover:bg-[#4a25a3]"
+                            >
+                              Add to Cart
+                            </button>
+                            <button
+                              onClick={() => handleToggleWishlist(item)}
+                              className="text-xs bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-3 flex justify-between">
+                      <button
+                        onClick={() => {
+                          setShowWishlist(false);
+                          navigate('/products');
+                        }}
+                        className="text-sm bg-gray-200 text-gray-800 px-3 py-1.5 rounded hover:bg-gray-300"
+                      >
+                        Continue Shopping
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="relative cart-icon">

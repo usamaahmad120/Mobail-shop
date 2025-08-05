@@ -103,8 +103,8 @@ const ProductsPage = () => {
   };
 
   const handleEyeClick = (product) => {
-    dispatch(addToCart(product));
-    navigate('/shopping-cart');
+    
+    navigate('/cart');
     // Scroll to top after navigation
     window.scrollTo(0, 0);
   };

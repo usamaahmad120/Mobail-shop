@@ -9,18 +9,20 @@ import {
   removeFromWishlist,
   selectIsInWishlist,
 } from '../store/wishlistSlice';
-import { products } from '../export';
+import { products } from '../product';
 import { latestProducts } from '../Latest';
-import { FaHeart, FaEye, FaShoppingCart, FaFilter, FaSearch, FaTh, FaList } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { FaHeart, FaEye, FaShoppingCart, FaFilter, FaSearch, FaTh, FaList, FaThLarge } from 'react-icons/fa';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { MdOutlineAddShoppingCart, MdCompareArrows } from 'react-icons/md';
 import { IoIosStar, IoIosStarOutline } from 'react-icons/io';
 import { TiHeartOutline } from "react-icons/ti";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import ProductDetailModal from './ProductDetailModal';
 
 const ProductsPage = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const [addingToCart, setAddingToCart] = useState(null);
   const [addingToWishlist, setAddingToWishlist] = useState(null);
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
@@ -36,6 +38,27 @@ const ProductsPage = () => {
 
   // Get unique categories
   const categories = ['all', ...new Set(allProducts.map(product => product.category))];
+
+  const navigate = useNavigate();
+
+  // Get category from location state or URL query parameters
+  useEffect(() => {
+    // First check location state (from Link state prop)
+    if (location.state && location.state.category) {
+      setFilterCategory(location.state.category);
+      
+      // Clear the state to prevent issues when navigating back
+      navigate(location.pathname, { replace: true, state: {} });
+    } else {
+      // Fallback to URL query parameters
+      const queryParams = new URLSearchParams(location.search);
+      const categoryParam = queryParams.get('category');
+      
+      if (categoryParam) {
+        setFilterCategory(categoryParam);
+      }
+    }
+  }, [location, navigate]);
 
   useEffect(() => {
     AOS.init({ offset: 100, duration: 500, easing: "ease-in-out" });
@@ -237,7 +260,7 @@ const ProductsPage = () => {
           {/* Hover Actions */}
           <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center gap-3">
             <button
-              onClick={handleEyeClick}
+              onClick={() => handleEyeClick(product)}
               className="bg-white p-3 rounded-full hover:bg-gray-100 transition transform hover:scale-110"
             >
               <FaEye className="text-[#5C2EC0]" />
@@ -383,7 +406,7 @@ const ProductsPage = () => {
                     : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
                 }`}
               >
-                <FaGrid3X3 className="mx-auto" />
+                <FaThLarge className="mx-auto" />
               </button>
               <button
                 onClick={() => setViewMode('list')}
@@ -448,6 +471,15 @@ const ProductsPage = () => {
           </div>
         )}
       </div>
+      
+      {/* Product Detail Modal */}
+      {selectedProduct && (
+        <ProductDetailModal
+          product={selectedProduct}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 };

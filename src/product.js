@@ -1,23 +1,21 @@
+import girls1 from "./assets/girls.1.jpeg";
+import girls2 from "./assets/girls.2.jpeg";
+import girls3 from "./assets/girls.3.jpeg"
+import girls5 from "./assets/girls.5.jpeg"
+import girls6 from "./assets/girls.6.jpeg"
+import man1 from "./assets/man.1.jpeg"
+import man2 from "./assets/man.2.jpeg"
+import man3 from "./assets/man.3.jpeg"
+import man4 from "./assets/man.4.jpeg"
+import man5 from "./assets/man.5.jpeg"
+import man6 from "./assets/man.6.jpeg"
 import earbud from "./assets/earbud.jpg";
 import speakers from "./assets/speakers.jpg";
 import watch from "./assets/watch.jpg";
 import pendrive from "./assets/pendrive.jpg";
-import laptop from "./assets/laptop.jpg";
-import headset from "./assets/cat3.jpg";
-import mouse from "./assets/mouse.jpg";
-import camera from "./assets/camera.jpg";
-import test1 from "./assets/test-1.jpg";
-import test2 from "./assets/test-2.jpg";
-import test3 from "./assets/test-3.jpg";
-import test4 from "./assets/test-4.jpg";
-import test5 from "./assets/test-5.jpg";
-import girls1 from './assets/girls.1.jpeg'
-import girls2 from './assets/girls.2.jpeg'
-import girls3 from './assets/girls.3.jpeg'
-import girls4 from './assets/girls.5.jpeg'
-import man1 from './assets/man.1.jpeg'
-import man2 from './assets/man.2.jpeg'
-import man3 from './assets/man.3.jpeg'
+
+
+
 
 export const products = [
   {
@@ -54,7 +52,7 @@ export const products = [
   },
   {
     id: "prod_005",
-    img: laptop,
+    img: man1,
     category: "Electronics",
     name: "Asus Tuff F15",
     price: "$897.28",
@@ -62,7 +60,7 @@ export const products = [
   },
   {
     id: "prod_006",
-    img: headset,
+    img:  man2,
     category: "Electronics",
     name: "Wireless Headset",
     price: "$67.88",
@@ -70,7 +68,7 @@ export const products = [
   },
   {
     id: "prod_007",
-    img: mouse,
+    img: man3,
     category: "Electronics",
     name: "Wireless Mouse",
     price: "$32.78",
@@ -78,7 +76,7 @@ export const products = [
   },
   {
     id: "prod_008",
-    img: camera,
+    img: man4,
     category: "Electronics",
     name: "DSLR 360 View",
     price: "$145.28",
@@ -110,7 +108,7 @@ export const products = [
   },
   {
     id: "prod_012",
-    img: girls4,
+    img: girls5,
     category: "Health & Beauty",
     name: "Luxury Lipstick",
     price: "$15.80",
@@ -118,7 +116,7 @@ export const products = [
   },
   {
     id: "prod_013",
-    img: man1,
+    img: man5,
     category: "Baby",
     name: "Baby Denim Jacket",
     price: "$59.99",
@@ -126,7 +124,7 @@ export const products = [
   },
   {
     id: "prod_014",
-    img: man2,
+    img: man6,
     category: "Baby",
     name: "Baby Casual Shirt",
     price: "$35.50",
@@ -134,45 +132,10 @@ export const products = [
   },
   {
     id: "prod_015",
-    img: man3,
+    img: girls5,
     category: "Jewellery & Watches",
     name: "Leather Wristband",
     price: "$22.45",
     maxStock: 40,
-  },
-];
-
-
-
-export const reviewdata = [
-  {
-    img: test1,
-    name: "albert twinson",
-    post: "store owner",
-    para: "Lorem ipsum dolor sit amet consectetur adipisicing elit Sunt fuga ducimus nostrum distinctio tempora soluta rem laborum dicta optio quas",
-  },
-  {
-    img: test2,
-    name: "alex grind",
-    post: "electrician",
-    para: "Lorem ipsum dolor sit amet consectetur adipisicing elit Sunt fuga ducimus nostrum distinctio tempora soluta rem laborum dicta optio quas",
-  },
-  {
-    img: test3,
-    name: "drew anderson",
-    post: "android developer",
-    para: "Lorem ipsum dolor sit amet consectetur adipisicing elit Sunt fuga ducimus nostrum distinctio tempora soluta rem laborum dicta optio quas",
-  },
-  {
-    img: test4,
-    name: "alex brown",
-    post: "web developer",
-    para: "Lorem ipsum dolor sit amet consectetur adipisicing elit Sunt fuga ducimus nostrum distinctio tempora soluta rem laborum dicta optio quas",
-  },
-  {
-    img: test5,
-    name: "james bond",
-    post: "army officer",
-    para: "Lorem ipsum dolor sit amet consectetur adipisicing elit Sunt fuga ducimus nostrum distinctio tempora soluta rem laborum dicta optio quas",
   },
 ];

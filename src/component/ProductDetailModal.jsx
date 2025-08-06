@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { 
+import { useNavigate } from 'react-router-dom';
+import {
   addToCart,
   selectCartItemQuantity,
+  setSelectedProduct,
 } from '../store/cartSlice';
 import { 
   addToWishlist,
@@ -15,6 +17,7 @@ import { IoIosStar } from 'react-icons/io';
 
 const ProductDetailModal = ({ product, isOpen, onClose }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [addingToCart, setAddingToCart] = useState(false);
   const [addingToWishlist, setAddingToWishlist] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -104,7 +107,11 @@ const ProductDetailModal = ({ product, isOpen, onClose }) => {
                 )}
 
                 {/* Expand Icon */}
-                <button className="absolute bottom-4 right-4 bg-white p-2 rounded-full shadow-lg hover:bg-gray-100 transition">
+                <button
+                  className="absolute bottom-4 right-4 bg-white p-2 rounded-full shadow-lg hover:bg-gray-100 transition"
+                  onClick={() => window.open(productImages[selectedImage], '_blank')}
+                  aria-label="View image in full screen"
+                >
                   <FaExpand className="text-gray-600" />
                 </button>
               </div>

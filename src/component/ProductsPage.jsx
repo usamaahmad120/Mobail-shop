@@ -4,6 +4,7 @@ import { store } from '../store';
 import {
   addToCart,
   selectCartItemQuantity,
+  setSelectedProduct,
 } from '../store/cartSlice';
 import {
   addToWishlist,
@@ -103,11 +104,12 @@ const ProductsPage = () => {
   };
 
   const handleEyeClick = (product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
     
-    navigate('/cart');
-    // Scroll to top after navigation
-    window.scrollTo(0, 0);
+
   };
+  
 
   const handleCloseModal = () => {
     setIsModalOpen(false);

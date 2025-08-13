@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { products } from "../product.js";
+import { products } from "../export.js";
 import { latestProducts } from "../Latest.js";
 
 function Category() {

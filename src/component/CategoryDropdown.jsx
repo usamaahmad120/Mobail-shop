@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { products } from '../product';
+import { products } from '../export';
 import { latestProducts } from '../Latest';
 
 // Combine all products for filtering

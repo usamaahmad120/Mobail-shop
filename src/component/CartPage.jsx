@@ -77,7 +77,7 @@ const CartPage = () => {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-800">
-              {selectedProductId ? "Product Details" : "All Products"}
+              {selectedProductId ? "Product Details" : "All Products dasdsasdas"}
             </h1>
             <p className="text-gray-600 mt-2">
               {selectedProductId ? "View details and add to cart" : "Browse our complete collection and add to cart"}

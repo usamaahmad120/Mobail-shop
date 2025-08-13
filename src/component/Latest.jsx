@@ -3,13 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import { latestProducts } from "../Latest";
-import { addToCart, selectCartItemQuantity, setSelectedProduct } from "../store/cartSlice";
-import { addToWishlist, removeFromWishlist, selectIsInWishlist } from "../store/wishlistSlice";
+import {
+  addToCart,
+  selectCartItemQuantity,
+  setSelectedProduct,
+} from "../store/cartSlice";
+import {
+  addToWishlist,
+  removeFromWishlist,
+  selectIsInWishlist,
+} from "../store/wishlistSlice";
 import { FaEye, FaHeart } from "react-icons/fa";
 import { TiHeartOutline } from "react-icons/ti";
 import { MdOutlineAddShoppingCart } from "react-icons/md";
 import { IoIosStar } from "react-icons/io";
-import ProductDetailModal from './ProductDetailModal';
+
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "slick-carousel/slick/slick.css";
@@ -28,7 +36,7 @@ function Latest() {
   const handleAddToCart = async (product) => {
     setAddingToCart(product.id);
     dispatch(addToCart(product));
-    
+
     // Show loading state for better UX
     setTimeout(() => {
       setAddingToCart(null);
@@ -37,13 +45,13 @@ function Latest() {
 
   const handleToggleWishlist = async (product, isInWishlist) => {
     setAddingToWishlist(product.id);
-    
+
     if (isInWishlist) {
       dispatch(removeFromWishlist(product.id));
     } else {
       dispatch(addToWishlist(product));
     }
-    
+
     setTimeout(() => {
       setAddingToWishlist(null);
     }, 300);
@@ -51,7 +59,7 @@ function Latest() {
 
   const handleEyeClick = (product) => {
     dispatch(setSelectedProduct(product.id));
-    navigate('/cart');
+    navigate("/cart");
     // Scroll to top after navigation
     window.scrollTo(0, 0);
   };
@@ -79,10 +87,7 @@ function Latest() {
   };
 
   return (
-    <div
-      id="latest"
-      className="w-full lg:px-20 px-5 py-[80px] bg-gray-100"
-    >
+    <div id="latest" className="w-full lg:px-20 px-5 py-[80px] bg-gray-100">
       {/* <h1
         data-aos="zoom-in"
         data-aos-delay="200"
@@ -101,11 +106,15 @@ function Latest() {
       <div data-aos="fade-up" data-aos-delay="300" className="mt-10">
         <Slider {...settings}>
           {latestProducts.map((item, index) => {
-            const cartQuantity = useSelector(state => selectCartItemQuantity(state, item.id));
-            const isInWishlist = useSelector(state => selectIsInWishlist(state, item.id));
+            const cartQuantity = useSelector((state) =>
+              selectCartItemQuantity(state, item.id)
+            );
+            const isInWishlist = useSelector((state) =>
+              selectIsInWishlist(state, item.id)
+            );
             const isAddingToCart = addingToCart === item.id;
             const isAddingToWishlistState = addingToWishlist === item.id;
-            
+
             return (
               <div key={index} className="px-3">
                 <div className="group flex flex-col justify-center items-center gap-2 bg-white p-4 rounded-lg cursor-pointer relative shadow hover:shadow-lg transition duration-300">
@@ -119,23 +128,25 @@ function Latest() {
                     <div
                       className={`w-10 h-10 flex justify-center items-center rounded-full cursor-pointer transition ${
                         isInWishlist
-                          ? 'bg-red-500 text-white hover:bg-red-600'
-                          : 'bg-[#502EC3] text-white hover:bg-yellow-400'
+                          ? "bg-red-500 text-white hover:bg-red-600"
+                          : "bg-[#502EC3] text-white hover:bg-yellow-400"
                       }`}
                       onClick={() => handleToggleWishlist(item, isInWishlist)}
                       disabled={isAddingToWishlistState}
                     >
                       {isAddingToWishlistState ? (
                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                      ) : isInWishlist ? (
+                        <FaHeart />
                       ) : (
-                        isInWishlist ? <FaHeart /> : <TiHeartOutline />
+                        <TiHeartOutline />
                       )}
                     </div>
                     <div
                       className={`w-10 h-10 flex justify-center items-center rounded-full text-white cursor-pointer transition ${
                         isAddingToCart
-                          ? 'bg-green-500'
-                          : 'bg-[#502EC3] hover:bg-yellow-400'
+                          ? "bg-green-500"
+                          : "bg-[#502EC3] hover:bg-yellow-400"
                       }`}
                       onClick={() => handleAddToCart(item)}
                       disabled={isAddingToCart}
@@ -162,19 +173,24 @@ function Latest() {
                     </div>
                   )}
 
-                <img
-                  src={item.img}
-                  className="w-full h-48 object-cover rounded-md mb-4 mt-10"
-                  alt={item.name}
-                />
-                <h1 className="text-gray-400 text-lg font-semibold">{item.category}</h1>
-                <h1 className="text-xl font-semibold text-center">{item.name}</h1>
-                <h1 className="text-xl font-bold text-[#502EC3] mt-2">{item.price}</h1>
-
-               
+                  <img
+                    src={item.img}
+                    className="w-full h-48 object-cover rounded-md mb-4 mt-10"
+                    alt={item.name}
+                  />
+                  <h1 className="text-gray-400 text-lg font-semibold">
+                    {item.category}
+                  </h1>
+                  <p className="text-sm font-medium whitespace-nowrap overflow-hidden text-ellipsis">
+                    {item.name}
+                  </p>
+                  <h1 className="text-xl font-bold text-[#502EC3] mt-2">
+                    {item.price}
+                  </h1>
+                </div>
               </div>
-            </div>
-          )})}
+            );
+          })}
         </Slider>
       </div>
     </div>

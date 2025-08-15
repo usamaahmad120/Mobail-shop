@@ -47,7 +47,7 @@ const ProductsPage = () => {
 
   // Combine all products
   const allProducts = [...products, ...latestProducts];
-  console.log("line no 39 ", allProducts);
+  
 
   // Get unique categories
   const categories = [

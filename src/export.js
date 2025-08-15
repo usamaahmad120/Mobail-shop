@@ -18,6 +18,20 @@ import girls4 from './assets/girls.5.jpeg'
 import man1 from './assets/man.1.jpeg'
 import man2 from './assets/man.2.jpeg'
 import man3 from './assets/man.3.jpeg'
+import man4 from './assets/man.4.jpeg'
+import man5 from './assets/man.5.jpeg'
+import man6 from './assets/man.6.jpeg'
+import menFashion from './assets/men-Fashion/men-fashion.jpeg'
+import menFashion1 from './assets/men-Fashion/men-fashion1.jpeg'
+import menFashion2 from './assets/men-Fashion/men-fashion2.jpeg'
+import menFashion3 from './assets/men-Fashion/men-fashion3.jpeg'
+import menFashion4 from './assets/men-Fashion/men-fashion4.jpeg'
+import menFashion5 from './assets/men-Fashion/men-fashion5.jpeg'
+import menFashion6 from './assets/men-Fashion/men-fashion6.jpeg'
+import menFashion7 from './assets/men-Fashion/men-fashion7.jpeg'
+import menFashion8 from './assets/men-Fashion/men-fashion8.jpeg'
+import menFashion9 from './assets/men-Fashion/men-fashion9.jpeg'
+import menFashion10 from './assets/men-Fashion/men-fashion10.jpeg'
 
 export const products = [
   {
@@ -135,10 +149,123 @@ export const products = [
   {
     id: "prod_015",
     img: man3,
-    category: "Jewellery & Watches",
-    name: "Leather Wristband",
-    price: "$22.45",
-    maxStock: 40,
+    category: "Men's Fashion",
+    name: "Men's Leather Jacket",
+    price: "$89.99",
+    maxStock: 15,
+  },
+  {
+    id: "prod_016",
+    img: man4,
+    category: "Men's Fashion",
+    name: "Casual Men's Shirt",
+    price: "$35.50",
+    maxStock: 20,
+  },
+  {
+    id: "prod_017",
+    img: man5,
+    category: "Men's Fashion",
+    name: "Formal Suit",
+    price: "$199.99",
+    maxStock: 8,
+  },
+  {
+    id: "prod_018",
+    img: man6,
+    category: "Men's Fashion",
+    name: "Sports T-Shirt",
+    price: "$24.99",
+    maxStock: 25,
+  },
+  
+  {
+    id: "prod_019",
+    img: menFashion,
+    category: "Men's Fashion",
+    name: "Formal Suit",
+    price: "$199.99",
+    maxStock: 8,
+  },
+  {
+    id: "prod_020",
+    img: menFashion1,
+    category: "Men's Fashion",
+    name: "Sports T-Shirt",
+    price: "$24.99",
+    maxStock: 25,
+  },
+  {
+    id: "prod_021",
+    img: menFashion2,
+    category: "Men's Fashion",
+    name: "Formal Suit",
+    price: "$199.99",
+    maxStock: 8,
+  },
+  {
+    id: "prod_022",
+    img:menFashion3,
+    category: "Men's Fashion",
+    name: "Sports T-Shirt",
+    price: "$24.99",
+    maxStock: 25,
+  },
+  {
+    id: "prod_023",
+    img: menFashion4,
+    category: "Men's Fashion",
+    name: "Formal Suit",
+    price: "$199.99",
+    maxStock: 8,
+  },
+  {
+    id: "prod_024",
+    img: menFashion5,
+    category: "Men's Fashion",
+    name: "Sports T-Shirt",
+    price: "$24.99",
+    maxStock: 25,
+  },
+  {
+    id: "prod_025",
+    img: menFashion6,
+    category: "Men's Fashion",
+    name: "Sports T-Shirt",
+    price: "$24.99",
+    maxStock: 25,
+  },
+  {
+    id: "prod_026",
+    img: menFashion7,
+    category: "Men's Fashion",
+    name: "Formal Suit",
+    price: "$199.99",
+    maxStock: 8,
+  },
+  {
+    id: "prod_027",
+    img: menFashion8,
+    category: "Men's Fashion",
+    name: "Sports T-Shirt",
+    price: "$24.99",
+    maxStock: 25,
+  },
+  {
+    id: "prod_028",
+    img: menFashion9,
+    category: "Men's Fashion",
+    name: "Formal Suit",
+    price: "$199.99",
+    maxStock: 8,
+  },
+  {
+    id: "prod_029",
+    img: menFashion10,
+    category: "Men's Fashion",
+    name: "Sports T-Shirt",
+    price: "$24.99",
+    maxStock: 25,
   },
 ];
 

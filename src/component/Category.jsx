@@ -103,11 +103,11 @@ function getCategoryDisplayName(category) {
     "Jewellery & Watches": "Watches & Jewelry",
     "Girls Fashion": "Women's Fashion",
     "Health & Beauty": "Beauty Products",
+    "Fashion": "Fashion Accessories",
     "Baby": "Baby Products",
     "Gadgets": "Smart Gadgets",
     "Shoes": "Footwear",
     "Cosmetics": "Makeup & Cosmetics",
-    "Fashion": "Fashion Accessories",
     "Bags": "Bags & Backpacks",
     "Beauty": "Beauty Essentials",
     "Shirts": "Men's Shirts"

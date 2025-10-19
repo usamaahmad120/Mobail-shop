@@ -18,6 +18,8 @@ import { MdOutlineAddShoppingCart } from "react-icons/md";
 import { IoIosStar } from "react-icons/io";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Product() {
   const dispatch = useDispatch();
@@ -25,38 +27,64 @@ function Product() {
   const [addingToCart, setAddingToCart] = useState(null);
   const [addingToWishlist, setAddingToWishlist] = useState(null);
 
+  // Cart & Wishlist state
+  const cartItems = useSelector((state) => state.cart.items);
+
   useEffect(() => {
     AOS.init({ offset: 100, duration: 500, easing: "ease-in-out" });
     AOS.refresh();
   }, []);
 
-  const handleAddToCart = async (product) => {
+  // Add to Cart handler with toast
+  const handleAddToCart = (product) => {
+    const isAlreadyInCart = cartItems.some((item) => item.id === product.id);
     setAddingToCart(product.id);
-    dispatch(addToCart(product));
 
-    // Show loading state for better UX
-    setTimeout(() => {
-      setAddingToCart(null);
-    }, 500);
+    if (isAlreadyInCart) {
+      toast.warning("⚠️ Product already in cart!", {
+        position: "top-right",
+        autoClose: 1800,
+        theme: "colored",
+      });
+    } else {
+      dispatch(addToCart(product));
+      toast.success("🛒 Product added to cart!", {
+        position: "top-right",
+        autoClose: 1800,
+        theme: "colored",
+      });
+    }
+
+    setTimeout(() => setAddingToCart(null), 500);
   };
 
-  const handleToggleWishlist = async (product, isInWishlist) => {
+  // Wishlist handler with toast
+  const handleToggleWishlist = (product, isInWishlist) => {
     setAddingToWishlist(product.id);
 
     if (isInWishlist) {
       dispatch(removeFromWishlist(product.id));
+      toast.warning("💔 Removed from wishlist!", {
+        position: "top-right",
+        autoClose: 1800,
+        theme: "colored",
+      });
     } else {
       dispatch(addToWishlist(product));
+      toast.success("❤️ Added to wishlist!", {
+        position: "top-right",
+        autoClose: 1800,
+        theme: "colored",
+      });
     }
 
-    setTimeout(() => {
-      setAddingToWishlist(null);
-    }, 300);
+    setTimeout(() => setAddingToWishlist(null), 300);
   };
 
   const handleEyeClick = (product) => {
     dispatch(setSelectedProduct(product.id));
-    // This will be handled by the parent component's modal logic
+    navigate("/cart"); // ya modal open karna ho to yahan handle karo
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -64,6 +92,7 @@ function Product() {
       id="product"
       className="w-full lg:px-20 px-5 py-[80px] flex flex-col justify-center items-center gap-4 bg-gray-100"
     >
+      <ToastContainer />
       <h1
         data-aos="zoom-in"
         data-aos-delay="200"
@@ -99,17 +128,15 @@ function Product() {
               key={index}
               className="group flex flex-col justify-center items-center gap-2 bg-white p-4 rounded-lg cursor-pointer relative shadow hover:shadow-lg transition duration-300"
             >
-              {/* Eye Icon at Top */}
+              {/* Eye, Wishlist & Cart Icons */}
               <div className="flex gap-4 text-xl text-[#502EC3] absolute top-4 z-10 md:opacity-0 md:group-hover:opacity-100 opacity-100 transition duration-300 justify-center items-center">
                 <div
                   className="bg-[#502EC3] hover:bg-yellow-400 w-10 h-10 flex justify-center items-center rounded-full text-white cursor-pointer transition"
-                  onClick={() => {
-                    dispatch(setSelectedProduct(item.id));
-                    // Parent component will handle modal opening
-                  }}
+                  onClick={() => handleEyeClick(item)}
                 >
                   <FaEye />
                 </div>
+
                 <div
                   className={`w-10 h-10 flex justify-center items-center rounded-full cursor-pointer transition ${
                     isInWishlist
@@ -127,6 +154,7 @@ function Product() {
                     <TiHeartOutline />
                   )}
                 </div>
+
                 <div
                   className={`w-10 h-10 flex justify-center items-center rounded-full text-white cursor-pointer transition ${
                     isAddingToCart
@@ -167,11 +195,9 @@ function Product() {
 
               {/* Stars */}
               <div className="flex items-start gap-1">
-                <IoIosStar className="text-[#502EC3] text-lg" />
-                <IoIosStar className="text-[#502EC3] text-lg" />
-                <IoIosStar className="text-[#502EC3] text-lg" />
-                <IoIosStar className="text-[#502EC3] text-lg" />
-                <IoIosStar className="text-[#502EC3] text-lg" />
+                {[...Array(5)].map((_, i) => (
+                  <IoIosStar key={i} className="text-[#502EC3] text-lg" />
+                ))}
               </div>
 
               {/* Title & Price */}
@@ -185,7 +211,7 @@ function Product() {
       </div>
 
       {/* View More Button */}
-      <button className="bg-[#502EC3] text-white rounded-lg px-6 py-2 text-[20px] font-semibold mt-6 hover:bg-yellow-500">
+      <button className="bg-[#502EC3] text-white rounded-lg px-6 py-2 text-[20px] font-semibold mt-6 hover:bg-yellow-500 transition">
         View More
       </button>
     </div>

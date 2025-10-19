@@ -243,8 +243,11 @@ const Footer = () => {
 
       {/* Back to Top Button */}
       <div className="flex justify-end px-8 pb-6">
-        <button className="bg-[#5C2EC0] p-3 rounded-full shadow-md hover:bg-[#4b26a3] transition">
-          <FaArrowUp className="text-white" />
+       <button
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="bg-[#5C2EC0] text-white p-3 rounded-full shadow-md hover:bg-[#4b22a3] transition duration-300 absolute right-4 bottom-4 md:static md:ml-auto"
+        >
+          <FaArrowUp />
         </button>
       </div>
       <div className="w-full lg:px-20 px-5 py-[20px] grid grid-cols-1 lg:grid-cols-4 justify-center items-center gap-10 border-t border-gray-300 bg-[#f5f6f8] py-6 px-8 flex flex-col md:flex-row items-center justify-between gap-10 relative">

@@ -19,6 +19,9 @@ import { IoIosStar } from "react-icons/io";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function MenFashion() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -26,45 +29,54 @@ function MenFashion() {
   const [addingToWishlist, setAddingToWishlist] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("All");
 
+  const cartItems = useSelector((state) => state.cart.items);
+
   useEffect(() => {
     AOS.init({ offset: 100, duration: 500, easing: "ease-in-out" });
     AOS.refresh();
   }, []);
 
   // Filter men's fashion products
-  const menProducts = products.filter(product => 
-    product.category === "Men's Fashion" || 
-    product.name.toLowerCase().includes("men") ||
-    product.name.toLowerCase().includes("man")
+  const menProducts = products.filter(
+    (product) =>
+      product.category === "Men's Fashion" ||
+      product.name.toLowerCase().includes("men") ||
+      product.name.toLowerCase().includes("man")
   );
 
-  const categories = ["All", ...new Set(menProducts.map(product => product.category))];
+  const categories = ["All", ...new Set(menProducts.map((product) => product.category))];
 
-  const filteredProducts = selectedCategory === "All" 
-    ? menProducts 
-    : menProducts.filter(product => product.category === selectedCategory);
+  const filteredProducts =
+    selectedCategory === "All"
+      ? menProducts
+      : menProducts.filter((product) => product.category === selectedCategory);
 
-  const handleAddToCart = async (product) => {
+  const handleAddToCart = (product) => {
     setAddingToCart(product.id);
-    dispatch(addToCart(product));
+    const isAlreadyInCart = cartItems.some((item) => item.id === product.id);
 
-    setTimeout(() => {
-      setAddingToCart(null);
-    }, 500);
+    if (isAlreadyInCart) {
+      toast.warning("⚠️ Product already in cart!", { position: "top-right", autoClose: 1800, theme: "colored" });
+    } else {
+      dispatch(addToCart(product));
+      toast.success("🛒 Product added to cart!", { position: "top-right", autoClose: 1800, theme: "colored" });
+    }
+
+    setTimeout(() => setAddingToCart(null), 500);
   };
 
-  const handleToggleWishlist = async (product, isInWishlist) => {
+  const handleToggleWishlist = (product, isInWishlist) => {
     setAddingToWishlist(product.id);
 
     if (isInWishlist) {
       dispatch(removeFromWishlist(product.id));
+      toast.warning("💔 Removed from wishlist!", { position: "top-right", autoClose: 1800, theme: "colored" });
     } else {
       dispatch(addToWishlist(product));
+      toast.success("❤️ Added to wishlist!", { position: "top-right", autoClose: 1800, theme: "colored" });
     }
 
-    setTimeout(() => {
-      setAddingToWishlist(null);
-    }, 300);
+    setTimeout(() => setAddingToWishlist(null), 300);
   };
 
   const handleEyeClick = (product) => {
@@ -77,16 +89,18 @@ function MenFashion() {
       id="men-fashion"
       className="w-full lg:px-20 px-5 py-[80px] flex flex-col justify-center items-start gap-4 bg-gray-100"
     >
+      <ToastContainer />
+
       <h1
         data-aos="zoom-in"
         data-aos-delay="300"
-        className="text-[42px] leading-[50px] font-semibold text-blackter"
+        className="text-[42px] leading-[50px] font-semibold text-black"
       >
         Men's Fashion
       </h1>
 
-      {/* Category Filter
-      <div className="flex flex-wrap gap-2 justify-center mb-6">
+      {/* Category Filter (Optional) */}
+      {/* <div className="flex flex-wrap gap-2 justify-center mb-6">
         {categories.map((category, index) => (
           <button
             key={index}
@@ -122,7 +136,7 @@ function MenFashion() {
               key={index}
               className="group flex flex-col justify-center items-center gap-2 bg-white p-4 rounded-lg cursor-pointer relative shadow hover:shadow-lg transition duration-300"
             >
-              {/* Eye Icon at Top */}
+              {/* Top Icons */}
               <div className="flex gap-4 text-xl text-[#502EC3] absolute top-4 z-10 md:opacity-0 md:group-hover:opacity-100 opacity-100 transition duration-300 justify-center items-center">
                 <div
                   className="bg-[#502EC3] hover:bg-yellow-400 w-10 h-10 flex justify-center items-center rounded-full text-white cursor-pointer transition"
@@ -164,14 +178,12 @@ function MenFashion() {
                 </div>
               </div>
 
-              {/* Quantity Badge */}
+              {/* Quantity & Wishlist Badge */}
               {cartQuantity > 0 && (
                 <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full z-20">
                   {cartQuantity}
                 </div>
               )}
-
-              {/* Wishlist Badge */}
               {isInWishlist && (
                 <div className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full z-20">
                   ❤️
@@ -196,9 +208,7 @@ function MenFashion() {
 
               {/* Title & Price */}
               <h1 className="text-xl font-semibold text-center">{item.name}</h1>
-              <h1 className="text-xl font-bold text-[#502EC3] mt-2">
-                {item.price}
-              </h1>
+              <h1 className="text-xl font-bold text-[#502EC3] mt-2">{item.price}</h1>
             </div>
           );
         })}

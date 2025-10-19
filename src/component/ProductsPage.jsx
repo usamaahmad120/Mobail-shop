@@ -16,118 +16,110 @@ import { latestProducts } from "../Latest";
 import {
   FaHeart,
   FaEye,
-  FaShoppingCart,
-  FaFilter,
-  FaSearch,
-  FaTh,
-  FaList,
+  FaThList,
   FaThLarge,
 } from "react-icons/fa";
-import { useNavigate, useLocation } from "react-router-dom";
-import { MdOutlineAddShoppingCart, MdCompareArrows } from "react-icons/md";
 import { IoIosStar, IoIosStarOutline } from "react-icons/io";
 import { TiHeartOutline } from "react-icons/ti";
 import AOS from "aos";
 import "aos/dist/aos.css";
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate, useLocation } from "react-router-dom";
 import { setSelectedProduct as setSelectedProductAction } from "../store/cartSlice";
 
 const ProductsPage = () => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
+
   const [addingToCart, setAddingToCart] = useState(null);
   const [addingToWishlist, setAddingToWishlist] = useState(null);
-  const [viewMode, setViewMode] = useState("grid"); // 'grid' or 'list'
-  const [sortBy, setSortBy] = useState("name"); // 'name', 'price', 'rating'
+  const [viewMode, setViewMode] = useState("grid");
+  const [sortBy, setSortBy] = useState("name");
   const [filterCategory, setFilterCategory] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [priceRange, setPriceRange] = useState([0, 1000]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Combine all products
   const allProducts = [...products, ...latestProducts];
-  
-
-  // Get unique categories
-  const categories = [
-    "all",
-    ...new Set(allProducts.map((product) => product.category)),
-  ];
-
-  const navigate = useNavigate();
-
-  // Get category and search parameters from URL
-  useEffect(() => {
-    // First check URL path parameters (from /category/:category)
-    const pathSegments = location.pathname.split("/");
-    if (pathSegments[1] === "category" && pathSegments[2]) {
-      setFilterCategory(decodeURIComponent(pathSegments[2]));
-    }
-    // Then check location state (from Link state prop)
-    else if (location.state && location.state.category) {
-      setFilterCategory(location.state.category);
-
-      // Clear the state to prevent issues when navigating back
-      navigate(location.pathname, { replace: true, state: {} });
-    }
-
-    // Check for query parameters (category and search)
-    const queryParams = new URLSearchParams(location.search);
-
-    // Handle category parameter
-    const categoryParam = queryParams.get("category");
-    if (categoryParam) {
-      setFilterCategory(categoryParam);
-    }
-
-    // Handle search parameter
-    const searchParam = queryParams.get("search");
-    if (searchParam) {
-      setSearchTerm(searchParam);
-    }
-  }, [location, navigate]);
+  const categories = ["all", ...new Set(allProducts.map((p) => p.category))];
 
   useEffect(() => {
     AOS.init({ offset: 100, duration: 500, easing: "ease-in-out" });
   }, []);
 
-  const handleAddToCart = async (product) => {
-    setAddingToCart(product.id);
-    dispatch(addToCart(product));
+  useEffect(() => {
+    const pathSegments = location.pathname.split("/");
+    if (pathSegments[1] === "category" && pathSegments[2]) {
+      setFilterCategory(decodeURIComponent(pathSegments[2]));
+    } else if (location.state && location.state.category) {
+      setFilterCategory(location.state.category);
+      navigate(location.pathname, { replace: true, state: {} });
+    }
 
-    setTimeout(() => {
-      setAddingToCart(null);
-    }, 500);
+    const queryParams = new URLSearchParams(location.search);
+    const categoryParam = queryParams.get("category");
+    if (categoryParam) setFilterCategory(categoryParam);
+
+    const searchParam = queryParams.get("search");
+    if (searchParam) setSearchTerm(searchParam);
+  }, [location, navigate]);
+
+  // Add to cart handler with toast
+  const handleAddToCart = (product) => {
+    setAddingToCart(product.id);
+    const cartItems = store.getState().cart.items;
+    const alreadyInCart = cartItems.some((item) => item.id === product.id);
+
+    if (alreadyInCart) {
+      toast.warning("⚠️ Product already in cart!", {
+        position: "top-right",
+        autoClose: 1800,
+        theme: "colored",
+      });
+    } else {
+      dispatch(addToCart(product));
+      toast.success("🛒 Product added to cart!", {
+        position: "top-right",
+        autoClose: 1800,
+        theme: "colored",
+      });
+    }
+
+    setTimeout(() => setAddingToCart(null), 500);
   };
 
-  const handleToggleWishlist = async (product) => {
+  // Toggle wishlist handler with toast
+  const handleToggleWishlist = (product) => {
     setAddingToWishlist(product.id);
-    // Get the current wishlist state directly from the store
     const isInWishlist = selectIsInWishlist(store.getState(), product.id);
 
     if (isInWishlist) {
       dispatch(removeFromWishlist(product.id));
+      toast.warning("💔 Removed from wishlist!", {
+        position: "top-right",
+        autoClose: 1800,
+        theme: "colored",
+      });
     } else {
       dispatch(addToWishlist(product));
+      toast.success("❤️ Added to wishlist!", {
+        position: "top-right",
+        autoClose: 1800,
+        theme: "colored",
+      });
     }
 
-    setTimeout(() => {
-      setAddingToWishlist(null);
-    }, 300);
+    setTimeout(() => setAddingToWishlist(null), 300);
   };
 
+  // Navigate to product detail/cart
   const handleEyeClick = (product) => {
     dispatch(setSelectedProductAction(product.id));
     navigate(`/cart`);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedProduct(null);
-  };
-
-  // Filter and sort products
+  // Filter & sort products
   const filteredProducts = allProducts
     .filter((product) => {
       const matchesCategory =
@@ -137,31 +129,30 @@ const ProductsPage = () => {
         product.category.toLowerCase().includes(searchTerm.toLowerCase());
       const price = parseFloat(product.price.replace(/[$Rs,]/g, ""));
       const matchesPrice = price >= priceRange[0] && price <= priceRange[1];
-
       return matchesCategory && matchesSearch && matchesPrice;
     })
     .sort((a, b) => {
       switch (sortBy) {
         case "price":
-          const priceA = parseFloat(a.price.replace(/[$Rs,]/g, ""));
-          const priceB = parseFloat(b.price.replace(/[$Rs,]/g, ""));
-          return priceA - priceB;
+          return (
+            parseFloat(a.price.replace(/[$Rs,]/g, "")) -
+            parseFloat(b.price.replace(/[$Rs,]/g, ""))
+          );
         case "rating":
-          return 5 - 5; // Since all have same rating, no change
+          return 0;
         default:
           return a.name.localeCompare(b.name);
       }
     });
 
-  const renderStars = (rating = 5) => {
-    return [...Array(5)].map((_, i) =>
+  const renderStars = (rating = 5) =>
+    [...Array(5)].map((_, i) =>
       i < rating ? (
         <IoIosStar key={i} className="text-yellow-400 text-sm" />
       ) : (
         <IoIosStarOutline key={i} className="text-gray-300 text-sm" />
       )
     );
-  };
 
   const ProductCard = ({ product, isListView = false }) => {
     const cartQuantity = useSelector((state) =>
@@ -173,7 +164,7 @@ const ProductsPage = () => {
     const isAddingToCart = addingToCart === product.id;
     const isAddingToWishlistState = addingToWishlist === product.id;
     const price = parseFloat(product.price.replace(/[$Rs,]/g, ""));
-    const originalPrice = price * 1.16; // Assuming 14% discount
+    const originalPrice = price * 1.16;
 
     if (isListView) {
       return (
@@ -190,7 +181,6 @@ const ProductsPage = () => {
               </div>
             )}
           </div>
-
           <div className="flex-1">
             <div className="flex justify-between items-start mb-2">
               <div>
@@ -217,30 +207,18 @@ const ProductsPage = () => {
                     <TiHeartOutline />
                   )}
                 </button>
-                <button className="p-2 text-gray-400 hover:text-blue-500 transition">
-                  <MdCompareArrows />
-                </button>
                 <button
+                  className="p-2 text-gray-400 hover:text-blue-500 transition"
                   onClick={() => handleEyeClick(product)}
-                  className="p-2 text-gray-400 hover:text-green-500 transition"
                 >
                   <FaEye />
                 </button>
               </div>
             </div>
-
             <div className="flex items-center gap-2 mb-3">
               <div className="flex">{renderStars(5)}</div>
               <span className="text-sm text-gray-500">(4.5)</span>
-              <span className="text-sm text-gray-500">• 127 reviews</span>
             </div>
-
-            <p className="text-gray-600 mb-4 line-clamp-2">
-              High-quality {product.category.toLowerCase()} with premium
-              features and excellent performance. Perfect for daily use with
-              long-lasting durability.
-            </p>
-
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <span className="text-2xl font-bold text-[#5C2EC0]">
@@ -249,11 +227,7 @@ const ProductsPage = () => {
                 <span className="text-lg text-gray-400 line-through">
                   ${originalPrice.toFixed(2)}
                 </span>
-                <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
-                  14% OFF
-                </span>
               </div>
-
               <button
                 onClick={() => handleAddToCart(product)}
                 disabled={isAddingToCart}
@@ -263,17 +237,7 @@ const ProductsPage = () => {
                     : "bg-[#5C2EC0] text-white hover:bg-[#4a25a3]"
                 }`}
               >
-                {isAddingToCart ? (
-                  <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                    Adding...
-                  </>
-                ) : (
-                  <>
-                    <MdOutlineAddShoppingCart />
-                    Add to Cart
-                  </>
-                )}
+                {isAddingToCart ? "Adding..." : "Add to Cart"}
               </button>
             </div>
           </div>
@@ -289,73 +253,35 @@ const ProductsPage = () => {
             alt={product.name}
             className="w-full h-48 object-cover group-hover:scale-105 transition duration-300"
           />
-
-          {/* Badges */}
-          <div className="absolute top-3 left-3 flex flex-col gap-2">
-            <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-full">
-              14% OFF
-            </span>
-            <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
-              Best Seller
-            </span>
-          </div>
-
-          {/* Cart Quantity Badge */}
           {cartQuantity > 0 && (
             <div className="absolute top-3 right-3 bg-red-500 text-white text-xs px-2 py-1 rounded-full z-10">
               {cartQuantity} in cart
             </div>
           )}
-
-          {/* Hover Actions */}
           <div className="absolute inset-0 bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center gap-3">
             <button
               onClick={() => handleEyeClick(product)}
-              className="bg-[#5C2EC0] p-3 rounded-full hover:bg-white  transition transform hover:scale-110"
+              className="bg-[#5C2EC0] p-3 rounded-full hover:bg-white transition transform hover:scale-110"
             >
               <FaEye className="text-white hover:text-[#5C2EC0]" />
             </button>
-            {/* <button
-              onClick={() => handleToggleWishlist(product)}
-              disabled={isAddingToWishlistState}
-              className={`p-3 rounded-full transition transform hover:scale-110 ${
-                isInWishlist
-                  ? 'bg-red-500 text-white hover:bg-red-600'
-                  : 'bg-white hover:bg-gray-100'
-              }`}
-            >
-              {isAddingToWishlistState ? (
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
-              ) : (
-                isInWishlist ? <FaHeart className="text-white" /> : <TiHeartOutline className="text-[#5C2EC0]" />
-              )}
-            </button> */}
-            {/* <button className="bg-white p-3 rounded-full hover:bg-gray-100 transition transform hover:scale-110">
-              <MdCompareArrows className="text-[#5C2EC0]" />
-            </button> */}
           </div>
         </div>
-
         <div className="p-4">
           <p className="text-sm text-gray-500 mb-1">{product.category}</p>
           <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2 group-hover:text-[#5C2EC0] transition">
             {product.name}
           </h3>
-
           <div className="flex items-center gap-2 mb-3">
             <div className="flex">{renderStars(5)}</div>
             <span className="text-sm text-gray-500">(4.5)</span>
           </div>
-
           <div className="flex items-center gap-2 mb-4">
-            <span className="text-xl font-bold text-[#5C2EC0]">
-              {product.price}
-            </span>
+            <span className="text-xl font-bold text-[#5C2EC0]">{product.price}</span>
             <span className="text-sm text-gray-400 line-through">
               ${originalPrice.toFixed(2)}
             </span>
           </div>
-
           <div className="flex gap-2">
             <button
               onClick={() => handleAddToCart(product)}
@@ -386,8 +312,6 @@ const ProductsPage = () => {
               )}
             </button>
           </div>
-
-          {/* Stock Info */}
           <div className="mt-3 flex items-center justify-between text-sm">
             <span className="text-green-600">✓ In Stock</span>
             <span className="text-gray-500">
@@ -401,29 +325,20 @@ const ProductsPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-20">
+      <ToastContainer />
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12" data-aos="fade-up">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            Our Products
-          </h1>
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">Our Products</h1>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Discover our extensive collection of premium electronics and
-            accessories. From cutting-edge gadgets to everyday essentials, find
-            everything you need.
+            Discover our extensive collection of premium electronics and accessories. Find everything you need.
           </p>
         </div>
 
-        {/* Filters and Search */}
-        <div
-          className="bg-white rounded-lg shadow-sm p-6 mb-8"
-          data-aos="fade-up"
-          data-aos-delay="100"
-        >
+        {/* Filters */}
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-8" data-aos="fade-up" data-aos-delay="100">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-            {/* Search */}
             <div className="relative">
-              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
                 placeholder="Search products..."
@@ -433,7 +348,6 @@ const ProductsPage = () => {
               />
             </div>
 
-            {/* Category Filter */}
             <select
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
@@ -446,7 +360,6 @@ const ProductsPage = () => {
               ))}
             </select>
 
-            {/* Sort */}
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
@@ -457,7 +370,6 @@ const ProductsPage = () => {
               <option value="rating">Sort by Rating</option>
             </select>
 
-            {/* View Mode */}
             <div className="flex gap-2">
               <button
                 onClick={() => setViewMode("grid")}
@@ -477,30 +389,14 @@ const ProductsPage = () => {
                     : "bg-gray-200 text-gray-600 hover:bg-gray-300"
                 }`}
               >
-                <FaList className="mx-auto" />
+                <FaThList className="mx-auto" />
               </button>
             </div>
           </div>
-
-          {/* Results Count */}
-          <div className="flex justify-between items-center text-sm text-gray-600">
-            <span>
-              Showing {filteredProducts.length} of {allProducts.length} products
-            </span>
-            <span>Free shipping on orders over $50</span>
-          </div>
         </div>
 
-        {/* Products Grid/List */}
-        <div
-          className={`${
-            viewMode === "grid"
-              ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-              : "space-y-6"
-          }`}
-          data-aos="fade-up"
-          data-aos-delay="200"
-        >
+        {/* Product Grid/List */}
+        <div className={`${viewMode === "grid" ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" : "space-y-6"}`}>
           {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}
@@ -509,48 +405,7 @@ const ProductsPage = () => {
             />
           ))}
         </div>
-
-        {/* No Results */}
-        {filteredProducts.length === 0 && (
-          <div className="text-center py-16" data-aos="fade-up">
-            <FaShoppingCart className="mx-auto text-6xl text-gray-300 mb-4" />
-            <h3 className="text-2xl font-semibold text-gray-800 mb-2">
-              No products found
-            </h3>
-            <p className="text-gray-600 mb-4">
-              Try adjusting your search or filter criteria
-            </p>
-            <button
-              onClick={() => {
-                setSearchTerm("");
-                setFilterCategory("all");
-                setPriceRange([0, 1000]);
-              }}
-              className="bg-[#5C2EC0] text-white px-6 py-2 rounded-lg hover:bg-[#4a25a3] transition duration-300"
-            >
-              Clear Filters
-            </button>
-          </div>
-        )}
-
-        {/* Load More Button */}
-        {filteredProducts.length > 0 && (
-          <div className="text-center mt-12" data-aos="fade-up">
-            <button className="bg-[#5C2EC0] text-white px-8 py-3 rounded-lg hover:bg-[#4a25a3] transition duration-300 font-semibold">
-              Load More Products
-            </button>
-          </div>
-        )}
       </div>
-
-      {/* Product Detail Modal */}
-      {/* {selectedProduct && (
-        <ProductDetailModal
-          product={selectedProduct}
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-        />
-      )} */}
     </div>
   );
 };

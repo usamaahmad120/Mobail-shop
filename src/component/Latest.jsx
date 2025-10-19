@@ -23,44 +23,68 @@ import "aos/dist/aos.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function Latest() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [addingToCart, setAddingToCart] = useState(null);
   const [addingToWishlist, setAddingToWishlist] = useState(null);
 
+  const cartItems = useSelector((state) => state.cart.items);
+
   useEffect(() => {
     AOS.init({ offset: 100, duration: 500, easing: "ease-in-out" });
   }, []);
 
-  const handleAddToCart = async (product) => {
+  const handleAddToCart = (product) => {
+    const isAlreadyInCart = cartItems.some((item) => item.id === product.id);
     setAddingToCart(product.id);
-    dispatch(addToCart(product));
 
-    // Show loading state for better UX
-    setTimeout(() => {
-      setAddingToCart(null);
-    }, 500);
+    if (isAlreadyInCart) {
+      toast.warning("⚠️ Product already in cart!", {
+        position: "top-right",
+        autoClose: 1800,
+        theme: "colored",
+      });
+    } else {
+      dispatch(addToCart(product));
+      toast.success("🛒 Product added to cart!", {
+        position: "top-right",
+        autoClose: 1800,
+        theme: "colored",
+      });
+    }
+
+    setTimeout(() => setAddingToCart(null), 500);
   };
 
-  const handleToggleWishlist = async (product, isInWishlist) => {
+  const handleToggleWishlist = (product, isInWishlist) => {
     setAddingToWishlist(product.id);
 
     if (isInWishlist) {
       dispatch(removeFromWishlist(product.id));
+      toast.warning("💔 Removed from wishlist!", {
+        position: "top-right",
+        autoClose: 1800,
+        theme: "colored",
+      });
     } else {
       dispatch(addToWishlist(product));
+      toast.success("❤️ Added to wishlist!", {
+        position: "top-right",
+        autoClose: 1800,
+        theme: "colored",
+      });
     }
 
-    setTimeout(() => {
-      setAddingToWishlist(null);
-    }, 300);
+    setTimeout(() => setAddingToWishlist(null), 300);
   };
 
   const handleEyeClick = (product) => {
     dispatch(setSelectedProduct(product.id));
-    navigate("/cart");
-    // Scroll to top after navigation
+    navigate("/cart"); // Ya modal open karna ho to yahan handle karo
     window.scrollTo(0, 0);
   };
 
@@ -71,30 +95,15 @@ function Latest() {
     slidesToShow: 5,
     slidesToScroll: 1,
     responsive: [
-      {
-        breakpoint: 1280,
-        settings: { slidesToShow: 3 },
-      },
-      {
-        breakpoint: 768,
-        settings: { slidesToShow: 2 },
-      },
-      {
-        breakpoint: 480,
-        settings: { slidesToShow: 1 },
-      },
+      { breakpoint: 1280, settings: { slidesToShow: 3 } },
+      { breakpoint: 768, settings: { slidesToShow: 2 } },
+      { breakpoint: 480, settings: { slidesToShow: 1 } },
     ],
   };
 
   return (
     <div id="latest" className="w-full lg:px-20 px-5 py-[80px] bg-gray-100">
-      {/* <h1
-        data-aos="zoom-in"
-        data-aos-delay="200"
-        className="text-xl font-semibold text-[#502EC3] text-center"
-      >
-        Latest Arrivals
-      </h1> */}
+      <ToastContainer />
       <h1
         data-aos="zoom-in"
         data-aos-delay="300"
@@ -118,6 +127,7 @@ function Latest() {
             return (
               <div key={index} className="px-3">
                 <div className="group flex flex-col justify-center items-center gap-2 bg-white p-4 rounded-lg cursor-pointer relative shadow hover:shadow-lg transition duration-300">
+                  {/* Eye, Wishlist & Cart Icons */}
                   <div className="flex gap-4 text-xl text-[#502EC3] absolute top-4 z-10 md:opacity-0 md:group-hover:opacity-100 opacity-100 transition duration-300 justify-center items-center">
                     <div
                       className="bg-[#502EC3] hover:bg-yellow-400 w-10 h-10 flex justify-center items-center rounded-full text-white cursor-pointer transition"
@@ -125,6 +135,7 @@ function Latest() {
                     >
                       <FaEye />
                     </div>
+
                     <div
                       className={`w-10 h-10 flex justify-center items-center rounded-full cursor-pointer transition ${
                         isInWishlist
@@ -142,6 +153,7 @@ function Latest() {
                         <TiHeartOutline />
                       )}
                     </div>
+
                     <div
                       className={`w-10 h-10 flex justify-center items-center rounded-full text-white cursor-pointer transition ${
                         isAddingToCart

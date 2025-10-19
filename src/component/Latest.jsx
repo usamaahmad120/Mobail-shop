@@ -16,15 +16,12 @@ import {
 import { FaEye, FaHeart } from "react-icons/fa";
 import { TiHeartOutline } from "react-icons/ti";
 import { MdOutlineAddShoppingCart } from "react-icons/md";
-import { IoIosStar } from "react-icons/io";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 function Latest() {
   const dispatch = useDispatch();
@@ -38,9 +35,12 @@ function Latest() {
     AOS.init({ offset: 100, duration: 500, easing: "ease-in-out" });
   }, []);
 
+  // 🛒 Add to Cart with Toasts
   const handleAddToCart = (product) => {
-    const isAlreadyInCart = cartItems.some((item) => item.id === product.id);
     setAddingToCart(product.id);
+
+    const isAlreadyInCart = cartItems.some((item) => item.id === product.id);
+    toast.dismiss(); // remove previous toast
 
     if (isAlreadyInCart) {
       toast.warning("⚠️ Product already in cart!", {
@@ -57,11 +57,15 @@ function Latest() {
       });
     }
 
-    setTimeout(() => setAddingToCart(null), 500);
+    setTimeout(() => {
+      setAddingToCart(null);
+    }, 500);
   };
 
+  // ❤️ Wishlist toggle with Toasts
   const handleToggleWishlist = (product, isInWishlist) => {
     setAddingToWishlist(product.id);
+    toast.dismiss(); // clear duplicate toasts
 
     if (isInWishlist) {
       dispatch(removeFromWishlist(product.id));
@@ -79,12 +83,14 @@ function Latest() {
       });
     }
 
-    setTimeout(() => setAddingToWishlist(null), 300);
+    setTimeout(() => {
+      setAddingToWishlist(null);
+    }, 300);
   };
 
   const handleEyeClick = (product) => {
     dispatch(setSelectedProduct(product.id));
-    navigate("/cart"); // Ya modal open karna ho to yahan handle karo
+    navigate("/cart");
     window.scrollTo(0, 0);
   };
 
@@ -103,7 +109,6 @@ function Latest() {
 
   return (
     <div id="latest" className="w-full lg:px-20 px-5 py-[80px] bg-gray-100">
-      <ToastContainer />
       <h1
         data-aos="zoom-in"
         data-aos-delay="300"
@@ -127,8 +132,9 @@ function Latest() {
             return (
               <div key={index} className="px-3">
                 <div className="group flex flex-col justify-center items-center gap-2 bg-white p-4 rounded-lg cursor-pointer relative shadow hover:shadow-lg transition duration-300">
-                  {/* Eye, Wishlist & Cart Icons */}
+                  {/* Icons */}
                   <div className="flex gap-4 text-xl text-[#502EC3] absolute top-4 z-10 md:opacity-0 md:group-hover:opacity-100 opacity-100 transition duration-300 justify-center items-center">
+                    {/* 👁️ View Button */}
                     <div
                       className="bg-[#502EC3] hover:bg-yellow-400 w-10 h-10 flex justify-center items-center rounded-full text-white cursor-pointer transition"
                       onClick={() => handleEyeClick(item)}
@@ -136,6 +142,7 @@ function Latest() {
                       <FaEye />
                     </div>
 
+                    {/* ❤️ Wishlist Button */}
                     <div
                       className={`w-10 h-10 flex justify-center items-center rounded-full cursor-pointer transition ${
                         isInWishlist
@@ -154,6 +161,7 @@ function Latest() {
                       )}
                     </div>
 
+                    {/* 🛒 Cart Button */}
                     <div
                       className={`w-10 h-10 flex justify-center items-center rounded-full text-white cursor-pointer transition ${
                         isAddingToCart
@@ -171,25 +179,27 @@ function Latest() {
                     </div>
                   </div>
 
-                  {/* Cart quantity badge */}
+                  {/* Cart Quantity Badge */}
                   {cartQuantity > 0 && (
                     <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full z-20">
                       {cartQuantity}
                     </div>
                   )}
 
-                  {/* Wishlist badge */}
+                  {/* Wishlist Badge */}
                   {isInWishlist && (
                     <div className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full z-20">
                       ❤️
                     </div>
                   )}
 
+                  {/* Product Image */}
                   <img
                     src={item.img}
                     className="w-full h-48 object-cover rounded-md mb-4 mt-10"
                     alt={item.name}
                   />
+
                   <h1 className="text-gray-400 text-lg font-semibold">
                     {item.category}
                   </h1>

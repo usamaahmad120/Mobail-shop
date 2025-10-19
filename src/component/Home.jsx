@@ -11,6 +11,7 @@ import Banner2 from './Banner2'
 import Latest from './Latest'
 import MenFashion from './MenFashion'
 
+
 const Home = () => {
   return (
     <>
@@ -25,6 +26,7 @@ const Home = () => {
       <MenFashion/>
       <Review/>
       <Insta/>
+  
     </>
   )
 }

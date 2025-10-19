@@ -89,6 +89,12 @@ const Header = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isCartOpen, showWishlist, activeDropdown, dispatch]);
 
+
+
+  const handleUserClick = () => {
+    navigate("/login"); 
+  };
+
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-[#f5f6f8] shadow">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3 sm:py-6 flex items-center justify-between">
@@ -210,7 +216,7 @@ const Header = () => {
             )}
           </div>
 
-          <FaUser className="cursor-pointer" />
+          <FaUser className="cursor-pointer" onClick={handleUserClick}/>
 
           <div className="relative wishlist-icon">
             <FaHeart className="cursor-pointer" onClick={toggleWishlist} />

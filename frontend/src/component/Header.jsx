@@ -1,0 +1,335 @@
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  FaSearch,
+  FaUser,
+  FaHeart,
+  FaShoppingCart,
+  FaBars,
+  FaChevronDown,
+  FaTimes,
+} from "react-icons/fa";
+
+import {
+  selectCartTotalItems,
+  selectCartItems,
+  addToCart,
+} from "../store/cartSlice";
+
+import {
+  selectWishlistTotalItems,
+  selectWishlistItems,
+} from "../store/wishlistSlice";
+
+const Header = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const cartTotalItems = useSelector(selectCartTotalItems);
+  const cartItems = useSelector(selectCartItems);
+
+  const wishlistTotalItems = useSelector(selectWishlistTotalItems);
+  const wishlistItems = useSelector(selectWishlistItems);
+
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [categories, setCategories] = useState([]);
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("token");
+
+  // 🔥 FETCH CATEGORIES FROM API
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/categories");
+        const data = await response.json();
+        setCategories(data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  // Close menus
+  useEffect(() => {
+    const handleClick = (e) => {
+      if (!e.target.closest(".user-box")) {
+        setShowUserMenu(false);
+      }
+
+      if (!e.target.closest(".category-box")) {
+        setActiveDropdown(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClick);
+
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  const handleUserClick = () => {
+    if (token && user) {
+      setShowUserMenu(!showUserMenu);
+    } else {
+      navigate("/login");
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setShowUserMenu(false);
+    navigate("/login");
+  };
+
+  const goProfile = () => {
+    setShowUserMenu(false);
+    navigate("/profile");
+  };
+
+  const goOrders = () => {
+    setShowUserMenu(false);
+    navigate("/my-orders");
+  };
+
+  return (
+    <header className="fixed top-0 left-0 w-full bg-[#f5f6f8] shadow z-50">
+      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+        {/* Logo */}
+        <Link
+          to="/"
+          className="text-2xl sm:text-3xl font-bold italic text-[#5C2EC0] underline"
+        >
+          Electra Shop
+        </Link>
+
+        {/* Mobile Menu Icon */}
+        <div className="md:hidden text-2xl cursor-pointer">
+          <FaBars onClick={() => setMenuOpen(true)} />
+        </div>
+
+        {/* Desktop Menu */}
+        <nav className="hidden md:flex gap-5 text-sm font-semibold">
+          <Link
+            to="/"
+            className="px-4 py-1 rounded hover:bg-[#5C2EC0] hover:text-white"
+          >
+            HOME
+          </Link>
+
+          <Link
+            to="/products"
+            className="px-4 py-1 rounded hover:bg-[#5C2EC0] hover:text-white"
+          >
+            PRODUCTS
+          </Link>
+
+          {/* Category */}
+          <div className="relative category-box">
+            <div
+              className="flex items-center gap-1 px-4 py-1 rounded hover:bg-[#5C2EC0] hover:text-white cursor-pointer"
+              onClick={() =>
+                setActiveDropdown(
+                  activeDropdown === "category" ? null : "category"
+                )
+              }
+            >
+              CATEGORIES <FaChevronDown className="text-xs" />
+            </div>
+
+            {activeDropdown === "category" && (
+              <div className="absolute top-full left-0 bg-white shadow-lg rounded-lg w-52 mt-2 p-2">
+                {categories.map((item) => (
+                  <Link
+                    key={item.id}
+                    to={`/category/${item.slug}`}
+                    className="block px-4 py-2 rounded hover:bg-gray-100"
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <a
+            href="#about"
+            className="px-4 py-1 rounded hover:bg-[#5C2EC0] hover:text-white"
+          >
+            ABOUT
+          </a>
+
+          <a
+            href="#contact"
+            className="px-4 py-1 rounded hover:bg-[#5C2EC0] hover:text-white"
+          >
+            CONTACT
+          </a>
+        </nav>
+
+        {/* Right Icons */}
+        <div className="flex items-center gap-4 text-xl relative">
+          {/* Search */}
+          <div className="relative">
+            <FaSearch
+              className="cursor-pointer"
+              onClick={() => setShowSearch(!showSearch)}
+            />
+
+            {showSearch && (
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+
+                  if (searchTerm.trim()) {
+                    navigate(
+                      `/products?search=${encodeURIComponent(searchTerm)}`
+                    );
+                    setShowSearch(false);
+                    setSearchTerm("");
+                  }
+                }}
+                className="absolute top-8 right-0 flex"
+              >
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  className="border px-2 py-1 text-sm rounded-l"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+
+                <button className="bg-[#5C2EC0] text-white px-3 rounded-r">
+                  <FaSearch className="text-sm" />
+                </button>
+              </form>
+            )}
+          </div>
+
+          {/* User */}
+          <div className="relative user-box">
+            <div
+              className="flex items-center gap-2 cursor-pointer"
+              onClick={handleUserClick}
+            >
+              <FaUser />
+
+              {user && (
+                <span className="text-sm font-semibold hidden sm:block">
+                  {user.name}
+                </span>
+              )}
+            </div>
+
+            {showUserMenu && user && (
+              <div className="absolute right-0 top-10 w-52 bg-white shadow-xl rounded-xl p-3">
+                <div className="pb-2 border-b font-semibold text-sm">
+                  {user.name}
+                </div>
+
+                <button
+                  onClick={goProfile}
+                  className="w-full text-left px-2 py-2 rounded hover:bg-gray-100 text-sm mt-2"
+                >
+                  My Profile
+                </button>
+
+                <button
+                  onClick={goOrders}
+                  className="w-full text-left px-2 py-2 rounded hover:bg-gray-100 text-sm"
+                >
+                  My Orders
+                </button>
+
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left px-2 py-2 rounded hover:bg-gray-100 text-red-500 text-sm"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Wishlist */}
+          <div
+            className="relative cursor-pointer"
+            onClick={() => navigate("/wishlist")}
+          >
+            <FaHeart />
+
+            {wishlistTotalItems > 0 && (
+              <span className="absolute -top-2 -right-2 bg-purple-600 text-white text-xs px-1 rounded-full">
+                {wishlistTotalItems}
+              </span>
+            )}
+          </div>
+
+          {/* Cart */}
+          <div
+            className="relative cursor-pointer"
+            onClick={() => navigate("/shopping-cart")}
+          >
+            <FaShoppingCart />
+
+            {cartTotalItems > 0 && (
+              <span className="absolute -top-2 -right-2 bg-purple-600 text-white text-xs px-1 rounded-full">
+                {cartTotalItems}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Sidebar */}
+      {menuOpen && (
+        <div className="fixed inset-0 bg-black/40 z-50 md:hidden">
+          <div className="w-64 bg-white h-screen absolute right-0 top-0 p-5">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-bold text-[#5C2EC0]">Menu</h2>
+
+              <FaTimes
+                className="cursor-pointer text-xl"
+                onClick={() => setMenuOpen(false)}
+              />
+            </div>
+
+            <div className="flex flex-col gap-4 text-sm font-semibold">
+              <Link to="/" onClick={() => setMenuOpen(false)}>
+                HOME
+              </Link>
+
+              <Link to="/products" onClick={() => setMenuOpen(false)}>
+                PRODUCTS
+              </Link>
+
+              <Link to="/profile" onClick={() => setMenuOpen(false)}>
+                PROFILE
+              </Link>
+
+              <Link to="/my-orders" onClick={() => setMenuOpen(false)}>
+                MY ORDERS
+              </Link>
+
+              <button
+                onClick={handleLogout}
+                className="text-left text-red-500"
+              >
+                LOGOUT
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </header>
+  );
+};
+
+export default Header;

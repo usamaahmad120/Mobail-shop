@@ -1,0 +1,275 @@
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Slider from "react-slick";
+import {
+  addToCart,
+  selectCartItemQuantity,
+  setSelectedProduct,
+} from "../store/cartSlice";
+import {
+  addToWishlist,
+  removeFromWishlist,
+  selectIsInWishlist,
+} from "../store/wishlistSlice";
+import { FaEye, FaHeart } from "react-icons/fa";
+import { TiHeartOutline } from "react-icons/ti";
+import { MdOutlineAddShoppingCart } from "react-icons/md";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+// 🔥 Separate component to fix React Hooks violation
+const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, handleToggleWishlist, handleEyeClick }) => {
+  const cartQuantity = useSelector((state) =>
+    selectCartItemQuantity(state, item.id)
+  );
+
+  const isInWishlist = useSelector((state) =>
+    selectIsInWishlist(state, item.id)
+  );
+
+  const isAddingToCart = addingToCart === item.id;
+  const isAddingToWishlistState = addingToWishlist === item.id;
+
+  return (
+    <div className="px-3">
+      <div className="group flex flex-col justify-center items-center gap-2 bg-white p-4 rounded-lg cursor-pointer relative shadow hover:shadow-lg transition duration-300">
+        {/* Icons */}
+        <div className="flex gap-4 text-xl text-[#502EC3] absolute top-4 z-10 md:opacity-0 md:group-hover:opacity-100 opacity-100 transition duration-300 justify-center items-center">
+          {/* 👁️ View Button */}
+          <div
+            className="bg-[#502EC3] hover:bg-yellow-400 w-10 h-10 flex justify-center items-center rounded-full text-white cursor-pointer transition"
+            onClick={() => handleEyeClick(item)}
+          >
+            <FaEye />
+          </div>
+
+          {/* ❤️ Wishlist Button */}
+          <div
+            className={`w-10 h-10 flex justify-center items-center rounded-full cursor-pointer transition ${
+              isInWishlist
+                ? "bg-red-500 text-white hover:bg-red-600"
+                : "bg-[#502EC3] text-white hover:bg-yellow-400"
+            }`}
+            onClick={() => handleToggleWishlist(item, isInWishlist)}
+          >
+            {isAddingToWishlistState ? (
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+            ) : isInWishlist ? (
+              <FaHeart />
+            ) : (
+              <TiHeartOutline />
+            )}
+          </div>
+
+          {/* 🛒 Cart Button */}
+          <div
+            className={`w-10 h-10 flex justify-center items-center rounded-full text-white cursor-pointer transition ${
+              isAddingToCart
+                ? "bg-green-500"
+                : "bg-[#502EC3] hover:bg-yellow-400"
+            }`}
+            onClick={() => handleAddToCart(item)}
+          >
+            {isAddingToCart ? (
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+            ) : (
+              <MdOutlineAddShoppingCart />
+            )}
+          </div>
+        </div>
+
+        {/* Cart Quantity Badge */}
+        {cartQuantity > 0 && (
+          <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full z-20">
+            {cartQuantity}
+          </div>
+        )}
+
+        {/* Wishlist Badge */}
+        {isInWishlist && (
+          <div className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full z-20">
+            ❤️
+          </div>
+        )}
+
+        {/* Product Image */}
+        <img
+          src={item.img || item.image}
+          className="w-full h-48 object-cover rounded-md mb-4 mt-10"
+          alt={item.name}
+        />
+
+        <h1 className="text-gray-400 text-lg font-semibold">
+          {item.category}
+        </h1>
+
+        <p className="text-sm font-medium whitespace-nowrap overflow-hidden text-ellipsis">
+          {item.name}
+        </p>
+
+        <h1 className="text-xl font-bold text-[#502EC3] mt-2">
+          ${item.price}
+        </h1>
+      </div>
+    </div>
+  );
+};
+
+function Latest() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [latestProducts, setLatestProducts] = useState([]);
+  const [addingToCart, setAddingToCart] = useState(null);
+  const [addingToWishlist, setAddingToWishlist] = useState(null);
+
+  const cartItems = useSelector((state) => state.cart.items);
+
+  useEffect(() => {
+    AOS.init({
+      offset: 100,
+      duration: 500,
+      easing: "ease-in-out",
+    });
+  }, []);
+
+  // API CALL FOR NEWEST PRODUCTS
+  useEffect(() => {
+    const fetchNewestProducts = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/products/home")
+
+        const data = await response.json();
+
+        const formattedProducts = data.newest.map((product) => ({
+          ...product,
+          img: product.image,
+          category: product.category?.name || "Unknown",
+        }));
+
+        setLatestProducts(formattedProducts);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchNewestProducts();
+  }, []);
+
+  // 🛒 Add to Cart with Toasts
+  const handleAddToCart = (product) => {
+    setAddingToCart(product.id);
+
+    const isAlreadyInCart = cartItems.some((item) => item.id === product.id);
+
+    toast.dismiss();
+
+    if (isAlreadyInCart) {
+      toast.warning("⚠️ Product already in cart!", {
+        position: "top-right",
+        autoClose: 1800,
+        theme: "colored",
+      });
+    } else {
+      dispatch(addToCart(product));
+
+      toast.success("🛒 Product added to cart!", {
+        position: "top-right",
+        autoClose: 1800,
+        theme: "colored",
+      });
+    }
+
+    setTimeout(() => {
+      setAddingToCart(null);
+    }, 500);
+  };
+
+  // ❤️ Wishlist toggle with Toasts
+  const handleToggleWishlist = (product, isInWishlist) => {
+    setAddingToWishlist(product.id);
+
+    toast.dismiss();
+
+    if (isInWishlist) {
+      dispatch(removeFromWishlist(product.id));
+
+      toast.warning("💔 Removed from wishlist!", {
+        position: "top-right",
+        autoClose: 1800,
+        theme: "colored",
+      });
+    } else {
+      dispatch(addToWishlist(product));
+
+      toast.success("❤️ Added to wishlist!", {
+        position: "top-right",
+        autoClose: 1800,
+        theme: "colored",
+      });
+    }
+
+    setTimeout(() => {
+      setAddingToWishlist(null);
+    }, 300);
+  };
+
+  const handleEyeClick = (product) => {
+    dispatch(setSelectedProduct(product.id));
+    navigate("/cart");
+    window.scrollTo(0, 0);
+  };
+
+  const settings = {
+    dots: true,
+    infinite: latestProducts.length > 5, // Only infinite if more than 5 products
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    responsive: [
+      { breakpoint: 1280, settings: { slidesToShow: 3, infinite: latestProducts.length > 3 } },
+      { breakpoint: 768, settings: { slidesToShow: 2, infinite: latestProducts.length > 2 } },
+      { breakpoint: 480, settings: { slidesToShow: 1, infinite: latestProducts.length > 1 } },
+    ],
+  };
+
+  // Don't show section if no products
+  if (latestProducts.length === 0) {
+    return null;
+  }
+
+  return (
+    <div id="latest" className="w-full lg:px-20 px-5 py-[80px] bg-gray-100">
+      <h1
+        data-aos="zoom-in"
+        data-aos-delay="300"
+        className="text-[42px] leading-[50px] font-semibold text-black text-start"
+      >
+        Newest Products
+      </h1>
+
+      <div data-aos="fade-up" data-aos-delay="300" className="mt-10">
+        <Slider {...settings}>
+          {latestProducts.map((item) => (
+            <ProductCard
+              key={item.id}
+              item={item}
+              addingToCart={addingToCart}
+              addingToWishlist={addingToWishlist}
+              handleAddToCart={handleAddToCart}
+              handleToggleWishlist={handleToggleWishlist}
+              handleEyeClick={handleEyeClick}
+            />
+          ))}
+        </Slider>
+      </div>
+    </div>
+  );
+}
+
+export default Latest;

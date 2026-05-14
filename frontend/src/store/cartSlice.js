@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { parsePrice } from '../utils/currency.js';
+import { getProductRating, getProductStock, getReviewCount } from '../utils/productMeta.js';
 import { getScopedStorageKey } from '../utils/storageScope.js';
 
 // Helper function to load cart from localStorage
@@ -73,11 +74,17 @@ const cartSlice = createSlice({
       
       if (existingItem) {
         // If item exists, increase quantity (with stock limit check)
-        const maxStock = product.maxStock || 99;
+        const maxStock = getProductStock(product);
         if (existingItem.quantity < maxStock) {
           existingItem.quantity += 1;
         }
       } else {
+        const maxStock = getProductStock(product);
+
+        if (maxStock <= 0) {
+          return;
+        }
+
         // Add new item to cart
         state.items.push({
           id: product.id,
@@ -86,7 +93,10 @@ const cartSlice = createSlice({
           image: product.img || product.image,
           category: product.category,
           quantity: 1,
-          maxStock: product.maxStock || 99,
+          stock: maxStock,
+          maxStock,
+          rating: getProductRating(product),
+          review_count: getReviewCount(product),
         });
       }
       

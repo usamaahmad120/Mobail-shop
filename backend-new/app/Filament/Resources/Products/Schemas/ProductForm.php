@@ -45,15 +45,15 @@ class ProductForm
                 TextInput::make('price')
                     ->required()
                     ->numeric()
-                    ->prefix('$')
+                    ->prefix('Rs')
                     ->minValue(0)
-                    ->label('Price'),
+                    ->label('Price (PKR)'),
 
                 TextInput::make('discount_price')
                     ->numeric()
-                    ->prefix('$')
+                    ->prefix('Rs')
                     ->minValue(0)
-                    ->label('Discount Price (Optional)'),
+                    ->label('Discount Price (PKR, Optional)'),
 
                 TextInput::make('stock')
                     ->required()
@@ -61,6 +61,20 @@ class ProductForm
                     ->minValue(0)
                     ->default(0)
                     ->label('Stock Quantity'),
+
+                TextInput::make('rating')
+                    ->numeric()
+                    ->minValue(0)
+                    ->maxValue(5)
+                    ->step(0.1)
+                    ->default(0)
+                    ->label('Rating (0-5)'),
+
+                TextInput::make('review_count')
+                    ->numeric()
+                    ->minValue(0)
+                    ->default(0)
+                    ->label('Review Count'),
 
                 Toggle::make('is_active')
                     ->label('Active Product')

@@ -26,6 +26,15 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { setSelectedProduct as setSelectedProductAction } from "../store/cartSlice";
 import { formatPrice, parsePrice } from "../utils/currency";
+import {
+  formatRating,
+  formatReviewCount,
+  getProductRating,
+  getProductStock,
+  getRemainingStock,
+  getStockStatus,
+  isProductInStock,
+} from "../utils/productMeta";
 
 const ProductsPage = () => {
   const dispatch = useDispatch();
@@ -150,6 +159,15 @@ console.log("📂 Available categories:", categories);
 
   // Add to cart handler with toast
   const handleAddToCart = (product) => {
+    if (!isProductInStock(product)) {
+      toast.warning("Product is out of stock!", {
+        position: "top-right",
+        autoClose: 1800,
+        theme: "colored",
+      });
+      return;
+    }
+
     setAddingToCart(product.id);
     const cartItems = store.getState().cart.items;
     const existingItem = cartItems.find((item) => String(item.id) === String(product.id));
@@ -230,7 +248,7 @@ console.log("📂 Available categories:", categories);
         case "price":
           return parsePrice(a.price) - parsePrice(b.price);
         case "rating":
-          return 0;
+          return getProductRating(b) - getProductRating(a);
         default:
           return a.name.localeCompare(b.name);
       }
@@ -245,7 +263,7 @@ console.log("📂 Available categories:", categories);
 
   const renderStars = (rating = 5) =>
     [...Array(5)].map((_, i) =>
-      i < rating ? (
+      i < Math.round(rating) ? (
         <IoIosStar key={i} className="text-yellow-400 text-sm" />
       ) : (
         <IoIosStarOutline key={i} className="text-gray-300 text-sm" />
@@ -263,6 +281,9 @@ console.log("📂 Available categories:", categories);
     const isAddingToWishlistState = addingToWishlist === product.id;
     const price = parsePrice(product.price);
     const originalPrice = product.discount_price ? parsePrice(product.discount_price) : price * 1.16;
+    const remainingStock = getRemainingStock(product, cartQuantity);
+    const inStock = isProductInStock(product, cartQuantity);
+    const rating = getProductRating(product);
 
     if (isListView) {
       return (
@@ -314,8 +335,10 @@ console.log("📂 Available categories:", categories);
               </div>
             </div>
             <div className="flex items-center gap-2 mb-3">
-              <div className="flex">{renderStars(5)}</div>
-              <span className="text-sm text-gray-500">(4.5)</span>
+              <div className="flex">{renderStars(rating)}</div>
+              <span className="text-sm text-gray-500">
+                {formatRating(product)} · {formatReviewCount(product)}
+              </span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -330,14 +353,14 @@ console.log("📂 Available categories:", categories);
               </div>
               <button
                 onClick={() => handleAddToCart(product)}
-                disabled={isAddingToCart}
+                disabled={isAddingToCart || getProductStock(product) <= 0}
                 className={`px-6 py-2 rounded-lg font-semibold transition duration-300 flex items-center gap-2 ${
                   isAddingToCart
                     ? "bg-green-500 text-white"
                     : "shop-button-primary"
                 }`}
               >
-                {isAddingToCart ? "Adding..." : "Add to Cart"}
+                {getProductStock(product) <= 0 ? "Out of Stock" : isAddingToCart ? "Adding..." : "Add to Cart"}
               </button>
             </div>
           </div>
@@ -373,8 +396,10 @@ console.log("📂 Available categories:", categories);
             {product.name}
           </h3>
           <div className="flex items-center gap-2 mb-3">
-            <div className="flex">{renderStars(5)}</div>
-            <span className="text-sm text-gray-500">(4.5)</span>
+            <div className="flex">{renderStars(rating)}</div>
+            <span className="text-sm text-gray-500">
+              {formatRating(product)} · {formatReviewCount(product)}
+            </span>
           </div>
           <div className="flex items-center gap-2 mb-4">
             <span className="shop-price text-xl">{formatPrice(product.price)}</span>
@@ -387,14 +412,14 @@ console.log("📂 Available categories:", categories);
           <div className="flex gap-2">
             <button
               onClick={() => handleAddToCart(product)}
-              disabled={isAddingToCart}
+              disabled={isAddingToCart || getProductStock(product) <= 0}
               className={`flex-1 py-2 px-4 rounded-lg font-semibold transition duration-300 ${
                 isAddingToCart
                   ? "bg-green-500 text-white"
                   : "shop-button-primary"
               }`}
             >
-              {isAddingToCart ? "Adding..." : "Add to Cart"}
+              {getProductStock(product) <= 0 ? "Out of Stock" : isAddingToCart ? "Adding..." : "Add to Cart"}
             </button>
             <button
               onClick={() => handleToggleWishlist(product)}
@@ -415,9 +440,11 @@ console.log("📂 Available categories:", categories);
             </button>
           </div>
           <div className="mt-3 flex items-center justify-between text-sm">
-            <span className="text-green-600">✓ In Stock</span>
+            <span className={inStock ? "text-green-600" : "text-red-600"}>
+              {inStock ? "✓" : "!"} {getStockStatus(product, cartQuantity)}
+            </span>
             <span className="text-gray-500">
-              {(product.maxStock || 99) - (cartQuantity || 0)} left
+              {remainingStock} left
             </span>
           </div>
         </div>

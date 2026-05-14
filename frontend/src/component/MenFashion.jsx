@@ -20,6 +20,12 @@ import "react-toastify/dist/ReactToastify.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { formatPrice } from "../utils/currency";
+import {
+  formatRating,
+  formatReviewCount,
+  getProductRating,
+  isProductInStock,
+} from "../utils/productMeta";
 
 // 🔥 Separate component to fix React Hooks violation
 const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, handleToggleWishlist, handleEyeClick }) => {
@@ -95,13 +101,22 @@ const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, ha
         alt={item.name}
       />
 
-      <div className="flex items-start gap-1">
+      <div className="flex items-center gap-2">
+        <div className="flex items-start gap-1">
         {[...Array(5)].map((_, i) => (
-          <IoIosStar key={i} className="text-[#502EC3] text-lg" />
+          <IoIosStar
+            key={i}
+            className={`text-lg ${i < Math.round(getProductRating(item)) ? "text-yellow-400" : "text-slate-300"}`}
+          />
         ))}
+        </div>
+        <span className="text-xs font-medium text-slate-500">
+          {formatRating(item)}
+        </span>
       </div>
 
       <h1 className="text-base font-semibold text-center text-slate-900 line-clamp-2">{item.name}</h1>
+      <p className="text-xs text-slate-500">{formatReviewCount(item)}</p>
       <h1 className="shop-price text-xl mt-1">
         {formatPrice(item.price)}
       </h1>
@@ -151,6 +166,15 @@ function MenFashion() {
 
   // 🛒 Add to Cart with Toasts
   const handleAddToCart = (product) => {
+    if (!isProductInStock(product)) {
+      toast.warning("Product is out of stock!", {
+        position: "top-right",
+        autoClose: 1800,
+        theme: "colored",
+      });
+      return;
+    }
+
     setAddingToCart(product.id);
 
     const existingItem = cartItems.find((item) => String(item.id) === String(product.id));

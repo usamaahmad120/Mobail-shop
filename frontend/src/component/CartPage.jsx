@@ -19,10 +19,21 @@ import { TiHeartOutline } from "react-icons/ti";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { formatPrice, parsePrice } from '../utils/currency';
+import {
+  formatRating,
+  formatReviewCount,
+  getProductRating,
+  getRemainingStock,
+  getStockStatus,
+  isProductInStock,
+} from '../utils/productMeta';
 
-const renderStars = () => {
+const renderStars = (rating = 0) => {
   return [...Array(5)].map((_, i) => (
-    <IoIosStar key={i} className="text-yellow-400 text-sm" />
+    <IoIosStar
+      key={i}
+      className={`text-sm ${i < Math.round(rating) ? "text-yellow-400" : "text-slate-300"}`}
+    />
   ));
 };
 
@@ -33,6 +44,9 @@ const CartProductItem = ({ product, onAddToCart, onToggleWishlist, addingToCart,
   const isAddingToWishlistState = addingToWishlist === product.id;
   const price = parsePrice(product.price);
   const originalPrice = price * 1.16;
+  const rating = getProductRating(product);
+  const remainingStock = getRemainingStock(product, cartQuantity);
+  const inStock = isProductInStock(product, cartQuantity);
 
   return (
     <div className="shop-card shop-card-hover transition duration-300 p-4 sm:p-6">
@@ -61,10 +75,14 @@ const CartProductItem = ({ product, onAddToCart, onToggleWishlist, addingToCart,
           <h2 className="text-2xl font-bold text-gray-800 mb-3">{product.name}</h2>
 
           <div className="flex items-center gap-2 mb-4">
-            <div className="flex">{renderStars(5)}</div>
-            <span className="text-sm text-gray-500">(4.5)</span>
-            <span className="text-sm text-gray-500">• 127 reviews</span>
+            <div className="flex">{renderStars(rating)}</div>
+            <span className="text-sm text-gray-500">{formatRating(product)}</span>
+            <span className="text-sm text-gray-500">• {formatReviewCount(product)}</span>
           </div>
+
+          <p className={`mb-4 text-sm font-semibold ${inStock ? "text-green-600" : "text-red-600"}`}>
+            {getStockStatus(product, cartQuantity)} · {remainingStock} left
+          </p>
 
           <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-6">
             <span className="shop-price text-2xl sm:text-3xl">{formatPrice(product.price)}</span>
@@ -77,12 +95,16 @@ const CartProductItem = ({ product, onAddToCart, onToggleWishlist, addingToCart,
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full">
             <button
               onClick={() => onAddToCart(product)}
-              disabled={isAddingToCart}
+              disabled={isAddingToCart || !inStock}
               className={`w-full sm:flex-1 sm:max-w-xs py-3 px-4 sm:px-6 rounded-lg font-semibold transition duration-300 flex items-center justify-center gap-2 ${
                 isAddingToCart ? 'bg-green-500 text-white' : 'shop-button-primary'
               }`}
             >
-              {isAddingToCart ? (
+              {!inStock ? (
+                <>
+                  <FaShoppingCart /> Out of Stock
+                </>
+              ) : isAddingToCart ? (
                 <>
                   <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
                   Adding to Cart...
@@ -155,6 +177,11 @@ useEffect(() => {
   }, [dispatch]);
 
   const handleAddToCart = useCallback((product) => {
+    if (!isProductInStock(product)) {
+      toast.warning('Product is out of stock!', { position: 'top-right', autoClose: 1800, theme: 'colored' });
+      return;
+    }
+
     setAddingToCart(product.id);
 
     const cartItems = store.getState().cart.items;

@@ -29,9 +29,19 @@ class ProductsTable
                     ->label('Category'),
 
                 TextColumn::make('price')
-                    ->money('PKR'),
+                    ->label('Price (PKR)')
+                    ->formatStateUsing(fn ($state): string => 'Rs ' . number_format((float) $state, 2)),
 
-                TextColumn::make('stock'),
+                TextColumn::make('stock')
+                    ->badge()
+                    ->color(fn ($state): string => (int) $state > 0 ? 'success' : 'danger'),
+
+                TextColumn::make('rating')
+                    ->label('Rating')
+                    ->formatStateUsing(fn ($state): string => number_format((float) $state, 1) . ' / 5'),
+
+                TextColumn::make('review_count')
+                    ->label('Reviews'),
 
                 TextColumn::make('created_at')
                     ->date('d M Y'),

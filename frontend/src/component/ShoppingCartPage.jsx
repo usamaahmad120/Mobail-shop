@@ -15,6 +15,14 @@ import { MdAdd, MdRemove } from 'react-icons/md';
 import { IoIosStar } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import { formatPrice, parsePrice } from '../utils/currency';
+import {
+  formatRating,
+  getProductRating,
+  getProductStock,
+  getRemainingStock,
+  getStockStatus,
+  isProductInStock,
+} from '../utils/productMeta';
 
 const ShoppingCartPage = () => {
   const dispatch = useDispatch();
@@ -50,9 +58,12 @@ const ShoppingCartPage = () => {
     return parsePrice(price) * quantity;
   };
 
-  const renderStars = () => {
+  const renderStars = (rating = 0) => {
     return [...Array(5)].map((_, i) => (
-      <IoIosStar key={i} className="text-yellow-400 text-sm" />
+      <IoIosStar
+        key={i}
+        className={`text-sm ${i < Math.round(rating) ? "text-yellow-400" : "text-slate-300"}`}
+      />
     ));
   };
 
@@ -125,6 +136,13 @@ const ShoppingCartPage = () => {
           <div className="lg:col-span-2 space-y-4">
             {cartItems.map((item) => (
               <div key={item.id} className="shop-card shop-card-hover p-6 transition duration-300">
+                {(() => {
+                  const rating = getProductRating(item);
+                  const stockLimit = getProductStock(item);
+                  const remainingStock = getRemainingStock(item, item.quantity);
+                  const inStock = isProductInStock(item, item.quantity);
+
+                  return (
                 <div className="flex flex-col sm:flex-row gap-6">
                   {/* Product Image */}
                   <div className="flex-shrink-0">
@@ -145,9 +163,9 @@ const ShoppingCartPage = () => {
                         {/* Rating */}
                         <div className="flex items-center gap-2 mb-3">
                           <div className="flex">
-                            {renderStars(5)}
+                            {renderStars(rating)}
                           </div>
-                          <span className="text-sm text-gray-500">(4.5)</span>
+                          <span className="text-sm text-gray-500">{formatRating(item)}</span>
                         </div>
                         
                         {/* Price */}
@@ -163,11 +181,11 @@ const ShoppingCartPage = () => {
 
                         {/* Stock Status */}
                         <div className="flex items-center gap-4 text-sm mb-4">
-                          <span className="text-green-600 flex items-center gap-1">
-                            ✓ In Stock
+                          <span className={`${inStock ? "text-green-600" : "text-red-600"} flex items-center gap-1`}>
+                            {getStockStatus(item, item.quantity)}
                           </span>
                           <span className="text-gray-500">
-                            {item.maxStock - item.quantity} left
+                            {remainingStock} left
                           </span>
                           <span className="text-blue-600">
                             🚚 Free shipping
@@ -192,7 +210,7 @@ const ShoppingCartPage = () => {
                           <button
                             onClick={() => handleIncreaseQty(item.id)}
                             className="p-3 hover:bg-gray-100 transition duration-200 rounded-r-lg"
-                            disabled={item.quantity >= item.maxStock}
+                            disabled={item.quantity >= stockLimit}
                           >
                             <MdAdd className="text-gray-600" />
                           </button>
@@ -216,7 +234,7 @@ const ShoppingCartPage = () => {
                         </button>
 
                         {/* Max Stock Warning */}
-                        {item.quantity >= item.maxStock && (
+                        {item.quantity >= stockLimit && (
                           <p className="text-xs text-orange-500 text-right">
                             Maximum quantity reached
                           </p>
@@ -225,6 +243,8 @@ const ShoppingCartPage = () => {
                     </div>
                   </div>
                 </div>
+                  );
+                })()}
               </div>
             ))}
           </div>

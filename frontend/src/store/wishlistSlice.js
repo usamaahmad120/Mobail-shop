@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getProductRating, getProductStock, getReviewCount } from '../utils/productMeta.js';
 import { getScopedStorageKey } from '../utils/storageScope.js';
 
 const isSameProduct = (leftId, rightId) => String(leftId) === String(rightId);
@@ -55,7 +56,10 @@ const wishlistSlice = createSlice({
           price: product.price,
           image: product.img || product.image,
           category: product.category,
-          maxStock: product.maxStock || 99,
+          stock: getProductStock(product),
+          maxStock: getProductStock(product),
+          rating: getProductRating(product),
+          review_count: getReviewCount(product),
         });
         
         state.totalItems = state.items.length;

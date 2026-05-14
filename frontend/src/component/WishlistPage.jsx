@@ -10,6 +10,7 @@ import { addToCart, selectCartItems } from "../store/cartSlice";
 import { FaTrash, FaShoppingCart } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import { formatPrice } from "../utils/currency";
+import { isProductInStock } from "../utils/productMeta";
 
 const WishlistPage = () => {
   const dispatch = useDispatch();
@@ -26,6 +27,14 @@ const WishlistPage = () => {
   };
 
   const handleAddToCart = (product) => {
+    if (!isProductInStock(product)) {
+      toast.warning("Product is out of stock!", {
+        position: "top-right",
+        autoClose: 1500,
+      });
+      return;
+    }
+
     const existingItem = cartItems.find((item) => String(item.id) === String(product.id));
 
     if (existingItem) {

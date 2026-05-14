@@ -112,6 +112,10 @@ class ProductController extends Controller
     // 🔥 Reusable formatter (VERY IMPORTANT)
     private function formatProduct($product)
     {
+        $stock = max((int) $product->stock, 0);
+        $rating = min(max((float) ($product->rating ?? 0), 0), 5);
+        $reviewCount = max((int) ($product->review_count ?? 0), 0);
+
         return [
             'id' => $product->id,
             'name' => $product->name,
@@ -122,7 +126,12 @@ class ProductController extends Controller
             'image' => $product->image 
                 ? asset('storage/' . $product->image)
                 : null,
-            'stock' => $product->stock,
+            'stock' => $stock,
+            'maxStock' => $stock,
+            'is_in_stock' => $stock > 0,
+            'stock_status' => $stock > 0 ? 'In Stock' : 'Out of Stock',
+            'rating' => $rating,
+            'review_count' => $reviewCount,
             'category' => [
                 'name' => $product->category?->name,
                 'slug' => $product->category?->slug,

@@ -72,6 +72,8 @@ class OrderResource extends Resource
                 TextColumn::make('city'),
 
                 TextColumn::make('total')
+                    ->label('Total (PKR)')
+                    ->formatStateUsing(fn ($state): string => 'Rs ' . number_format((float) $state, 2))
                     ->sortable(),
 
                 BadgeColumn::make('order_status')

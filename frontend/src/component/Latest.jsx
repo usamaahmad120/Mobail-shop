@@ -22,6 +22,7 @@ import "aos/dist/aos.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { formatPrice } from "../utils/currency";
+import { formatRating, formatReviewCount, isProductInStock } from "../utils/productMeta";
 
 // 🔥 Separate component to fix React Hooks violation
 const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, handleToggleWishlist, handleEyeClick }) => {
@@ -113,6 +114,10 @@ const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, ha
           {item.name}
         </p>
 
+        <p className="text-xs text-slate-500">
+          {formatRating(item)} · {formatReviewCount(item)}
+        </p>
+
         <h1 className="shop-price text-xl mt-1">
           {formatPrice(item.price)}
         </h1>
@@ -164,6 +169,15 @@ function Latest() {
 
   // 🛒 Add to Cart with Toasts
   const handleAddToCart = (product) => {
+    if (!isProductInStock(product)) {
+      toast.warning("Product is out of stock!", {
+        position: "top-right",
+        autoClose: 1800,
+        theme: "colored",
+      });
+      return;
+    }
+
     setAddingToCart(product.id);
 
     const existingItem = cartItems.find((item) => String(item.id) === String(product.id));

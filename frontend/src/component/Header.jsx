@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import {
   FaSearch,
@@ -7,65 +7,37 @@ import {
   FaHeart,
   FaShoppingCart,
   FaBars,
-  FaChevronDown,
   FaTimes,
 } from "react-icons/fa";
 
 import {
   selectCartTotalItems,
-  selectCartItems,
-  addToCart,
 } from "../store/cartSlice";
 
 import {
   selectWishlistTotalItems,
-  selectWishlistItems,
 } from "../store/wishlistSlice";
 
 const Header = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const cartTotalItems = useSelector(selectCartTotalItems);
-  const cartItems = useSelector(selectCartItems);
 
   const wishlistTotalItems = useSelector(selectWishlistTotalItems);
-  const wishlistItems = useSelector(selectWishlistItems);
 
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState(null);
-  const [categories, setCategories] = useState([]);
 
   const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
-
-  // 🔥 FETCH CATEGORIES FROM API
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch("http://127.0.0.1:8000/api/categories");
-        const data = await response.json();
-        setCategories(data);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-
-    fetchCategories();
-  }, []);
 
   // Close menus
   useEffect(() => {
     const handleClick = (e) => {
       if (!e.target.closest(".user-box")) {
         setShowUserMenu(false);
-      }
-
-      if (!e.target.closest(".category-box")) {
-        setActiveDropdown(null);
       }
     };
 
@@ -131,47 +103,19 @@ const Header = () => {
             PRODUCTS
           </Link>
 
-          {/* Category */}
-          <div className="relative category-box">
-            <div
-              className="flex items-center gap-1 px-4 py-1 rounded hover:bg-[#5C2EC0] hover:text-white cursor-pointer"
-              onClick={() =>
-                setActiveDropdown(
-                  activeDropdown === "category" ? null : "category"
-                )
-              }
-            >
-              CATEGORIES <FaChevronDown className="text-xs" />
-            </div>
-
-            {activeDropdown === "category" && (
-              <div className="absolute top-full left-0 bg-white shadow-lg rounded-lg w-52 mt-2 p-2">
-                {categories.map((item) => (
-                  <Link
-                    key={item.id}
-                    to={`/category/${item.slug}`}
-                    className="block px-4 py-2 rounded hover:bg-gray-100"
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <a
-            href="#about"
+          <Link
+            to="/about"
             className="px-4 py-1 rounded hover:bg-[#5C2EC0] hover:text-white"
           >
             ABOUT
-          </a>
+          </Link>
 
-          <a
-            href="#contact"
+          <Link
+            to="/contact"
             className="px-4 py-1 rounded hover:bg-[#5C2EC0] hover:text-white"
           >
             CONTACT
-          </a>
+          </Link>
         </nav>
 
         {/* Right Icons */}
@@ -308,6 +252,14 @@ const Header = () => {
 
               <Link to="/products" onClick={() => setMenuOpen(false)}>
                 PRODUCTS
+              </Link>
+
+              <Link to="/about" onClick={() => setMenuOpen(false)}>
+                ABOUT
+              </Link>
+
+              <Link to="/contact" onClick={() => setMenuOpen(false)}>
+                CONTACT
               </Link>
 
               <Link to="/profile" onClick={() => setMenuOpen(false)}>

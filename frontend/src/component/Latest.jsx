@@ -21,6 +21,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { formatPrice } from "../utils/currency";
 
 // 🔥 Separate component to fix React Hooks violation
 const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, handleToggleWishlist, handleEyeClick }) => {
@@ -113,7 +114,7 @@ const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, ha
         </p>
 
         <h1 className="text-xl font-bold text-[#502EC3] mt-2">
-          ${item.price}
+          {formatPrice(item.price)}
         </h1>
       </div>
     </div>

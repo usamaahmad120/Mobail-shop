@@ -13,6 +13,8 @@ import CheckoutPage from "./component/CheckoutPage";
 import WishlistPage from "./component/WishlistPage";
 import Login from "./component/pages/Login";
 import Register from "./component/pages/Register";
+import About from "./component/pages/About";
+import Contact from "./component/pages/Contact";
 
 import Profile from "./component/pages/Profile";
 import MyOrders from "./component/pages/MyOrders";
@@ -35,6 +37,8 @@ function AppLayout() {
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/category/:category" element={<ProductsPage />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/shopping-cart" element={<ShoppingCartPage />} />
         <Route path="/wishlist" element={<WishlistPage />} />
@@ -42,7 +46,7 @@ function AppLayout() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
-<Route path="/my-orders" element={<MyOrders />} />
+        <Route path="/my-orders" element={<MyOrders />} />
       </Routes>
 
       {!hideHeaderFooter && <Footer />}

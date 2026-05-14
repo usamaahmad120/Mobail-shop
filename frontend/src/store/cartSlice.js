@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { parsePrice } from '../utils/currency';
 
 // Helper function to load cart from localStorage
 const loadCartFromStorageHelper = () => {
@@ -50,16 +51,11 @@ const saveCartToStorage = (cartState) => {
 const calculateTotals = (items) => {
   const totalItems = items.reduce((total, item) => total + item.quantity, 0);
   const totalAmount = items.reduce((total, item) => {
-    const price = parseFloat(item.price.replace(/[$Rs,]/g, ''));
+    const price = parsePrice(item.price);
     return total + (price * item.quantity);
   }, 0);
   
   return { totalItems, totalAmount };
-};
-
-// Helper function to parse price string to number
-const parsePrice = (priceString) => {
-  return parseFloat(priceString.replace(/[$Rs,]/g, ''));
 };
 
 const initialState = loadCartFromStorageHelper();

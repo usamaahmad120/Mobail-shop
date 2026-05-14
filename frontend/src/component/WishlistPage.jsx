@@ -9,6 +9,7 @@ import {
 import { addToCart } from "../store/cartSlice";
 import { FaTrash, FaShoppingCart } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
+import { formatPrice } from "../utils/currency";
 
 const WishlistPage = () => {
   const dispatch = useDispatch();
@@ -100,7 +101,7 @@ const WishlistPage = () => {
                   {item.name}
                 </h3>
                 <p className="text-xl font-bold text-[#5C2EC0] mb-4">
-                  ${item.price}
+                  {formatPrice(item.price)}
                 </p>
 
                 <div className="flex gap-2">

@@ -1,26 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   FaBoxOpen,
   FaTruck,
   FaCheckCircle,
   FaClock,
 } from "react-icons/fa";
+import { formatPrice } from "../../utils/currency";
 
 function MyOrders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = useMemo(() => JSON.parse(localStorage.getItem("user")), []);
 
-  useEffect(() => {
-    if (user?.id) {
-      fetchOrders();
-    } else {
-      setLoading(false);
-    }
-  }, []);
-
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     try {
       const response = await fetch(
         `http://127.0.0.1:8000/api/my-orders/${user.id}`
@@ -34,7 +27,15 @@ function MyOrders() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user?.id]);
+
+  useEffect(() => {
+    if (user?.id) {
+      fetchOrders();
+    } else {
+      setLoading(false);
+    }
+  }, [fetchOrders, user?.id]);
 
   const getStatusIcon = (status) => {
     if (status === "Delivered") {
@@ -125,7 +126,7 @@ function MyOrders() {
 
                 <div className="text-right">
                   <p className="font-bold text-[#502EC3] text-lg">
-                    Rs {order.total}
+                    {formatPrice(order.total)}
                   </p>
 
                   <div className="flex items-center gap-2 justify-end">
@@ -147,7 +148,7 @@ function MyOrders() {
                     </span>
 
                     <span className="font-semibold">
-                      Rs {item.subtotal}
+                      {formatPrice(item.subtotal)}
                     </span>
                   </div>
                 ))}

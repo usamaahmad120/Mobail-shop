@@ -14,6 +14,7 @@ import { FaTrash, FaShoppingCart, FaArrowLeft, FaShieldAlt, FaTruck, FaUndo } fr
 import { MdAdd, MdRemove } from 'react-icons/md';
 import { IoIosStar } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
+import { formatPrice, parsePrice } from '../utils/currency';
 
 const ShoppingCartPage = () => {
   const dispatch = useDispatch();
@@ -46,11 +47,10 @@ const ShoppingCartPage = () => {
   };
 
   const calculateItemTotal = (price, quantity) => {
-    const numericPrice = parseFloat(price.replace(/[$Rs,]/g, ''));
-    return (numericPrice * quantity).toFixed(2);
+    return parsePrice(price) * quantity;
   };
 
-  const renderStars = (rating = 5) => {
+  const renderStars = () => {
     return [...Array(5)].map((_, i) => (
       <IoIosStar key={i} className="text-yellow-400 text-sm" />
     ));
@@ -152,9 +152,9 @@ const ShoppingCartPage = () => {
                         
                         {/* Price */}
                         <div className="flex items-center gap-3 mb-4">
-                          <span className="text-2xl font-bold text-[#5C2EC0]">{item.price}</span>
+                          <span className="text-2xl font-bold text-[#5C2EC0]">{formatPrice(item.price)}</span>
                           <span className="text-sm text-gray-400 line-through">
-                            ${(parseFloat(item.price.replace(/[$Rs,]/g, '')) * 1.16).toFixed(2)}
+                            {formatPrice(parsePrice(item.price) * 1.16)}
                           </span>
                           <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
                             14% OFF
@@ -202,7 +202,7 @@ const ShoppingCartPage = () => {
                         <div className="text-right">
                           <p className="text-sm text-gray-500">Subtotal</p>
                           <p className="text-2xl font-bold text-gray-800">
-                            ${calculateItemTotal(item.price, item.quantity)}
+                            {formatPrice(calculateItemTotal(item.price, item.quantity))}
                           </p>
                         </div>
 
@@ -238,12 +238,12 @@ const ShoppingCartPage = () => {
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Subtotal ({totalItems} items)</span>
-                  <span className="font-semibold">${totalAmount.toFixed(2)}</span>
+                  <span className="font-semibold">{formatPrice(totalAmount)}</span>
                 </div>
                 
                 <div className="flex justify-between text-green-600">
                   <span>Savings (14% off)</span>
-                  <span className="font-semibold">-${calculateSavings()}</span>
+                  <span className="font-semibold">-{formatPrice(calculateSavings())}</span>
                 </div>
                 
                 <div className="flex justify-between">
@@ -253,18 +253,18 @@ const ShoppingCartPage = () => {
                 
                 <div className="flex justify-between">
                   <span className="text-gray-600">Tax (estimated)</span>
-                  <span className="font-semibold">${(totalAmount * 0.08).toFixed(2)}</span>
+                  <span className="font-semibold">{formatPrice(totalAmount * 0.08)}</span>
                 </div>
                 
                 <hr className="my-4" />
                 
                 <div className="flex justify-between text-xl font-bold">
                   <span>Total</span>
-                  <span className="text-[#5C2EC0]">${(totalAmount * 1.08).toFixed(2)}</span>
+                  <span className="text-[#5C2EC0]">{formatPrice(totalAmount * 1.08)}</span>
                 </div>
                 
                 <p className="text-sm text-green-600 text-center font-semibold">
-                  You saved ${calculateSavings()} on this order!
+                  You saved {formatPrice(calculateSavings())} on this order!
                 </p>
               </div>
 
@@ -294,7 +294,7 @@ const ShoppingCartPage = () => {
                 </div>
                 <div className="flex items-center gap-3">
                   <FaTruck className="text-blue-500" />
-                  <span>Free shipping on orders over $50</span>
+                  <span>Free shipping on orders over Rs 5,000</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <FaUndo className="text-purple-500" />

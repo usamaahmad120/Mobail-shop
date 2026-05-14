@@ -15,6 +15,7 @@ import {
   FaTruck,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { formatPrice, parsePrice } from "../utils/currency";
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();
@@ -43,8 +44,7 @@ const CheckoutPage = () => {
   const grandTotal = Number(totalAmount) + shippingFee;
 
   const calculateItemTotal = (price, quantity) => {
-    const numericPrice = Number(String(price).replace(/[$Rs,\s]/g, ""));
-    return (numericPrice * quantity).toFixed(2);
+    return parsePrice(price) * quantity;
   };
 
   const handleInputChange = (e) => {
@@ -114,7 +114,7 @@ const CheckoutPage = () => {
         items: cartItems.map((item) => ({
           id: item.id,
           name: item.name,
-          price: Number(String(item.price).replace(/[$Rs,\s]/g, "")),
+          price: parsePrice(item.price),
           quantity: item.quantity,
         })),
       };
@@ -154,7 +154,7 @@ const CheckoutPage = () => {
           setErrors(data.errors);
         }
       }
-    } catch (error) {
+    } catch {
       setOrderStatus({
         success: false,
         message: "Server error. Please try again.",
@@ -372,7 +372,7 @@ const CheckoutPage = () => {
               >
                 {isSubmitting
                   ? "Processing Order..."
-                  : `Place Order - Rs ${grandTotal.toFixed(2)}`}
+                  : `Place Order - ${formatPrice(grandTotal)}`}
               </button>
             </form>
           </div>
@@ -406,7 +406,7 @@ const CheckoutPage = () => {
                       </p>
 
                       <p className="text-sm font-bold text-[#502EC3]">
-                        Rs {calculateItemTotal(item.price, item.quantity)}
+                        {formatPrice(calculateItemTotal(item.price, item.quantity))}
                       </p>
                     </div>
                   </div>
@@ -418,12 +418,12 @@ const CheckoutPage = () => {
                   <span>
                     Subtotal ({totalItems} items)
                   </span>
-                  <span>Rs {Number(totalAmount).toFixed(2)}</span>
+                  <span>{formatPrice(totalAmount)}</span>
                 </div>
 
                 <div className="flex justify-between">
                   <span>Shipping</span>
-                  <span>Rs {shippingFee}</span>
+                  <span>{formatPrice(shippingFee)}</span>
                 </div>
               </div>
 
@@ -432,7 +432,7 @@ const CheckoutPage = () => {
               <div className="flex justify-between text-lg font-bold">
                 <span>Total</span>
                 <span className="text-[#502EC3]">
-                  Rs {grandTotal.toFixed(2)}
+                  {formatPrice(grandTotal)}
                 </span>
               </div>
             </div>

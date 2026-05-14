@@ -19,7 +19,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 
-use App\Filament\Resources\Users\UserResource\Pages;
+use App\Filament\Resources\Users\Pages;
 
 class UserResource extends Resource
 {

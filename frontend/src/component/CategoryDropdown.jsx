@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { products } from '../export';
 import { latestProducts } from '../Latest';
+import { formatPrice } from '../utils/currency';
 
 // Combine all products for filtering
 const allProducts = [...products, ...latestProducts];
@@ -46,7 +47,7 @@ const CategoryDropdown = ({ category, onClose }) => {
               </div>
               <h3 className="text-sm font-medium text-gray-800">{product.name}</h3>
               <p className="text-xs text-gray-500">{product.category}</p>
-              <p className="text-sm font-bold text-[#5C2EC0] mt-1">{product.price}</p>
+              <p className="text-sm font-bold text-[#5C2EC0] mt-1">{formatPrice(product.price)}</p>
             </Link>
           ))
         ) : (

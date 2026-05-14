@@ -19,6 +19,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { formatPrice } from "../utils/currency";
 
 // 🔥 Separate component to fix React Hooks violation
 const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, handleToggleWishlist, handleEyeClick }) => {
@@ -102,7 +103,7 @@ const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, ha
 
       <h1 className="text-xl font-semibold text-center">{item.name}</h1>
       <h1 className="text-xl font-bold text-[#502EC3] mt-2">
-        ${item.price}
+        {formatPrice(item.price)}
       </h1>
     </div>
   );

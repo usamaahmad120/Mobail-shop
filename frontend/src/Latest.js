@@ -1,11 +1,5 @@
 
 import latest1 from './assets/latest-product/latest1.webp';
-import latest2 from "./assets/latest-product/latest2.webp";
-import latest3 from "./assets/latest-product/latest3.webp";
-import latest4 from "./assets/latest-product/latest4.webp";
-import latest5 from "./assets/latest-product/latest5.webp";
-import latest6 from "./assets/latest-product/latest6.webp";
-import latest7 from "./assets/latest-product/latest7.webp";
 import latest8 from "./assets/latest-product/latest8.webp";
 import latest9 from "./assets/latest-product/latest9.webp";
 import latest10 from "./assets/latest-product/latest10.webp";
@@ -22,7 +16,7 @@ export const latestProducts = [
   {
     id: "latest_001",
     name: "Wireless Headphones",
-    price: "$89",
+    price: "Rs 89",
     category: "Electronics",
     img: latest1,
     maxStock: 10,
@@ -30,7 +24,7 @@ export const latestProducts = [
   {
     id: "latest_002",
     name: "Running Shoes",
-    price: "$120",
+    price: "Rs 120",
     category: "Shoes",
     img: man6,
     maxStock: 15,
@@ -38,7 +32,7 @@ export const latestProducts = [
   {
     id: "latest_003",
     name: "Makeup Kit",
-    price: "$45",
+    price: "Rs 45",
     category: "Cosmetics",
     img: cosmatics4,
     maxStock: 20,
@@ -46,7 +40,7 @@ export const latestProducts = [
   {
     id: "latest_004",
     name: "Smartwatch",
-    price: "$150",
+    price: "Rs 150",
     category: "Gadgets",
     img: Smartwatch ,
     maxStock: 8,
@@ -54,7 +48,7 @@ export const latestProducts = [
   {
     id: "latest_005",
     name: "Sunglasses",
-    price: "$35",
+    price: "Rs 35",
     category: "Fashion",
     img: sunglasses1,
     maxStock: 25,
@@ -62,7 +56,7 @@ export const latestProducts = [
   {
     id: "latest_006",
     name: "Bluetooth",
-    price: "$75",
+    price: "Rs 75",
     category: "Electronics",
     img: latest10,
     maxStock: 12,
@@ -70,7 +64,7 @@ export const latestProducts = [
   {
     id: "latest_007",
     name: "Girls Denim Jacket",
-    price: "$95",
+    price: "Rs 95",
     category: "Girls Fashion",
     img: jacket,
     maxStock: 18,
@@ -78,7 +72,7 @@ export const latestProducts = [
   {
     id: "latest_008",
     name: "Trendy Backpack",
-    price: "$60",
+    price: "Rs 60",
     category: "Bags",
     img: latest8,
     maxStock: 22,
@@ -86,7 +80,7 @@ export const latestProducts = [
   {
     id: "latest_009",
     name: "Perfume Set",
-    price: "$40",
+    price: "Rs 40",
     category: "Beauty",
     img: latest9,
     maxStock: 30,
@@ -94,7 +88,7 @@ export const latestProducts = [
   {
     id: "latest_010",
     name: "Men’s Casual Shirt",
-    price: "$49",
+    price: "Rs 49",
     category: "Shirts",
     img: latest10,
     maxStock: 14,

@@ -4,15 +4,12 @@ import { store } from "../store";
 import {
   addToCart,
   selectCartItemQuantity,
-  setSelectedProduct,
 } from "../store/cartSlice";
 import {
   addToWishlist,
   removeFromWishlist,
   selectIsInWishlist,
 } from "../store/wishlistSlice";
-import { products as staticProducts } from "../export";
-import { latestProducts } from "../Latest";
 import {
   FaHeart,
   FaEye,
@@ -28,6 +25,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { setSelectedProduct as setSelectedProductAction } from "../store/cartSlice";
+import { formatPrice, parsePrice } from "../utils/currency";
 
 const ProductsPage = () => {
   const dispatch = useDispatch();
@@ -37,14 +35,13 @@ const ProductsPage = () => {
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [addingToCart, setAddingToCart] = useState(null);
   const [addingToWishlist, setAddingToWishlist] = useState(null);
   const [viewMode, setViewMode] = useState("grid");
   const [sortBy, setSortBy] = useState("name");
   const [filterCategory, setFilterCategory] = useState("all"); // Always start with "all"
   const [searchTerm, setSearchTerm] = useState("");
-  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [priceRange] = useState([0, 1000]);
 
   // Debug: Log when filter changes
   useEffect(() => {
@@ -214,7 +211,7 @@ console.log("📂 Available categories:", categories);
       const matchesSearch =
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.category.toLowerCase().includes(searchTerm.toLowerCase());
-      const price = parseFloat(product.price);
+      const price = parsePrice(product.price);
       const matchesPrice = price >= priceRange[0] && price <= priceRange[1];
       
       // Debug individual product
@@ -231,7 +228,7 @@ console.log("📂 Available categories:", categories);
     .sort((a, b) => {
       switch (sortBy) {
         case "price":
-          return parseFloat(a.price) - parseFloat(b.price);
+          return parsePrice(a.price) - parsePrice(b.price);
         case "rating":
           return 0;
         default:
@@ -264,8 +261,8 @@ console.log("📂 Available categories:", categories);
     );
     const isAddingToCart = addingToCart === product.id;
     const isAddingToWishlistState = addingToWishlist === product.id;
-    const price = parseFloat(product.price);
-    const originalPrice = product.discount_price ? parseFloat(product.discount_price) : price * 1.16;
+    const price = parsePrice(product.price);
+    const originalPrice = product.discount_price ? parsePrice(product.discount_price) : price * 1.16;
 
     if (isListView) {
       return (
@@ -323,11 +320,11 @@ console.log("📂 Available categories:", categories);
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <span className="text-2xl font-bold text-[#5C2EC0]">
-                  ${product.price}
+                  {formatPrice(product.price)}
                 </span>
                 {product.discount_price && (
                   <span className="text-lg text-gray-400 line-through">
-                    ${originalPrice.toFixed(2)}
+                    {formatPrice(originalPrice)}
                   </span>
                 )}
               </div>
@@ -380,10 +377,10 @@ console.log("📂 Available categories:", categories);
             <span className="text-sm text-gray-500">(4.5)</span>
           </div>
           <div className="flex items-center gap-2 mb-4">
-            <span className="text-xl font-bold text-[#5C2EC0]">${product.price}</span>
+            <span className="text-xl font-bold text-[#5C2EC0]">{formatPrice(product.price)}</span>
             {product.discount_price && (
               <span className="text-sm text-gray-400 line-through">
-                ${originalPrice.toFixed(2)}
+                {formatPrice(originalPrice)}
               </span>
             )}
           </div>

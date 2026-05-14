@@ -13,15 +13,14 @@ import {
   selectIsInWishlist,
   loadWishlistFromStorage
 } from '../store/wishlistSlice';
-import { products } from '../export';
-import { latestProducts } from '../Latest';
 import { FaHeart, FaShoppingCart, FaArrowLeft } from 'react-icons/fa';
 import { IoIosStar } from 'react-icons/io';
 import { TiHeartOutline } from "react-icons/ti";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { formatPrice, parsePrice } from '../utils/currency';
 
-const renderStars = (rating = 5) => {
+const renderStars = () => {
   return [...Array(5)].map((_, i) => (
     <IoIosStar key={i} className="text-yellow-400 text-sm" />
   ));
@@ -32,7 +31,7 @@ const CartProductItem = ({ product, onAddToCart, onToggleWishlist, addingToCart,
   const isInWishlist = useSelector(state => selectIsInWishlist(state, product.id));
   const isAddingToCart = addingToCart === product.id;
   const isAddingToWishlistState = addingToWishlist === product.id;
-  const price = parseFloat(product.price.replace(/[$Rs,]/g, ''));
+  const price = parsePrice(product.price);
   const originalPrice = price * 1.16;
 
   return (
@@ -68,10 +67,10 @@ const CartProductItem = ({ product, onAddToCart, onToggleWishlist, addingToCart,
           </div>
 
           <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-6">
-            <span className="text-2xl sm:text-3xl font-bold text-[#5C2EC0]">{product.price}</span>
-            <span className="text-lg sm:text-xl text-gray-400 line-through">${originalPrice.toFixed(2)}</span>
+            <span className="text-2xl sm:text-3xl font-bold text-[#5C2EC0]">{formatPrice(product.price)}</span>
+            <span className="text-lg sm:text-xl text-gray-400 line-through">{formatPrice(originalPrice)}</span>
             <span className="bg-green-100 text-green-800 text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full font-semibold">
-              Save ${(originalPrice - price).toFixed(2)}
+              Save {formatPrice(originalPrice - price)}
             </span>
           </div>
 

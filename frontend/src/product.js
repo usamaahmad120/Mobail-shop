@@ -20,7 +20,7 @@
 //     img: earbud,
 //     category: "Electronics",
 //     name: "Smart Earbuds",
-//     price: "$45.98",
+//     price: "Rs 45.98",
 //     maxStock: 15,
 //   },
 //   {
@@ -28,7 +28,7 @@
 //     img: speakers,
 //     category: "Electronics",
 //     name: "Bluetooth Speakers",
-//     price: "$192.23",
+//     price: "Rs 192.23",
 //     maxStock: 8,
 //   },
 //   {
@@ -36,7 +36,7 @@
 //     img: watch,
 //     category: "Jewellery & Watches",
 //     name: "Smart Watch",
-//     price: "$12.35",
+//     price: "Rs 12.35",
 //     maxStock: 20,
 //   },
 //   {
@@ -44,7 +44,7 @@
 //     img: pendrive,
 //     category: "Electronics",
 //     name: "Pendrive",
-//     price: "$11.98",
+//     price: "Rs 11.98",
 //     maxStock: 25,
 //   },
 //   {
@@ -52,7 +52,7 @@
 //     img: man1,
 //     category: "Electronics",
 //     name: "Asus Tuff F15",
-//     price: "$897.28",
+//     price: "Rs 897.28",
 //     maxStock: 5,
 //   },
 //   {
@@ -60,7 +60,7 @@
 //     img: man2,
 //     category: "Electronics",
 //     name: "Wireless Headset",
-//     price: "$67.88",
+//     price: "Rs 67.88",
 //     maxStock: 12,
 //   },
 //   {
@@ -68,7 +68,7 @@
 //     img: man3,
 //     category: "Electronics",
 //     name: "Wireless Mouse",
-//     price: "$32.78",
+//     price: "Rs 32.78",
 //     maxStock: 18,
 //   },
 //   {
@@ -76,7 +76,7 @@
 //     img: man4,
 //     category: "Electronics",
 //     name: "DSLR 360 View",
-//     price: "$145.28",
+//     price: "Rs 145.28",
 //     maxStock: 6,
 //   },
 //   {
@@ -84,7 +84,7 @@
 //     img: girls1,
 //     category: "Girls Fashion",
 //     name: "Trendy Shades",
-//     price: "$25.60",
+//     price: "Rs 25.60",
 //     maxStock: 30,
 //   },
 //   {
@@ -92,7 +92,7 @@
 //     img: girls2,
 //     category: "Girls Fashion",
 //     name: "Summer Dress",
-//     price: "$42.00",
+//     price: "Rs 42.00",
 //     maxStock: 10,
 //   },
 //   {
@@ -100,7 +100,7 @@
 //     img: girls3,
 //     category: "Girls Fashion",
 //     name: "Vintage Look",
-//     price: "$51.99",
+//     price: "Rs 51.99",
 //     maxStock: 16,
 //   },
 //   {
@@ -108,7 +108,7 @@
 //     img: girls5,
 //     category: "Health & Beauty",
 //     name: "Luxury Lipstick",
-//     price: "$15.80",
+//     price: "Rs 15.80",
 //     maxStock: 35,
 //   },
 //   {
@@ -116,7 +116,7 @@
 //     img: man5,
 //     category: "Baby",
 //     name: "Baby Denim Jacket",
-//     price: "$59.99",
+//     price: "Rs 59.99",
 //     maxStock: 11,
 //   },
 //   {
@@ -124,7 +124,7 @@
 //     img: man6,
 //     category: "Baby",
 //     name: "Baby Casual Shirt",
-//     price: "$35.50",
+//     price: "Rs 35.50",
 //     maxStock: 20,
 //   },
 //   {
@@ -132,7 +132,7 @@
 //     img: girls5,
 //     category: "Jewellery & Watches",
 //     name: "Leather Wristband",
-//     price: "$22.45",
+//     price: "Rs 22.45",
 //     maxStock: 40,
 //   },
 // ];

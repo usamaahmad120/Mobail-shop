@@ -39,7 +39,7 @@ export const products = [
     img: earbud,
     category: "Electronics",
     name: "Smart Earbuds",
-    price: "$45.98",
+    price: "Rs 45.98",
     maxStock: 15,
   },
   {
@@ -47,7 +47,7 @@ export const products = [
     img: speakers,
     category: "Electronics",
     name: "Bluetooth Speakers",
-    price: "$192.23",
+    price: "Rs 192.23",
     maxStock: 8,
   },
   {
@@ -55,7 +55,7 @@ export const products = [
     img: watch,
     category: "Jewellery & Watches",
     name: "Smart Watch",
-    price: "$12.35",
+    price: "Rs 12.35",
     maxStock: 20,
   },
   {
@@ -63,7 +63,7 @@ export const products = [
     img: pendrive,
     category: "Electronics",
     name: "Pendrive",
-    price: "$11.98",
+    price: "Rs 11.98",
     maxStock: 25,
   },
   {
@@ -71,7 +71,7 @@ export const products = [
     img: laptop,
     category: "Electronics",
     name: "Asus Tuff F15",
-    price: "$897.28",
+    price: "Rs 897.28",
     maxStock: 5,
   },
   {
@@ -79,7 +79,7 @@ export const products = [
     img: headset,
     category: "Electronics",
     name: "Wireless Headset",
-    price: "$67.88",
+    price: "Rs 67.88",
     maxStock: 12,
   },
   {
@@ -87,7 +87,7 @@ export const products = [
     img: mouse,
     category: "Electronics",
     name: "Wireless Mouse",
-    price: "$32.78",
+    price: "Rs 32.78",
     maxStock: 18,
   },
   {
@@ -95,7 +95,7 @@ export const products = [
     img: camera,
     category: "Electronics",
     name: "DSLR 360 View",
-    price: "$145.28",
+    price: "Rs 145.28",
     maxStock: 6,
   },
   {
@@ -103,7 +103,7 @@ export const products = [
     img: girls1,
     category: "Girls Fashion",
     name: "Trendy Shades",
-    price: "$25.60",
+    price: "Rs 25.60",
     maxStock: 30,
   },
   {
@@ -111,7 +111,7 @@ export const products = [
     img: girls2,
     category: "Girls Fashion",
     name: "Summer Dress",
-    price: "$42.00",
+    price: "Rs 42.00",
     maxStock: 10,
   },
   {
@@ -119,7 +119,7 @@ export const products = [
     img: girls3,
     category: "Girls Fashion",
     name: "Vintage Look",
-    price: "$51.99",
+    price: "Rs 51.99",
     maxStock: 16,
   },
   {
@@ -127,7 +127,7 @@ export const products = [
     img: girls4,
     category: "Health & Beauty",
     name: "Luxury Lipstick",
-    price: "$15.80",
+    price: "Rs 15.80",
     maxStock: 35,
   },
   {
@@ -135,7 +135,7 @@ export const products = [
     img: man1,
     category: "Baby",
     name: "Baby Denim Jacket",
-    price: "$59.99",
+    price: "Rs 59.99",
     maxStock: 11,
   },
   {
@@ -143,7 +143,7 @@ export const products = [
     img: man2,
     category: "Baby",
     name: "Baby Casual Shirt",
-    price: "$35.50",
+    price: "Rs 35.50",
     maxStock: 20,
   },
   {
@@ -151,7 +151,7 @@ export const products = [
     img: man3,
     category: "Men's Fashion",
     name: "Men's Leather Jacket",
-    price: "$89.99",
+    price: "Rs 89.99",
     maxStock: 15,
   },
   {
@@ -159,7 +159,7 @@ export const products = [
     img: man4,
     category: "Men's Fashion",
     name: "Casual Men's Shirt",
-    price: "$35.50",
+    price: "Rs 35.50",
     maxStock: 20,
   },
   {
@@ -167,7 +167,7 @@ export const products = [
     img: man5,
     category: "Men's Fashion",
     name: "Formal Suit",
-    price: "$199.99",
+    price: "Rs 199.99",
     maxStock: 8,
   },
   {
@@ -175,7 +175,7 @@ export const products = [
     img: man6,
     category: "Men's Fashion",
     name: "Sports T-Shirt",
-    price: "$24.99",
+    price: "Rs 24.99",
     maxStock: 25,
   },
   
@@ -184,7 +184,7 @@ export const products = [
     img: menFashion,
     category: "Men's Fashion",
     name: "Formal Suit",
-    price: "$199.99",
+    price: "Rs 199.99",
     maxStock: 8,
   },
   {
@@ -192,7 +192,7 @@ export const products = [
     img: menFashion1,
     category: "Men's Fashion",
     name: "Sports T-Shirt",
-    price: "$24.99",
+    price: "Rs 24.99",
     maxStock: 25,
   },
   {
@@ -200,7 +200,7 @@ export const products = [
     img: menFashion2,
     category: "Men's Fashion",
     name: "Formal Suit",
-    price: "$199.99",
+    price: "Rs 199.99",
     maxStock: 8,
   },
   {
@@ -208,7 +208,7 @@ export const products = [
     img:menFashion3,
     category: "Men's Fashion",
     name: "Sports T-Shirt",
-    price: "$24.99",
+    price: "Rs 24.99",
     maxStock: 25,
   },
   {
@@ -216,7 +216,7 @@ export const products = [
     img: menFashion4,
     category: "Men's Fashion",
     name: "Formal Suit",
-    price: "$199.99",
+    price: "Rs 199.99",
     maxStock: 8,
   },
   {
@@ -224,7 +224,7 @@ export const products = [
     img: menFashion5,
     category: "Men's Fashion",
     name: "Sports T-Shirt",
-    price: "$24.99",
+    price: "Rs 24.99",
     maxStock: 25,
   },
   {
@@ -232,7 +232,7 @@ export const products = [
     img: menFashion6,
     category: "Men's Fashion",
     name: "Sports T-Shirt",
-    price: "$24.99",
+    price: "Rs 24.99",
     maxStock: 25,
   },
   {
@@ -240,7 +240,7 @@ export const products = [
     img: menFashion7,
     category: "Men's Fashion",
     name: "Formal Suit",
-    price: "$199.99",
+    price: "Rs 199.99",
     maxStock: 8,
   },
   {
@@ -248,7 +248,7 @@ export const products = [
     img: menFashion8,
     category: "Men's Fashion",
     name: "Sports T-Shirt",
-    price: "$24.99",
+    price: "Rs 24.99",
     maxStock: 25,
   },
   {
@@ -256,7 +256,7 @@ export const products = [
     img: menFashion9,
     category: "Men's Fashion",
     name: "Formal Suit",
-    price: "$199.99",
+    price: "Rs 199.99",
     maxStock: 8,
   },
   {
@@ -264,7 +264,7 @@ export const products = [
     img: menFashion10,
     category: "Men's Fashion",
     name: "Sports T-Shirt",
-    price: "$24.99",
+    price: "Rs 24.99",
     maxStock: 25,
   },
 ];

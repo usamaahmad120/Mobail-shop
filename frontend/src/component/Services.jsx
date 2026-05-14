@@ -28,7 +28,7 @@ function Services() {
         <img src={shipping} alt="Shipping" className="w-14 h-14" />
         <div className="flex flex-col justify-center">
           <h1 className="text-lg font-semibold">Free Shipping</h1>
-          <p className="text-gray-600 text-sm">On orders over $50</p>
+          <p className="text-gray-600 text-sm">On orders over Rs 5,000</p>
         </div>
       </div>
 

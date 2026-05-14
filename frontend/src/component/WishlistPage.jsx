@@ -6,7 +6,7 @@ import {
   removeFromWishlist,
   clearWishlist,
 } from "../store/wishlistSlice";
-import { addToCart } from "../store/cartSlice";
+import { addToCart, selectCartItems } from "../store/cartSlice";
 import { FaTrash, FaShoppingCart } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import { formatPrice } from "../utils/currency";
@@ -15,6 +15,7 @@ const WishlistPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const wishlistItems = useSelector(selectWishlistItems);
+  const cartItems = useSelector(selectCartItems);
 
   const handleRemove = (productId) => {
     dispatch(removeFromWishlist(productId));
@@ -25,11 +26,18 @@ const WishlistPage = () => {
   };
 
   const handleAddToCart = (product) => {
+    const existingItem = cartItems.find((item) => String(item.id) === String(product.id));
+
     dispatch(addToCart(product));
-    toast.success("Added to cart!", {
+    toast.success(existingItem ? "Cart quantity increased!" : "Added to cart!", {
       position: "top-right",
       autoClose: 1500,
     });
+  };
+
+  const getCartQuantity = (productId) => {
+    const item = cartItems.find((cartItem) => String(cartItem.id) === String(productId));
+    return item ? item.quantity : 0;
   };
 
   const handleClearAll = () => {
@@ -86,13 +94,21 @@ const WishlistPage = () => {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {wishlistItems.map((item) => (
+            {wishlistItems.map((item) => {
+              const cartQuantity = getCartQuantity(item.id);
+
+              return (
               <div
                 key={item.id}
-                className="border rounded-lg p-4 hover:shadow-lg transition"
+                className="border rounded-lg p-4 hover:shadow-lg transition relative"
               >
+                {cartQuantity > 0 && (
+                  <span className="absolute top-3 right-3 bg-[#5C2EC0] text-white text-xs px-2 py-1 rounded-full">
+                    {cartQuantity} in cart
+                  </span>
+                )}
                 <img
-                  src={item.image}
+                  src={item.image || item.img}
                   alt={item.name}
                   className="w-full h-48 object-cover rounded-md mb-4"
                 />
@@ -109,7 +125,7 @@ const WishlistPage = () => {
                     onClick={() => handleAddToCart(item)}
                     className="flex-1 bg-[#5C2EC0] text-white py-2 rounded-lg hover:bg-[#4a25a3] transition flex items-center justify-center gap-2"
                   >
-                    <FaShoppingCart /> Add to Cart
+                    <FaShoppingCart /> {cartQuantity > 0 ? "Add More" : "Add to Cart"}
                   </button>
                   <button
                     onClick={() => handleRemove(item.id)}
@@ -119,7 +135,8 @@ const WishlistPage = () => {
                   </button>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 

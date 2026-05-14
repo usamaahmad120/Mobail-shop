@@ -166,20 +166,19 @@ function Latest() {
   const handleAddToCart = (product) => {
     setAddingToCart(product.id);
 
-    const isAlreadyInCart = cartItems.some((item) => item.id === product.id);
+    const existingItem = cartItems.find((item) => String(item.id) === String(product.id));
 
     toast.dismiss();
+    dispatch(addToCart(product));
 
-    if (isAlreadyInCart) {
-      toast.warning("⚠️ Product already in cart!", {
+    if (existingItem) {
+      toast.success("Cart quantity increased!", {
         position: "top-right",
         autoClose: 1800,
         theme: "colored",
       });
     } else {
-      dispatch(addToCart(product));
-
-      toast.success("🛒 Product added to cart!", {
+      toast.success("Product added to cart!", {
         position: "top-right",
         autoClose: 1800,
         theme: "colored",
@@ -255,19 +254,35 @@ function Latest() {
       </h1>
 
       <div data-aos="fade-up" data-aos-delay="300" className="mt-10">
-        <Slider {...settings}>
-          {latestProducts.map((item) => (
-            <ProductCard
-              key={item.id}
-              item={item}
-              addingToCart={addingToCart}
-              addingToWishlist={addingToWishlist}
-              handleAddToCart={handleAddToCart}
-              handleToggleWishlist={handleToggleWishlist}
-              handleEyeClick={handleEyeClick}
-            />
-          ))}
-        </Slider>
+        {latestProducts.length > 5 ? (
+          <Slider {...settings}>
+            {latestProducts.map((item) => (
+              <ProductCard
+                key={item.id}
+                item={item}
+                addingToCart={addingToCart}
+                addingToWishlist={addingToWishlist}
+                handleAddToCart={handleAddToCart}
+                handleToggleWishlist={handleToggleWishlist}
+                handleEyeClick={handleEyeClick}
+              />
+            ))}
+          </Slider>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6">
+            {latestProducts.map((item) => (
+              <ProductCard
+                key={item.id}
+                item={item}
+                addingToCart={addingToCart}
+                addingToWishlist={addingToWishlist}
+                handleAddToCart={handleAddToCart}
+                handleToggleWishlist={handleToggleWishlist}
+                handleEyeClick={handleEyeClick}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

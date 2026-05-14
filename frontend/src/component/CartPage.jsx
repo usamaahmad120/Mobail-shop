@@ -158,14 +158,13 @@ useEffect(() => {
     setAddingToCart(product.id);
 
     const cartItems = store.getState().cart.items;
-    const isAlreadyInCart = cartItems.some(item => item.id === product.id);
+    const existingItem = cartItems.find(item => String(item.id) === String(product.id));
 
-    if (isAlreadyInCart) {
-      toast.warning('⚠️ Product already in cart!', { position: 'top-right', autoClose: 1800, theme: 'colored' });
-    } else {
-      dispatch(addToCart(product));
-      toast.success('🛒 Product added to cart!', { position: 'top-right', autoClose: 1800, theme: 'colored' });
-    }
+    dispatch(addToCart(product));
+    toast.success(
+      existingItem ? 'Cart quantity increased!' : 'Product added to cart!',
+      { position: 'top-right', autoClose: 1800, theme: 'colored' }
+    );
 
     setTimeout(() => setAddingToCart(null), 500);
   }, [dispatch]);

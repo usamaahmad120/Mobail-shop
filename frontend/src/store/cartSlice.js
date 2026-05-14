@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { parsePrice } from '../utils/currency';
+import { parsePrice } from '../utils/currency.js';
 
 // Helper function to load cart from localStorage
 const loadCartFromStorageHelper = () => {
@@ -58,6 +58,8 @@ const calculateTotals = (items) => {
   return { totalItems, totalAmount };
 };
 
+const isSameProduct = (leftId, rightId) => String(leftId) === String(rightId);
+
 const initialState = loadCartFromStorageHelper();
 
 const cartSlice = createSlice({
@@ -66,7 +68,7 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const product = action.payload;
-      const existingItem = state.items.find(item => item.id === product.id);
+      const existingItem = state.items.find(item => isSameProduct(item.id, product.id));
       
       if (existingItem) {
         // If item exists, increase quantity (with stock limit check)
@@ -98,7 +100,7 @@ const cartSlice = createSlice({
     
     removeFromCart: (state, action) => {
       const productId = action.payload;
-      state.items = state.items.filter(item => item.id !== productId);
+      state.items = state.items.filter(item => !isSameProduct(item.id, productId));
       
       // Recalculate totals
       const totals = calculateTotals(state.items);
@@ -111,7 +113,7 @@ const cartSlice = createSlice({
     
     increaseQty: (state, action) => {
       const productId = action.payload;
-      const item = state.items.find(item => item.id === productId);
+      const item = state.items.find(item => isSameProduct(item.id, productId));
       
       if (item && item.quantity < item.maxStock) {
         item.quantity += 1;
@@ -128,14 +130,14 @@ const cartSlice = createSlice({
     
     decreaseQty: (state, action) => {
       const productId = action.payload;
-      const item = state.items.find(item => item.id === productId);
+      const item = state.items.find(item => isSameProduct(item.id, productId));
       
       if (item) {
         if (item.quantity > 1) {
           item.quantity -= 1;
         } else {
           // Remove item if quantity becomes 0
-          state.items = state.items.filter(item => item.id !== productId);
+          state.items = state.items.filter(item => !isSameProduct(item.id, productId));
         }
         
         // Recalculate totals
@@ -150,7 +152,7 @@ const cartSlice = createSlice({
     
     updateQuantity: (state, action) => {
       const { productId, quantity } = action.payload;
-      const item = state.items.find(item => item.id === productId);
+      const item = state.items.find(item => isSameProduct(item.id, productId));
       
       if (item && quantity > 0 && quantity <= item.maxStock) {
         item.quantity = quantity;
@@ -226,8 +228,8 @@ export const selectCartTotalAmount = (state) => state.cart.totalAmount;
 export const selectIsCartOpen = (state) => state.cart.isCartOpen;
 export const selectSelectedProductId = (state) => state.cart.selectedProductId;
 export const selectCartItemById = (state, productId) =>
-  state.cart.items.find(item => item.id === productId);
+  state.cart.items.find(item => isSameProduct(item.id, productId));
 export const selectCartItemQuantity = (state, productId) => {
-  const item = state.cart.items.find(item => item.id === productId);
+  const item = state.cart.items.find(item => isSameProduct(item.id, productId));
   return item ? item.quantity : 0;
 };

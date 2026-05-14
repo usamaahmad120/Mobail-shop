@@ -28,16 +28,18 @@ const WishlistPage = () => {
   const handleAddToCart = (product) => {
     const existingItem = cartItems.find((item) => String(item.id) === String(product.id));
 
-    dispatch(addToCart(product));
-    toast.success(existingItem ? "Cart quantity increased!" : "Added to cart!", {
-      position: "top-right",
-      autoClose: 1500,
-    });
-  };
-
-  const getCartQuantity = (productId) => {
-    const item = cartItems.find((cartItem) => String(cartItem.id) === String(productId));
-    return item ? item.quantity : 0;
+    if (existingItem) {
+      toast.warning("Product already in cart!", {
+        position: "top-right",
+        autoClose: 1500,
+      });
+    } else {
+      dispatch(addToCart(product));
+      toast.success("Added to cart!", {
+        position: "top-right",
+        autoClose: 1500,
+      });
+    }
   };
 
   const handleClearAll = () => {
@@ -94,19 +96,11 @@ const WishlistPage = () => {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {wishlistItems.map((item) => {
-              const cartQuantity = getCartQuantity(item.id);
-
-              return (
+            {wishlistItems.map((item) => (
               <div
                 key={item.id}
-                className="border rounded-lg p-4 hover:shadow-lg transition relative"
+                className="border rounded-lg p-4 hover:shadow-lg transition"
               >
-                {cartQuantity > 0 && (
-                  <span className="absolute top-3 right-3 bg-[#5C2EC0] text-white text-xs px-2 py-1 rounded-full">
-                    {cartQuantity} in cart
-                  </span>
-                )}
                 <img
                   src={item.image || item.img}
                   alt={item.name}
@@ -125,7 +119,7 @@ const WishlistPage = () => {
                     onClick={() => handleAddToCart(item)}
                     className="flex-1 bg-[#5C2EC0] text-white py-2 rounded-lg hover:bg-[#4a25a3] transition flex items-center justify-center gap-2"
                   >
-                    <FaShoppingCart /> {cartQuantity > 0 ? "Add More" : "Add to Cart"}
+                    <FaShoppingCart /> Add to Cart
                   </button>
                   <button
                     onClick={() => handleRemove(item.id)}
@@ -135,8 +129,7 @@ const WishlistPage = () => {
                   </button>
                 </div>
               </div>
-              );
-            })}
+            ))}
           </div>
         </div>
 

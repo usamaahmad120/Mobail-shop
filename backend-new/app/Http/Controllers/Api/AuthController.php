@@ -26,8 +26,11 @@ class AuthController extends Controller
             'role' => 'customer',
         ]);
 
+        $token = $user->createToken('mobailshop')->plainTextToken;
+
         return response()->json([
             'message' => 'Registered successfully',
+            'token' => $token,
             'user' => $user
         ]);
     }

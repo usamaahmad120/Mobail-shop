@@ -103,8 +103,10 @@ function Register() {
       const data = await res.json();
 
       if (res.ok) {
-        alert("Registration successful!");
-        navigate("/login");
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        alert(`Welcome ${data.user.name}`);
+        navigate("/");
       } else {
         if (data.errors) {
           const firstError = Object.values(data.errors)[0][0];

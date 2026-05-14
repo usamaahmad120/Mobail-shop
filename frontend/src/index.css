@@ -4,6 +4,22 @@
 
 :root {
   font-family: "Inter", sans-serif;
+  color: #172033;
+  background: #f6f8fb;
+  --shop-primary: #2563eb;
+  --shop-primary-hover: #1d4ed8;
+  --shop-secondary: #0f766e;
+  --shop-accent: #f59e0b;
+  --shop-danger: #e11d48;
+  --shop-success: #16a34a;
+  --shop-ink: #172033;
+  --shop-muted: #64748b;
+  --shop-bg: #f6f8fb;
+  --shop-surface: #ffffff;
+  --shop-border: #e2e8f0;
+  --shop-soft-border: rgba(148, 163, 184, 0.28);
+  --shop-shadow-sm: 0 8px 22px rgba(15, 23, 42, 0.06);
+  --shop-shadow-md: 0 16px 38px rgba(15, 23, 42, 0.09);
 }
 
 html,
@@ -13,11 +29,25 @@ body,
   font-weight: 400;
 }
 
+body {
+  background: var(--shop-bg);
+  color: var(--shop-ink);
+}
+
 button,
 input,
 textarea,
 select {
   font-family: inherit;
+}
+
+button {
+  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease,
+    box-shadow 180ms ease, transform 180ms ease;
+}
+
+button:not(:disabled):hover {
+  transform: translateY(-1px);
 }
 
 h1,
@@ -29,4 +59,171 @@ h6,
 .font-bold,
 .font-semibold {
   font-family: "Inter", sans-serif;
+}
+
+.shop-card {
+  background: var(--shop-surface);
+  border: 1px solid var(--shop-soft-border);
+  border-radius: 8px;
+  box-shadow: var(--shop-shadow-sm);
+}
+
+.shop-card-hover {
+  transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+}
+
+.shop-card-hover:hover {
+  border-color: rgba(37, 99, 235, 0.28);
+  box-shadow: var(--shop-shadow-md);
+  transform: translateY(-4px);
+}
+
+.shop-button-primary {
+  background: var(--shop-primary);
+  color: #ffffff;
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.22);
+}
+
+.shop-button-primary:hover {
+  background: var(--shop-primary-hover);
+}
+
+.shop-button-secondary {
+  background: #ffffff;
+  border: 1px solid var(--shop-border);
+  color: var(--shop-primary);
+}
+
+.shop-button-secondary:hover {
+  background: #eff6ff;
+  border-color: rgba(37, 99, 235, 0.42);
+}
+
+.shop-icon-button {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid var(--shop-border);
+  border-radius: 9999px;
+  box-shadow: var(--shop-shadow-sm);
+  color: var(--shop-ink);
+  display: flex;
+  height: 2.5rem;
+  justify-content: center;
+  width: 2.5rem;
+}
+
+.shop-icon-button:hover {
+  background: var(--shop-primary);
+  border-color: var(--shop-primary);
+  color: #ffffff;
+}
+
+.shop-icon-button.bg-red-500 {
+  background: var(--shop-danger);
+  border-color: var(--shop-danger);
+  color: #ffffff;
+}
+
+.shop-icon-button.bg-green-500 {
+  background: var(--shop-success);
+  border-color: var(--shop-success);
+  color: #ffffff;
+}
+
+.shop-icon-button.text-white {
+  color: #ffffff;
+}
+
+.shop-price {
+  color: var(--shop-primary);
+  font-weight: 700;
+}
+
+.shop-eyebrow {
+  color: var(--shop-secondary);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+[class~="bg-[#502EC3]"],
+[class~="bg-[#5C2EC0]"] {
+  background-color: var(--shop-primary) !important;
+}
+
+[class~="hover:bg-[#3e26a3]"]:hover,
+[class~="hover:bg-[#4a25a3]"]:hover {
+  background-color: var(--shop-primary-hover) !important;
+}
+
+[class~="text-[#502EC3]"],
+[class~="text-[#5C2EC0]"] {
+  color: var(--shop-primary) !important;
+}
+
+[class~="border-[#502EC3]"],
+[class~="border-[#5C2EC0]"],
+[class~="focus:border-[#502EC3]"]:focus,
+[class~="focus:border-[#5C2EC0]"]:focus,
+[class~="hover:border-[#502EC3]"]:hover,
+[class~="hover:border-[#5C2EC0]"]:hover {
+  border-color: var(--shop-primary) !important;
+}
+
+[class~="hover:text-[#502EC3]"]:hover,
+[class~="hover:text-[#5C2EC0]"]:hover {
+  color: var(--shop-primary) !important;
+}
+
+.bg-gray-50,
+.bg-gray-100 {
+  background-color: var(--shop-bg) !important;
+}
+
+.bg-purple-600 {
+  background-color: var(--shop-secondary) !important;
+}
+
+.bg-yellow-400 {
+  background-color: var(--shop-accent) !important;
+}
+
+.hover\:bg-yellow-400:hover,
+.hover\:bg-yellow-500:hover {
+  background-color: #d97706 !important;
+}
+
+.text-yellow-400 {
+  color: var(--shop-accent) !important;
+}
+
+.bg-white.rounded-lg,
+.bg-white.rounded-xl {
+  border: 1px solid var(--shop-soft-border);
+}
+
+.shadow,
+.shadow-sm,
+.shadow-md,
+.shadow-lg,
+.shadow-xl,
+.shadow-2xl {
+  box-shadow: var(--shop-shadow-sm) !important;
+}
+
+.hover\:shadow-lg:hover,
+.hover\:shadow-xl:hover,
+.hover\:shadow-md:hover {
+  box-shadow: var(--shop-shadow-md) !important;
+}
+
+input,
+textarea,
+select {
+  color: var(--shop-ink);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }

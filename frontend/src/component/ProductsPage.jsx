@@ -266,7 +266,7 @@ console.log("📂 Available categories:", categories);
 
     if (isListView) {
       return (
-        <div className="bg-white rounded-lg shadow-sm hover:shadow-lg transition duration-300 p-6 flex gap-6">
+        <div className="shop-card shop-card-hover p-6 flex gap-6">
           <div className="relative flex-shrink-0">
             <img
               src={product.img || product.image}
@@ -319,7 +319,7 @@ console.log("📂 Available categories:", categories);
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <span className="text-2xl font-bold text-[#5C2EC0]">
+                <span className="shop-price text-2xl">
                   {formatPrice(product.price)}
                 </span>
                 {product.discount_price && (
@@ -334,7 +334,7 @@ console.log("📂 Available categories:", categories);
                 className={`px-6 py-2 rounded-lg font-semibold transition duration-300 flex items-center gap-2 ${
                   isAddingToCart
                     ? "bg-green-500 text-white"
-                    : "bg-[#5C2EC0] text-white hover:bg-[#4a25a3]"
+                    : "shop-button-primary"
                 }`}
               >
                 {isAddingToCart ? "Adding..." : "Add to Cart"}
@@ -346,7 +346,7 @@ console.log("📂 Available categories:", categories);
     }
 
     return (
-      <div className="group bg-white rounded-lg shadow-sm hover:shadow-xl transition duration-300 overflow-hidden">
+      <div className="shop-card shop-card-hover group overflow-hidden">
         <div className="relative">
           <img
             src={product.img || product.image}
@@ -361,9 +361,9 @@ console.log("📂 Available categories:", categories);
           <div className="absolute inset-0 bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center gap-3">
             <button
               onClick={() => handleEyeClick(product)}
-              className="bg-[#5C2EC0] p-3 rounded-full hover:bg-white transition transform hover:scale-110"
+              className="shop-icon-button transition transform hover:scale-110"
             >
-              <FaEye className="text-white hover:text-[#5C2EC0]" />
+              <FaEye />
             </button>
           </div>
         </div>
@@ -377,7 +377,7 @@ console.log("📂 Available categories:", categories);
             <span className="text-sm text-gray-500">(4.5)</span>
           </div>
           <div className="flex items-center gap-2 mb-4">
-            <span className="text-xl font-bold text-[#5C2EC0]">{formatPrice(product.price)}</span>
+            <span className="shop-price text-xl">{formatPrice(product.price)}</span>
             {product.discount_price && (
               <span className="text-sm text-gray-400 line-through">
                 {formatPrice(originalPrice)}
@@ -391,7 +391,7 @@ console.log("📂 Available categories:", categories);
               className={`flex-1 py-2 px-4 rounded-lg font-semibold transition duration-300 ${
                 isAddingToCart
                   ? "bg-green-500 text-white"
-                  : "bg-[#5C2EC0] text-white hover:bg-[#4a25a3]"
+                  : "shop-button-primary"
               }`}
             >
               {isAddingToCart ? "Adding..." : "Add to Cart"}
@@ -446,7 +446,7 @@ console.log("📂 Available categories:", categories);
 
         {/* Filters */}
         {!loading && (
-          <div className="bg-white rounded-lg shadow-sm p-6 mb-8" data-aos="fade-up" data-aos-delay="100">
+          <div className="shop-card p-6 mb-8" data-aos="fade-up" data-aos-delay="100">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
               <div className="relative">
                 <input

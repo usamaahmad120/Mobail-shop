@@ -33,20 +33,20 @@ const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, ha
   const isAddingToWishlistState = addingToWishlist === item.id;
 
   return (
-    <div className="group flex flex-col justify-center items-center gap-2 bg-white p-4 rounded-lg cursor-pointer relative shadow hover:shadow-lg transition duration-300">
-      <div className="flex gap-4 text-xl text-[#502EC3] absolute top-4 z-10 md:opacity-0 md:group-hover:opacity-100 opacity-100 transition duration-300 justify-center items-center">
+    <div className="shop-card shop-card-hover group flex h-full flex-col justify-between gap-3 p-4 cursor-pointer relative overflow-hidden">
+      <div className="flex gap-3 text-lg absolute top-4 left-1/2 -translate-x-1/2 z-10 md:opacity-0 md:group-hover:opacity-100 opacity-100 transition duration-300 justify-center items-center">
         <div
-          className="bg-[#502EC3] hover:bg-yellow-400 w-10 h-10 flex justify-center items-center rounded-full text-white cursor-pointer transition"
+          className="shop-icon-button cursor-pointer transition"
           onClick={() => handleEyeClick(item)}
         >
           <FaEye />
         </div>
 
         <div
-          className={`w-10 h-10 flex justify-center items-center rounded-full cursor-pointer transition ${
+          className={`shop-icon-button cursor-pointer transition ${
             isInWishlist
               ? "bg-red-500 text-white hover:bg-red-600"
-              : "bg-[#502EC3] text-white hover:bg-yellow-400"
+              : ""
           }`}
           onClick={() => handleToggleWishlist(item, isInWishlist)}
           disabled={isAddingToWishlistState}
@@ -61,10 +61,10 @@ const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, ha
         </div>
 
         <div
-          className={`w-10 h-10 flex justify-center items-center rounded-full text-white cursor-pointer transition ${
+          className={`shop-icon-button cursor-pointer transition ${
             isAddingToCart
-              ? "bg-green-500"
-              : "bg-[#502EC3] hover:bg-yellow-400"
+              ? "bg-green-500 text-white"
+              : ""
           }`}
           onClick={() => handleAddToCart(item)}
           disabled={isAddingToCart}
@@ -78,20 +78,20 @@ const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, ha
       </div>
 
       {cartQuantity > 0 && (
-        <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full z-20">
+        <div className="absolute top-3 right-3 bg-[#5C2EC0] text-white text-xs px-2 py-1 rounded-full z-20">
           {cartQuantity}
         </div>
       )}
 
       {isInWishlist && (
-        <div className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full z-20">
+        <div className="absolute top-3 left-3 bg-red-500 text-white text-xs px-2 py-1 rounded-full z-20">
           ❤️
         </div>
       )}
 
       <img
         src={item.img || item.image}
-        className="w-full h-48 object-cover rounded-md mb-4 mt-10"
+        className="w-full h-48 object-cover rounded-lg mb-4 mt-10 bg-slate-100"
         alt={item.name}
       />
 
@@ -101,8 +101,8 @@ const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, ha
         ))}
       </div>
 
-      <h1 className="text-xl font-semibold text-center">{item.name}</h1>
-      <h1 className="text-xl font-bold text-[#502EC3] mt-2">
+      <h1 className="text-base font-semibold text-center text-slate-900 line-clamp-2">{item.name}</h1>
+      <h1 className="shop-price text-xl mt-1">
         {formatPrice(item.price)}
       </h1>
     </div>
@@ -230,7 +230,7 @@ function MenFashion() {
       <h1
         data-aos="zoom-in"
         data-aos-delay="300"
-        className="text-[42px] leading-[50px] font-semibold text-black"
+        className="text-[42px] leading-[50px] font-semibold text-slate-950"
       >
         Men's Fashion
       </h1>
@@ -255,7 +255,7 @@ function MenFashion() {
 
       <button
         onClick={() => navigate("/products")}
-        className="bg-[#502EC3] text-white rounded-lg px-6 py-2 text-[20px] font-semibold mt-6 hover:bg-yellow-500"
+        className="shop-button-primary rounded-lg px-7 py-3 text-[18px] font-semibold mt-6"
       >
         View More
       </button>

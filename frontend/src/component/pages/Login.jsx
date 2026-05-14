@@ -79,13 +79,13 @@ const handleLogin = async () => {
       {/* Back Button */}
       <button
         onClick={goToHome}
-        className="absolute top-5 left-5 bg-[#502EC3] text-white px-4 py-2 rounded-lg hover:bg-[#3e26a3] transition"
+        className="absolute top-5 left-5 shop-button-secondary px-4 py-2 rounded-lg transition"
       >
         ← Back to Home
       </button>
 
       {/* Login Box */}
-      <div className="bg-white p-6 rounded-xl shadow-2xl w-[320px] h-[400px] border-none">
+      <div className="shop-card p-7 w-[320px] h-auto border-none">
         <h2 className="text-2xl font-bold text-center text-[#502EC3] mb-6">
           Welcome Back!
         </h2>
@@ -133,7 +133,7 @@ const handleLogin = async () => {
         <button
           className={`w-full py-2 rounded mt-2 ${
             isFormValid
-              ? "bg-[#502EC3] hover:bg-[#3e26a3] text-white"
+              ? "shop-button-primary"
               : "bg-gray-300 text-gray-500 cursor-not-allowed"
           }`}
           disabled={!isFormValid}

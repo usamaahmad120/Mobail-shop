@@ -35,7 +35,7 @@ const CartProductItem = ({ product, onAddToCart, onToggleWishlist, addingToCart,
   const originalPrice = price * 1.16;
 
   return (
-    <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition duration-300 p-4 sm:p-6">
+    <div className="shop-card shop-card-hover transition duration-300 p-4 sm:p-6">
       <div className="flex flex-col md:flex-row gap-4 md:gap-6">
         <div className="flex-shrink-0 mx-auto md:mx-0 relative">
           <img
@@ -67,7 +67,7 @@ const CartProductItem = ({ product, onAddToCart, onToggleWishlist, addingToCart,
           </div>
 
           <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-6">
-            <span className="text-2xl sm:text-3xl font-bold text-[#5C2EC0]">{formatPrice(product.price)}</span>
+            <span className="shop-price text-2xl sm:text-3xl">{formatPrice(product.price)}</span>
             <span className="text-lg sm:text-xl text-gray-400 line-through">{formatPrice(originalPrice)}</span>
             <span className="bg-green-100 text-green-800 text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full font-semibold">
               Save {formatPrice(originalPrice - price)}
@@ -79,7 +79,7 @@ const CartProductItem = ({ product, onAddToCart, onToggleWishlist, addingToCart,
               onClick={() => onAddToCart(product)}
               disabled={isAddingToCart}
               className={`w-full sm:flex-1 sm:max-w-xs py-3 px-4 sm:px-6 rounded-lg font-semibold transition duration-300 flex items-center justify-center gap-2 ${
-                isAddingToCart ? 'bg-green-500 text-white' : 'bg-[#5C2EC0] text-white hover:bg-[#4a25a3]'
+                isAddingToCart ? 'bg-green-500 text-white' : 'shop-button-primary'
               }`}
             >
               {isAddingToCart ? (
@@ -200,7 +200,7 @@ useEffect(() => {
           </div>
           <button 
             onClick={() => window.history.back()}
-            className="flex items-center gap-2 px-4 py-2 border border-[#5C2EC0] text-[#5C2EC0] rounded-lg hover:bg-[#5C2EC0] hover:text-white transition duration-300"
+            className="shop-button-secondary flex items-center gap-2 px-4 py-2 rounded-lg transition duration-300"
           >
             <FaArrowLeft />
             Back

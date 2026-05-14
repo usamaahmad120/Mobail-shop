@@ -60,7 +60,7 @@ const Contact = () => {
       <section className="max-w-7xl mx-auto px-4">
         <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-10">
           <div>
-            <p className="text-[#5C2EC0] font-semibold mb-3">Contact Us</p>
+            <p className="shop-eyebrow mb-3">Contact Us</p>
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-5">
               Need help with an order or product?
             </h1>
@@ -69,22 +69,22 @@ const Contact = () => {
             </p>
 
             <div className="space-y-4 mt-8">
-              <div className="flex items-center gap-4 bg-white rounded-lg p-4 shadow-sm">
+              <div className="shop-card flex items-center gap-4 p-4">
                 <FaPhoneAlt className="text-[#5C2EC0]" />
                 <span className="font-semibold text-gray-800">+92 300 1234567</span>
               </div>
-              <div className="flex items-center gap-4 bg-white rounded-lg p-4 shadow-sm">
+              <div className="shop-card flex items-center gap-4 p-4">
                 <FaEnvelope className="text-[#5C2EC0]" />
                 <span className="font-semibold text-gray-800">support@electrashop.pk</span>
               </div>
-              <div className="flex items-center gap-4 bg-white rounded-lg p-4 shadow-sm">
+              <div className="shop-card flex items-center gap-4 p-4">
                 <FaMapMarkerAlt className="text-[#5C2EC0]" />
                 <span className="font-semibold text-gray-800">Main Market, Lahore, Pakistan</span>
               </div>
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 md:p-8">
+          <form onSubmit={handleSubmit} className="shop-card p-6 md:p-8">
             <div className="grid md:grid-cols-2 gap-5">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Name</label>
@@ -152,7 +152,7 @@ const Contact = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="mt-6 bg-[#5C2EC0] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#4a25a3] transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+              className="mt-6 shop-button-primary px-8 py-3 rounded-lg font-semibold transition disabled:bg-gray-300 disabled:cursor-not-allowed"
             >
               {isSubmitting ? "Sending..." : "Send Message"}
             </button>

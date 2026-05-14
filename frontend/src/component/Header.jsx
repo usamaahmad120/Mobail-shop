@@ -77,12 +77,12 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 w-full bg-[#f5f6f8] shadow z-50">
+    <header className="fixed top-0 left-0 w-full bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm z-50">
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link
           to="/"
-          className="text-2xl sm:text-3xl font-bold italic text-[#5C2EC0] underline"
+          className="text-2xl sm:text-3xl font-bold text-[#5C2EC0]"
         >
           Electra Shop
         </Link>
@@ -96,39 +96,39 @@ const Header = () => {
         <nav className="hidden md:flex gap-5 text-sm font-semibold">
           <Link
             to="/"
-            className="px-4 py-1 rounded hover:bg-[#5C2EC0] hover:text-white"
+            className="px-4 py-2 rounded-lg text-slate-700 hover:bg-[#5C2EC0] hover:text-white"
           >
             HOME
           </Link>
 
           <Link
             to="/products"
-            className="px-4 py-1 rounded hover:bg-[#5C2EC0] hover:text-white"
+            className="px-4 py-2 rounded-lg text-slate-700 hover:bg-[#5C2EC0] hover:text-white"
           >
             PRODUCTS
           </Link>
 
           <Link
             to="/about"
-            className="px-4 py-1 rounded hover:bg-[#5C2EC0] hover:text-white"
+            className="px-4 py-2 rounded-lg text-slate-700 hover:bg-[#5C2EC0] hover:text-white"
           >
             ABOUT
           </Link>
 
           <Link
             to="/contact"
-            className="px-4 py-1 rounded hover:bg-[#5C2EC0] hover:text-white"
+            className="px-4 py-2 rounded-lg text-slate-700 hover:bg-[#5C2EC0] hover:text-white"
           >
             CONTACT
           </Link>
         </nav>
 
         {/* Right Icons */}
-        <div className="flex items-center gap-4 text-xl relative">
+        <div className="flex items-center gap-3 text-xl relative text-slate-700">
           {/* Search */}
           <div className="relative">
             <FaSearch
-              className="cursor-pointer"
+              className="cursor-pointer hover:text-[#5C2EC0] transition"
               onClick={() => setShowSearch(!showSearch)}
             />
 
@@ -150,12 +150,12 @@ const Header = () => {
                 <input
                   type="text"
                   placeholder="Search..."
-                  className="border px-2 py-1 text-sm rounded-l"
+                  className="border px-3 py-2 text-sm rounded-l-lg outline-none focus:border-[#5C2EC0]"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
 
-                <button className="bg-[#5C2EC0] text-white px-3 rounded-r">
+                <button className="bg-[#5C2EC0] text-white px-3 rounded-r-lg">
                   <FaSearch className="text-sm" />
                 </button>
               </form>
@@ -168,7 +168,7 @@ const Header = () => {
               className="flex items-center gap-2 cursor-pointer"
               onClick={handleUserClick}
             >
-              <FaUser />
+              <FaUser className="hover:text-[#5C2EC0] transition" />
 
               {user && (
                 <span className="text-sm font-semibold hidden sm:block">
@@ -178,7 +178,7 @@ const Header = () => {
             </div>
 
             {showUserMenu && user && (
-              <div className="absolute right-0 top-10 w-52 bg-white shadow-xl rounded-xl p-3">
+              <div className="absolute right-0 top-10 w-52 bg-white shadow-xl rounded-lg p-3 border border-slate-200">
                 <div className="pb-2 border-b font-semibold text-sm">
                   {user.name}
                 </div>
@@ -212,7 +212,7 @@ const Header = () => {
             className="relative cursor-pointer"
             onClick={() => navigate("/wishlist")}
           >
-            <FaHeart />
+            <FaHeart className="hover:text-[#5C2EC0] transition" />
 
             {wishlistTotalItems > 0 && (
               <span className="absolute -top-2 -right-2 bg-purple-600 text-white text-xs px-1 rounded-full">
@@ -226,7 +226,7 @@ const Header = () => {
             className="relative cursor-pointer"
             onClick={() => navigate("/shopping-cart")}
           >
-            <FaShoppingCart />
+            <FaShoppingCart className="hover:text-[#5C2EC0] transition" />
 
             {cartTotalItems > 0 && (
               <span className="absolute -top-2 -right-2 bg-purple-600 text-white text-xs px-1 rounded-full">
@@ -240,7 +240,7 @@ const Header = () => {
       {/* Mobile Sidebar */}
       {menuOpen && (
         <div className="fixed inset-0 bg-black/40 z-50 md:hidden">
-          <div className="w-64 bg-white h-screen absolute right-0 top-0 p-5">
+          <div className="w-64 bg-white h-screen absolute right-0 top-0 p-5 shadow-xl border-l border-slate-200">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold text-[#5C2EC0]">Menu</h2>
 
@@ -290,3 +290,4 @@ const Header = () => {
 };
 
 export default Header;
+

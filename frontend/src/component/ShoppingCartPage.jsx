@@ -65,7 +65,7 @@ const ShoppingCartPage = () => {
       <div className="min-h-screen bg-gray-50 py-20">
         <div className="max-w-4xl mx-auto px-4">
           <div className="text-center py-16">
-            <div className="bg-white rounded-full w-32 h-32 flex items-center justify-center mx-auto mb-6 shadow-lg">
+            <div className="bg-white rounded-full w-32 h-32 flex items-center justify-center mx-auto mb-6 shadow-lg border border-slate-200">
               <FaShoppingCart className="text-6xl text-gray-300" />
             </div>
             <h2 className="text-3xl font-bold text-gray-800 mb-4">Your Shopping Cart is Empty</h2>
@@ -76,12 +76,12 @@ const ShoppingCartPage = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button 
                 onClick={() => window.history.back()}
-                className="bg-[#5C2EC0] text-white px-8 py-3 rounded-lg hover:bg-[#4a25a3] transition duration-300 flex items-center justify-center gap-2 font-semibold"
+                className="shop-button-primary px-8 py-3 rounded-lg transition duration-300 flex items-center justify-center gap-2 font-semibold"
               >
                 <FaArrowLeft />
                 Continue Shopping
               </button>
-              <button className="border border-[#5C2EC0] text-[#5C2EC0] px-8 py-3 rounded-lg hover:bg-[#5C2EC0] hover:text-white transition duration-300 font-semibold">
+              <button className="shop-button-secondary px-8 py-3 rounded-lg transition duration-300 font-semibold">
                 Browse Categories
               </button>
             </div>
@@ -112,7 +112,7 @@ const ShoppingCartPage = () => {
             </button>
             <button 
               onClick={() => window.history.back()}
-              className="flex items-center gap-2 px-4 py-2 border border-[#5C2EC0] text-[#5C2EC0] rounded-lg hover:bg-[#5C2EC0] hover:text-white transition duration-300"
+              className="shop-button-secondary flex items-center gap-2 px-4 py-2 rounded-lg transition duration-300"
             >
               <FaArrowLeft />
               Continue Shopping
@@ -124,7 +124,7 @@ const ShoppingCartPage = () => {
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4">
             {cartItems.map((item) => (
-              <div key={item.id} className="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition duration-300">
+              <div key={item.id} className="shop-card shop-card-hover p-6 transition duration-300">
                 <div className="flex flex-col sm:flex-row gap-6">
                   {/* Product Image */}
                   <div className="flex-shrink-0">
@@ -152,7 +152,7 @@ const ShoppingCartPage = () => {
                         
                         {/* Price */}
                         <div className="flex items-center gap-3 mb-4">
-                          <span className="text-2xl font-bold text-[#5C2EC0]">{formatPrice(item.price)}</span>
+                          <span className="shop-price text-2xl">{formatPrice(item.price)}</span>
                           <span className="text-sm text-gray-400 line-through">
                             {formatPrice(parsePrice(item.price) * 1.16)}
                           </span>
@@ -231,7 +231,7 @@ const ShoppingCartPage = () => {
 
           {/* Order Summary */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-sm p-6 sticky top-24">
+            <div className="shop-card p-6 sticky top-24">
               <h2 className="text-xl font-bold text-gray-800 mb-6">Order Summary</h2>
               
               {/* Summary Details */}
@@ -260,7 +260,7 @@ const ShoppingCartPage = () => {
                 
                 <div className="flex justify-between text-xl font-bold">
                   <span>Total</span>
-                  <span className="text-[#5C2EC0]">{formatPrice(totalAmount * 1.08)}</span>
+                  <span className="shop-price">{formatPrice(totalAmount * 1.08)}</span>
                 </div>
                 
                 <p className="text-sm text-green-600 text-center font-semibold">
@@ -272,7 +272,7 @@ const ShoppingCartPage = () => {
               <div className="space-y-3 mb-6">
                 <button 
                   onClick={() => navigate('/checkout')}
-                  className="w-full bg-[#5C2EC0] text-white py-4 rounded-lg hover:bg-[#4a25a3] transition duration-300 font-semibold text-lg"
+                  className="shop-button-primary w-full py-4 rounded-lg transition duration-300 font-semibold text-lg"
                 >
                   Proceed to Checkout
                 </button>
@@ -323,7 +323,7 @@ const ShoppingCartPage = () => {
         {/* Recommended Products */}
         <div className="mt-16">
           <h2 className="text-2xl font-bold text-gray-800 mb-6">Recommended for you</h2>
-          <div className="bg-white rounded-lg shadow-sm p-6">
+          <div className="shop-card p-6">
             <p className="text-gray-600 text-center">
               Based on your cart items, we recommend these products to complete your purchase.
             </p>

@@ -1,0 +1,7 @@
+{
+  "name": "mobail-shop-netlify",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-netlify.cjs"
+  }
+}

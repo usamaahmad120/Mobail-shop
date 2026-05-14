@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
 
@@ -25,6 +25,16 @@ import "react-toastify/dist/ReactToastify.css";
 
 function AppLayout() {
   const location = useLocation();
+
+  useEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [location.pathname, location.search]);
 
   // Hide header/footer on login & register pages
   const hideHeaderFooter = location.pathname === "/login" || location.pathname === "/register";

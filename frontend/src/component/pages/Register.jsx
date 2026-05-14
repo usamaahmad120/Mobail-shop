@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { loadCartFromStorage } from "../../store/cartSlice";
+import { loadWishlistFromStorage } from "../../store/wishlistSlice";
 
 function Register() {
   const [name, setName] = useState("");
@@ -15,6 +18,7 @@ function Register() {
   const [confirmError, setConfirmError] = useState("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleNameChange = (e) => {
     const val = e.target.value;
@@ -105,6 +109,8 @@ function Register() {
       if (res.ok) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
+        dispatch(loadCartFromStorage());
+        dispatch(loadWishlistFromStorage());
         alert(`Welcome ${data.user.name}`);
         navigate("/");
       } else {

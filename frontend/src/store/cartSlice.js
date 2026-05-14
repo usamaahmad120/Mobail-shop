@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { parsePrice } from '../utils/currency.js';
+import { getScopedStorageKey } from '../utils/storageScope.js';
 
 // Helper function to load cart from localStorage
 const loadCartFromStorageHelper = () => {
   try {
-    const serializedCart = localStorage.getItem('electraShopCart');
+    const serializedCart = localStorage.getItem(getScopedStorageKey('electraShopCart'));
     if (serializedCart === null) {
       return {
         items: [],
@@ -41,7 +42,7 @@ const saveCartToStorage = (cartState) => {
       totalAmount: cartState.totalAmount,
       selectedProductId: cartState.selectedProductId,
     });
-    localStorage.setItem('electraShopCart', serializedCart);
+    localStorage.setItem(getScopedStorageKey('electraShopCart'), serializedCart);
   } catch (err) {
     console.error('Error saving cart to localStorage:', err);
   }

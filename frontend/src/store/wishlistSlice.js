@@ -1,9 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getScopedStorageKey } from '../utils/storageScope.js';
+
+const isSameProduct = (leftId, rightId) => String(leftId) === String(rightId);
 
 // Helper function to load wishlist from localStorage
 const loadWishlistFromStorageHelper = () => {
   try {
-    const serializedWishlist = localStorage.getItem('electraShopWishlist');
+    const serializedWishlist = localStorage.getItem(getScopedStorageKey('electraShopWishlist'));
     if (serializedWishlist === null) {
       return {
         items: [],
@@ -28,7 +31,7 @@ const saveWishlistToStorage = (wishlistState) => {
       items: wishlistState.items,
       totalItems: wishlistState.totalItems,
     });
-    localStorage.setItem('electraShopWishlist', serializedWishlist);
+    localStorage.setItem(getScopedStorageKey('electraShopWishlist'), serializedWishlist);
   } catch (err) {
     console.error('Error saving wishlist to localStorage:', err);
   }
@@ -42,7 +45,7 @@ const wishlistSlice = createSlice({
   reducers: {
     addToWishlist: (state, action) => {
       const product = action.payload;
-      const existingItem = state.items.find(item => item.id === product.id);
+      const existingItem = state.items.find(item => isSameProduct(item.id, product.id));
       
       if (!existingItem) {
         // Add new item to wishlist
@@ -64,7 +67,7 @@ const wishlistSlice = createSlice({
     
     removeFromWishlist: (state, action) => {
       const productId = action.payload;
-      state.items = state.items.filter(item => item.id !== productId);
+      state.items = state.items.filter(item => !isSameProduct(item.id, productId));
       state.totalItems = state.items.length;
       
       // Save to localStorage
@@ -100,4 +103,4 @@ export default wishlistSlice.reducer;
 export const selectWishlistItems = (state) => state.wishlist.items;
 export const selectWishlistTotalItems = (state) => state.wishlist.totalItems;
 export const selectIsInWishlist = (state, productId) => 
-  state.wishlist.items.some(item => item.id === productId);
+  state.wishlist.items.some(item => isSameProduct(item.id, productId));

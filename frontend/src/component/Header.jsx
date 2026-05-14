@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import {
   FaSearch,
@@ -11,15 +11,18 @@ import {
 } from "react-icons/fa";
 
 import {
+  loadCartFromStorage,
   selectCartTotalItems,
 } from "../store/cartSlice";
 
 import {
+  loadWishlistFromStorage,
   selectWishlistTotalItems,
 } from "../store/wishlistSlice";
 
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const cartTotalItems = useSelector(selectCartTotalItems);
 
@@ -57,6 +60,8 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    dispatch(loadCartFromStorage());
+    dispatch(loadWishlistFromStorage());
     setShowUserMenu(false);
     navigate("/login");
   };

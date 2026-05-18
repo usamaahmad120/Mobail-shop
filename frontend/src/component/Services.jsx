@@ -14,16 +14,16 @@ function Services() {
     }, []);
   return (
     <>
-  <div className="w-full px-6 py-10 bg-gray-100 rounded-lg flex justify-center">
+  <div className="w-full responsive-section py-10 bg-gray-100 rounded-lg flex justify-center">
   {/* Section Container with white background and inner padding */}
-  <div className="w-full max-w-[1200px]  bg-white shadow-lg px-6  rounded-lg mb-6">
+  <div className="w-full max-w-[1200px] bg-white shadow-lg px-4 sm:px-6 rounded-lg mb-6">
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 ">
 
       {/* Card 1 */}
       <div
         data-aos="zoom-in"
         data-aos-delay="100"
-        className="flex items-center gap-4 p-4 w-full sm:w-[300px] h-[130px]"
+        className="flex items-center gap-4 p-4 w-full min-h-[120px]"
       >
         <img src={shipping} alt="Shipping" className="w-14 h-14" />
         <div className="flex flex-col justify-center">
@@ -36,7 +36,7 @@ function Services() {
       <div
         data-aos="zoom-in"
         data-aos-delay="200"
-        className="flex items-center gap-4 p-4 w-full sm:w-[300px] h-[130px]"
+        className="flex items-center gap-4 p-4 w-full min-h-[120px]"
       >
         <img src={payment} alt="Payment" className="w-12 h-12" />
         <div className="flex flex-col justify-center">
@@ -49,7 +49,7 @@ function Services() {
       <div
         data-aos="zoom-in"
         data-aos-delay="300"
-        className="flex items-center gap-4 p-4 w-full sm:w-[300px] h-[130px]"
+        className="flex items-center gap-4 p-4 w-full min-h-[120px]"
       >
         <img src={refund} alt="Refund" className="w-12 h-12" />
         <div className="flex flex-col justify-center">
@@ -62,7 +62,7 @@ function Services() {
       <div
         data-aos="zoom-in"
         data-aos-delay="400"
-        className="flex items-center gap-4 p-4 w-full sm:w-[300px] h-[130px]"
+        className="flex items-center gap-4 p-4 w-full min-h-[120px]"
       >
         <img src={gift} alt="Support" className="w-12 h-12" />
         <div className="flex flex-col justify-center">

@@ -5,19 +5,19 @@ const About = () => {
   return (
     <main className="min-h-screen bg-gray-50 pt-28 pb-16">
       <section className="max-w-7xl mx-auto px-4">
-        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
+        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-8 lg:gap-10 items-center">
           <div>
             <p className="shop-eyebrow mb-3">About Electra Shop</p>
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-5">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-5">
               Smart shopping for phones, gadgets, and everyday tech.
             </h1>
-            <p className="text-gray-600 text-lg leading-8">
+            <p className="text-gray-600 text-base sm:text-lg leading-8">
               Electra Shop brings reliable laptops, gaming laptops, smartphones, tablets, and essential electronics into one focused store. We focus on clean product browsing, clear prices, fast ordering, and helpful service after checkout.
             </p>
           </div>
 
           <div className="shop-card p-6">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="border rounded-lg p-5 bg-slate-50">
                 <FaBolt className="text-[#5C2EC0] text-3xl mb-4" />
                 <h2 className="font-bold text-gray-900">Fresh Stock</h2>

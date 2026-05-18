@@ -51,7 +51,7 @@ function Category() {
   return (
     <div
       id="category"
-      className="w-full bg-gray-100 lg:px-20 px-5 pt-[130px] pb-[80px] flex lg:flex-row flex-col items-center justify-between gap-20"
+      className="w-full bg-gray-100 responsive-section pt-[90px] sm:pt-[110px] lg:pt-[130px] pb-[60px] sm:pb-[80px] flex lg:flex-row flex-col items-center justify-between gap-10 lg:gap-20"
     >
       {/* Left Heading Section */}
       <div
@@ -67,14 +67,14 @@ function Category() {
         </h1>
         <Link
           to="/products"
-          className="bg-[#502EC3] text-white font-semibold px-8 py-3 rounded-lg hover:bg-yellow-400 hover:text-black transition duration-300 mt-[60px] inline-block"
+          className="bg-[#502EC3] text-white font-semibold px-8 py-3 rounded-lg hover:bg-yellow-400 hover:text-black transition duration-300 mt-6 lg:mt-[60px] inline-block"
         >
           VIEW ALL
         </Link>
       </div>
 
       {/* Right Side Categories */}
-      <div className="lg:w-[85%] w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10 justify-center items-center">
+      <div className="lg:w-[85%] w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-8 lg:gap-10 justify-center items-start">
         {categories.map((category, index) => (
           <div
             key={category.name}
@@ -85,7 +85,7 @@ function Category() {
             <Link
               to="/products"
               state={{ category: category.name }}
-              className="w-40 h-40 rounded-full overflow-hidden hover:scale-105 transition duration-300"
+              className="w-28 h-28 sm:w-36 sm:h-36 lg:w-40 lg:h-40 rounded-full overflow-hidden hover:scale-105 transition duration-300"
             >
     <img
   src={
@@ -101,7 +101,7 @@ function Category() {
             <Link
               to="/products"
               state={{ category: category.name }}
-              className="text-lg font-semibold text-center py-2 hover:text-[#502EC3] cursor-pointer"
+              className="text-sm sm:text-lg font-semibold text-center py-2 hover:text-[#502EC3] cursor-pointer"
             >
               {getCategoryDisplayName(category.name)}
             </Link>

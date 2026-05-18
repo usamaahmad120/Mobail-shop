@@ -78,10 +78,10 @@ const Review = () => {
   };
 
   return (
-    <div  className="w-full py-20 px-4 lg:px-20 bg-gray-100">
+    <div  className="w-full py-16 sm:py-20 responsive-section bg-gray-100">
       <div className="text-center mb-12">
         <h2 data-aos="zoom-in" data-aos-delay="100" className="text-xl font-semibold text-[#502EC3]">1300+ Customer reviews</h2>
-        <h1 data-aos="zoom-in" data-aos-delay="200"className="text-xl font-semibold text-gray-800 mt-4 text-[42px]">Our customer love</h1>
+        <h1 data-aos="zoom-in" data-aos-delay="200"className="responsive-heading font-semibold text-gray-800 mt-4">Our customer love</h1>
       </div>
 
       <Slider {...settings}>

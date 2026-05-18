@@ -15,7 +15,7 @@ function Insta() {
     }, []);
 
   return (
-     <div className="w-full lg:px-20 px-5 py-[80px] flex flex-col justify-center items-center gap-4 bg-white"
+     <div className="w-full responsive-section py-[60px] sm:py-[80px] flex flex-col justify-center items-center gap-4 bg-white"
     >
       <h1
         data-aos="zoom-in"
@@ -27,14 +27,14 @@ function Insta() {
       <h1
         data-aos="zoom-in"
         data-aos-delay="300"
-        className="text-[42px] leading-[50px] font-semibold text-black"
+        className="responsive-heading font-semibold text-black text-center"
       >
         Follow on instagram
       </h1>
       <div
         data-aos="fade-up"
         data-aos-delay="300"
-        className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10 mt-10">
+        className="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 lg:gap-10 mt-10">
         <img src={insta1} alt="Instagram 1" className="w-full h-auto rounded-lg" />
         <img src={insta2} alt="Instagram 2" className="w-full h-auto rounded-lg" />
         <img src={insta3} alt="Instagram 3" className="w-full h-auto rounded-lg" />

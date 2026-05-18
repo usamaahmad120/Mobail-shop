@@ -113,17 +113,17 @@ const ShoppingCartPage = () => {
               {totalItems} item{totalItems !== 1 ? 's' : ''} in your cart
             </p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
             <button
               onClick={handleClearCart}
-              className="text-red-500 hover:text-red-700 flex items-center gap-2 px-4 py-2 border border-red-300 rounded-lg hover:bg-red-50 transition duration-300"
+              className="text-red-500 hover:text-red-700 flex items-center justify-center gap-2 px-4 py-2 border border-red-300 rounded-lg hover:bg-red-50 transition duration-300"
             >
               <FaTrash />
               Clear Cart
             </button>
             <button 
               onClick={() => window.history.back()}
-              className="shop-button-secondary flex items-center gap-2 px-4 py-2 rounded-lg transition duration-300"
+              className="shop-button-secondary flex items-center justify-center gap-2 px-4 py-2 rounded-lg transition duration-300"
             >
               <FaArrowLeft />
               Continue Shopping
@@ -135,7 +135,7 @@ const ShoppingCartPage = () => {
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4">
             {cartItems.map((item) => (
-              <div key={item.id} className="shop-card shop-card-hover p-6 transition duration-300">
+              <div key={item.id} className="shop-card shop-card-hover p-4 sm:p-6 transition duration-300">
                 {(() => {
                   const rating = getProductRating(item);
                   const stockLimit = getProductStock(item);
@@ -149,19 +149,19 @@ const ShoppingCartPage = () => {
                     <img 
                       src={item.image} 
                       alt={item.name} 
-                      className="w-32 h-32 object-cover rounded-lg"
+                      className="w-full sm:w-32 h-44 sm:h-32 object-cover rounded-lg"
                     />
                   </div>
 
                   {/* Product Details */}
-                  <div className="flex-1">
+                  <div className="flex-1 min-w-0">
                     <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
                       <div className="flex-1">
                         <h3 className="text-xl font-semibold text-gray-800 mb-2">{item.name}</h3>
                         <p className="text-sm text-gray-500 mb-2">{item.category}</p>
                         
                         {/* Rating */}
-                        <div className="flex items-center gap-2 mb-3">
+                        <div className="flex flex-wrap items-center gap-2 mb-3">
                           <div className="flex">
                             {renderStars(rating)}
                           </div>
@@ -169,7 +169,7 @@ const ShoppingCartPage = () => {
                         </div>
                         
                         {/* Price */}
-                        <div className="flex items-center gap-3 mb-4">
+                        <div className="flex flex-wrap items-center gap-3 mb-4">
                           <span className="shop-price text-2xl">{formatPrice(item.price)}</span>
                           <span className="text-sm text-gray-400 line-through">
                             {formatPrice(parsePrice(item.price) * 1.16)}
@@ -180,7 +180,7 @@ const ShoppingCartPage = () => {
                         </div>
 
                         {/* Stock Status */}
-                        <div className="flex items-center gap-4 text-sm mb-4">
+                        <div className="flex flex-wrap items-center gap-4 text-sm mb-4">
                           <span className={`${inStock ? "text-green-600" : "text-red-600"} flex items-center gap-1`}>
                             {getStockStatus(item, item.quantity)}
                           </span>
@@ -194,9 +194,9 @@ const ShoppingCartPage = () => {
                       </div>
 
                       {/* Quantity and Actions */}
-                      <div className="flex flex-col items-end gap-4">
+                      <div className="flex w-full sm:w-auto flex-col items-stretch sm:items-end gap-4">
                         {/* Quantity Controls */}
-                        <div className="flex items-center border border-gray-300 rounded-lg">
+                        <div className="flex items-center justify-center border border-gray-300 rounded-lg">
                           <button
                             onClick={() => handleDecreaseQty(item.id)}
                             className="p-3 hover:bg-gray-100 transition duration-200 rounded-l-lg"
@@ -217,7 +217,7 @@ const ShoppingCartPage = () => {
                         </div>
 
                         {/* Item Subtotal */}
-                        <div className="text-right">
+                        <div className="text-left sm:text-right">
                           <p className="text-sm text-gray-500">Subtotal</p>
                           <p className="text-2xl font-bold text-gray-800">
                             {formatPrice(calculateItemTotal(item.price, item.quantity))}
@@ -227,7 +227,7 @@ const ShoppingCartPage = () => {
                         {/* Remove Button */}
                         <button
                           onClick={() => handleRemoveFromCart(item.id)}
-                          className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition duration-200 flex items-center gap-2 text-sm"
+                          className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition duration-200 flex items-center justify-center gap-2 text-sm"
                         >
                           <FaTrash />
                           Remove
@@ -325,7 +325,7 @@ const ShoppingCartPage = () => {
               {/* Promo Code */}
               <div className="pt-6 border-t border-gray-200">
                 <h3 className="font-semibold mb-3">Have a promo code?</h3>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <input
                     type="text"
                     placeholder="Enter code"

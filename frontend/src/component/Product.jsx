@@ -97,7 +97,7 @@ const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, ha
 
       <img
         src={item.img || item.image}
-        className="w-full h-48 object-cover rounded-lg mb-4 mt-10 bg-slate-100"
+        className="w-full h-44 sm:h-48 object-cover rounded-lg mb-4 mt-10 bg-slate-100"
         alt={item.name}
       />
 
@@ -239,7 +239,7 @@ function Product() {
   return (
     <div
       id="product"
-      className="w-full lg:px-20 px-5 py-[80px] flex flex-col justify-center items-center gap-4 bg-gray-100"
+      className="w-full responsive-section py-[60px] sm:py-[80px] flex flex-col justify-center items-center gap-4 bg-gray-100"
     >
       <ToastContainer />
       <h1
@@ -252,7 +252,7 @@ function Product() {
       <h1
         data-aos="zoom-in"
         data-aos-delay="300"
-        className="text-[42px] leading-[50px] font-semibold text-slate-950"
+        className="responsive-heading font-semibold text-slate-950 text-center"
       >
         Trending Products
       </h1>
@@ -260,7 +260,7 @@ function Product() {
       <div
         data-aos="fade-up"
         data-aos-delay="300"
-        className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10 mt-10"
+        className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6 lg:gap-8 mt-10"
       >
         {trendingProducts.slice(0, 15).map((item) => (
           <ProductCard

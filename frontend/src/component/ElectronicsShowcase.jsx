@@ -86,7 +86,7 @@ const ProductCard = ({
 
       <img
         src={item.img || item.image}
-        className="w-full h-48 object-cover rounded-lg mb-4 mt-10 bg-slate-100"
+        className="w-full h-44 sm:h-48 object-cover rounded-lg mb-4 mt-10 bg-slate-100"
         alt={item.name}
       />
 
@@ -216,7 +216,7 @@ function ElectronicsShowcase() {
 
   if (loading) {
     return (
-      <div className="w-full lg:px-20 px-5 py-[80px] flex justify-center items-center bg-gray-100">
+      <div className="w-full responsive-section py-[60px] sm:py-[80px] flex justify-center items-center bg-gray-100">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#502EC3]" />
       </div>
     );
@@ -229,12 +229,12 @@ function ElectronicsShowcase() {
   return (
     <div
       id="electronics-showcase"
-      className="w-full lg:px-20 px-5 py-[80px] flex flex-col justify-center items-start gap-4 bg-gray-100"
+      className="w-full responsive-section py-[60px] sm:py-[80px] flex flex-col justify-center items-start gap-4 bg-gray-100"
     >
       <h1
         data-aos="zoom-in"
         data-aos-delay="300"
-        className="text-[42px] leading-[50px] font-semibold text-slate-950"
+        className="responsive-heading font-semibold text-slate-950"
       >
         Electronics Showcase
       </h1>
@@ -242,7 +242,7 @@ function ElectronicsShowcase() {
       <div
         data-aos="fade-up"
         data-aos-delay="300"
-        className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-10"
+        className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8 mt-10"
       >
         {showcaseProducts.map((item) => (
           <ProductCard

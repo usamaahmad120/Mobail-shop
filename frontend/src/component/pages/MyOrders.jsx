@@ -117,7 +117,7 @@ function MyOrders() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-100 pt-32 px-4">
-        <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-10 text-center">
+        <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-6 sm:p-10 text-center">
           <h2 className="text-2xl font-bold text-[#502EC3]">
             Loading Orders...
           </h2>
@@ -129,7 +129,7 @@ function MyOrders() {
   if (!user) {
     return (
       <div className="min-h-screen bg-gray-100 pt-32 px-4">
-        <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-10 text-center">
+        <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-6 sm:p-10 text-center">
           <FaBoxOpen className="text-6xl text-gray-400 mx-auto mb-5" />
 
           <h2 className="text-3xl font-bold mb-3">Please Login First</h2>
@@ -145,7 +145,7 @@ function MyOrders() {
   if (orders.length === 0) {
     return (
       <div className="min-h-screen bg-gray-100 pt-32 px-4">
-        <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-10 text-center">
+        <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-6 sm:p-10 text-center">
           <FaBoxOpen className="text-6xl text-gray-400 mx-auto mb-5" />
 
           <h2 className="text-3xl font-bold mb-3">No Orders Yet</h2>
@@ -160,8 +160,8 @@ function MyOrders() {
 
   return (
     <div className="min-h-screen bg-gray-100 pt-32 px-4 pb-10">
-      <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl p-8">
-        <h2 className="text-3xl font-bold text-[#502EC3] mb-6">
+      <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl p-4 sm:p-8">
+        <h2 className="text-2xl sm:text-3xl font-bold text-[#502EC3] mb-6">
           My Orders
         </h2>
 
@@ -171,7 +171,7 @@ function MyOrders() {
               key={order.id}
               className="border rounded-xl p-5 bg-gray-50 hover:shadow-md transition"
             >
-              <div className="flex justify-between flex-wrap gap-4 mb-4">
+              <div className="flex flex-col sm:flex-row sm:justify-between gap-4 mb-4">
                 <div>
                   <h3 className="font-bold text-lg">Order #{order.id}</h3>
 
@@ -180,12 +180,12 @@ function MyOrders() {
                   </p>
                 </div>
 
-                <div className="text-right">
+                <div className="sm:text-right">
                   <p className="font-bold text-[#502EC3] text-lg">
                     {formatPrice(order.total)}
                   </p>
 
-                  <div className="flex items-center gap-2 justify-end">
+                  <div className="flex items-center gap-2 sm:justify-end">
                     {getStatusIcon(order.order_status)}
                     <span>{order.order_status}</span>
                   </div>

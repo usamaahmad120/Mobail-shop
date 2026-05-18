@@ -217,7 +217,7 @@ useEffect(() => {
     <div className="min-h-screen bg-gray-50 py-20">
       <ToastContainer />
       <div className="max-w-6xl mx-auto px-4">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-800">
               {selectedProductId ? "Product Details" : "All Products"}
@@ -228,7 +228,7 @@ useEffect(() => {
           </div>
           <button 
             onClick={() => window.history.back()}
-            className="shop-button-secondary flex items-center gap-2 px-4 py-2 rounded-lg transition duration-300"
+            className="shop-button-secondary flex items-center justify-center gap-2 px-4 py-2 rounded-lg transition duration-300 w-full sm:w-auto"
           >
             <FaArrowLeft />
             Back

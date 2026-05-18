@@ -75,17 +75,17 @@ const handleLogin = async () => {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col justify-center items-center bg-gray-50">
+    <div className="relative min-h-screen flex flex-col justify-center items-center bg-gray-50 px-4 py-24">
       {/* Back Button */}
       <button
         onClick={goToHome}
-        className="absolute top-5 left-5 shop-button-secondary px-4 py-2 rounded-lg transition"
+        className="absolute top-5 left-4 sm:left-5 shop-button-secondary px-4 py-2 rounded-lg transition"
       >
         ← Back to Home
       </button>
 
       {/* Login Box */}
-      <div className="shop-card p-7 w-[320px] h-auto border-none">
+      <div className="shop-card p-5 sm:p-7 w-full max-w-[360px] h-auto border-none">
         <h2 className="text-2xl font-bold text-center text-[#502EC3] mb-6">
           Welcome Back!
         </h2>

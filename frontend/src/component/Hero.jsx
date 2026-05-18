@@ -37,34 +37,34 @@ function Hero() {
         {slides.map((slide, index) => (
           <div key={index}>
             <div
-              className="w-full h-[600px] bg-cover bg-center flex items-center justify-start px-10"
+              className="w-full min-h-[420px] sm:min-h-[520px] lg:min-h-[600px] bg-cover bg-center flex items-center justify-start px-4 sm:px-8 lg:px-10 py-14"
               style={{ backgroundImage: `url(${slide.image})` }}
             >
-              <div className="max-w-lg" data-aos="fade-right">
-                <h4 className="inline-block text-yellow-400 text-xl font-semibold border border-yellow-400 px-4 py-2 rounded-md mb-2">
+              <div className="max-w-[42rem]" data-aos="fade-right">
+                <h4 className="inline-block text-yellow-400 text-sm sm:text-lg lg:text-xl font-semibold border border-yellow-400 px-3 sm:px-4 py-2 rounded-md mb-2">
                   Get up to discount 80% off
                 </h4>
 
-                <h1 data-aos = "zoom-in" data-aos-delay ="100" className ="mb-8 mt-9 ">
+                <h1 data-aos = "zoom-in" data-aos-delay ="100" className ="mb-6 sm:mb-8 mt-7 sm:mt-9">
 
-                  <span className="lg:text-[120px] text-[60px] uppercase font-bold lg:leading-[120px] leading-[70px] text-white">
+                  <span className="text-[44px] sm:text-[72px] lg:text-[120px] uppercase font-bold leading-[48px] sm:leading-[78px] lg:leading-[120px] text-white break-words">
                      {slide.title[0]}
                   </span>
                   <br />
                  
-                  <span className="lg:text-[120px] text-[60px] uppercase font-bold lg:leading-[120px] leading-[70px]tracking-widest  text-white">
+                  <span className="text-[44px] sm:text-[72px] lg:text-[120px] uppercase font-bold leading-[48px] sm:leading-[78px] lg:leading-[120px] text-white break-words">
                      {slide.title[1]}
                   </span>
                 </h1>
 
-                <p className="text-lg text-white mb-6">
+                <p className="text-base sm:text-lg text-white mb-6">
                   <span className="text-yellow-400 font-bold">
                     100% Trusted
                   </span>{" "}
                   Electronic Gadgets
                 </p>
 
-                <button className="bg-yellow-400 text-black font-semibold px-9 py-3 rounded-md hover:bg-yellow-300 transition duration-300 mt-6 0-3">
+                <button className="bg-yellow-400 text-black font-semibold px-7 sm:px-9 py-3 rounded-md hover:bg-yellow-300 transition duration-300 mt-4 sm:mt-6">
                   Online Collection
                 </button>
               </div>

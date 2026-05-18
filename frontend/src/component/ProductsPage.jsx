@@ -290,12 +290,12 @@ console.log("📂 Available categories:", categories);
 
     if (isListView) {
       return (
-        <div className="shop-card shop-card-hover p-6 flex gap-6">
+        <div className="shop-card shop-card-hover p-4 sm:p-6 flex flex-col sm:flex-row gap-5 sm:gap-6">
           <div className="relative flex-shrink-0">
             <img
               src={product.img || product.image}
               alt={product.name}
-              className="w-32 h-32 object-cover rounded-lg"
+              className="w-full sm:w-32 h-44 sm:h-32 object-cover rounded-lg"
             />
             {cartQuantity > 0 && (
               <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
@@ -303,9 +303,9 @@ console.log("📂 Available categories:", categories);
               </div>
             )}
           </div>
-          <div className="flex-1">
-            <div className="flex justify-between items-start mb-2">
-              <div>
+          <div className="flex-1 min-w-0">
+            <div className="flex flex-col sm:flex-row justify-between items-start gap-3 mb-2">
+              <div className="min-w-0">
                 <p className="text-sm text-gray-500 mb-1">{product.category}</p>
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">
                   {product.name}
@@ -337,14 +337,14 @@ console.log("📂 Available categories:", categories);
                 </button>
               </div>
             </div>
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex flex-wrap items-center gap-2 mb-3">
               <div className="flex">{renderStars(rating)}</div>
               <span className="text-sm text-gray-500">
                 {formatRating(product)} · {formatReviewCount(product)}
               </span>
             </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="flex flex-wrap items-center gap-3">
                 <span className="shop-price text-2xl">
                   {formatPrice(product.price)}
                 </span>
@@ -357,7 +357,7 @@ console.log("📂 Available categories:", categories);
               <button
                 onClick={() => handleAddToCart(product)}
                 disabled={isAddingToCart || getProductStock(product) <= 0}
-                className={`px-6 py-2 rounded-lg font-semibold transition duration-300 flex items-center gap-2 ${
+                className={`w-full md:w-auto px-6 py-2 rounded-lg font-semibold transition duration-300 flex items-center justify-center gap-2 ${
                   isAddingToCart
                     ? "bg-green-500 text-white"
                     : "shop-button-primary"
@@ -398,13 +398,13 @@ console.log("📂 Available categories:", categories);
           <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2 group-hover:text-[#5C2EC0] transition">
             {product.name}
           </h3>
-          <div className="flex items-center gap-2 mb-3">
+          <div className="flex flex-wrap items-center gap-2 mb-3">
             <div className="flex">{renderStars(rating)}</div>
             <span className="text-sm text-gray-500">
               {formatRating(product)} · {formatReviewCount(product)}
             </span>
           </div>
-          <div className="flex items-center gap-2 mb-4">
+          <div className="flex flex-wrap items-center gap-2 mb-4">
             <span className="shop-price text-xl">{formatPrice(product.price)}</span>
             {product.discount_price && (
               <span className="text-sm text-gray-400 line-through">
@@ -442,7 +442,7 @@ console.log("📂 Available categories:", categories);
               )}
             </button>
           </div>
-          <div className="mt-3 flex items-center justify-between text-sm">
+          <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-sm">
             <span className={inStock ? "text-green-600" : "text-red-600"}>
               {inStock ? "✓" : "!"} {getStockStatus(product, cartQuantity)}
             </span>
@@ -458,10 +458,10 @@ console.log("📂 Available categories:", categories);
   return (
     <div className="min-h-screen bg-gray-50 py-20">
       <ToastContainer />
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="text-center mb-12" data-aos="fade-up">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">Our Products</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">Our Products</h1>
           <p className="text-gray-600 max-w-2xl mx-auto">
             Discover our extensive collection of premium electronics and accessories. Find everything you need.
           </p>
@@ -476,7 +476,7 @@ console.log("📂 Available categories:", categories);
 
         {/* Filters */}
         {!loading && (
-          <div className="shop-card p-6 mb-8" data-aos="fade-up" data-aos-delay="100">
+          <div className="shop-card p-4 sm:p-6 mb-8" data-aos="fade-up" data-aos-delay="100">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
               <div className="relative">
                 <input

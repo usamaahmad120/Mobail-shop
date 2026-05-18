@@ -78,11 +78,11 @@ const Header = () => {
 
   return (
     <header className="fixed top-0 left-0 w-full bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm z-50">
-      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-3">
         {/* Logo */}
         <Link
           to="/"
-          className="text-2xl sm:text-3xl font-bold text-[#5C2EC0]"
+          className="text-xl sm:text-3xl font-bold text-[#5C2EC0] shrink-0"
         >
           Electra Shop
         </Link>
@@ -145,12 +145,12 @@ const Header = () => {
                     setSearchTerm("");
                   }
                 }}
-                className="absolute top-8 right-0 flex"
+                className="absolute top-8 right-0 flex w-[min(82vw,320px)]"
               >
                 <input
                   type="text"
                   placeholder="Search..."
-                  className="border px-3 py-2 text-sm rounded-l-lg outline-none focus:border-[#5C2EC0]"
+                  className="border px-3 py-2 text-sm rounded-l-lg outline-none focus:border-[#5C2EC0] min-w-0 flex-1"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -240,7 +240,7 @@ const Header = () => {
       {/* Mobile Sidebar */}
       {menuOpen && (
         <div className="fixed inset-0 bg-black/40 z-50 md:hidden">
-          <div className="w-64 bg-white h-screen absolute right-0 top-0 p-5 shadow-xl border-l border-slate-200">
+          <div className="w-[min(18rem,85vw)] bg-white h-screen absolute right-0 top-0 p-5 shadow-xl border-l border-slate-200">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold text-[#5C2EC0]">Menu</h2>
 

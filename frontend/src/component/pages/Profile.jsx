@@ -10,7 +10,7 @@ function Profile() {
   const user = JSON.parse(localStorage.getItem("user"));
 
   return (
-    <div className="min-h-screen bg-gray-100 pt-32 px-4">
+    <div className="min-h-screen bg-gray-100 pt-32 px-4 pb-10">
       <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
         <div className="bg-[#502EC3] h-32 relative">
           <div className="absolute left-1/2 -bottom-14 -translate-x-1/2">
@@ -20,7 +20,7 @@ function Profile() {
           </div>
         </div>
 
-        <div className="pt-20 pb-10 px-8 text-center">
+        <div className="pt-20 pb-10 px-4 sm:px-8 text-center">
           <h2 className="text-3xl font-bold">
             {user?.name || "Guest User"}
           </h2>

@@ -10,11 +10,11 @@ function Banner2() {
       }, []);
 
   return (
-<div className="w-full px-5 lg:px-5 py-[80px]">
+<div className="w-full responsive-section py-[60px] sm:py-[80px]">
   <div
     data-aos="zoom-in"
     data-aos-delay="200"
-    className="w-full h-[350px] lg:h-[400px] rounded-[10px] p-2 flex justify-center items-center bg-white overflow-hidden"
+    className="w-full min-h-[220px] sm:min-h-[350px] lg:min-h-[400px] rounded-[10px] p-2 flex justify-center items-center bg-white overflow-hidden"
   >
     <img
       src={bannner3}

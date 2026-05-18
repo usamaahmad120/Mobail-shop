@@ -12,11 +12,11 @@ function Type() {
   }, []);
 
   return (
-    <div className="w-full  lg:px-20 px-5 py-[80px] grid grid-cols-1 lg:grid-cols-3  justify-center items-center gap-10">
+    <div className="w-full responsive-section py-[60px] sm:py-[80px] grid grid-cols-1 md:grid-cols-3 justify-center items-stretch gap-6 lg:gap-10">
       <div
         data-aos="zoom-in"
         data-aos-delay="100"
-        className="flex flex-col justify-center items-end gap-6 bg-cover bg-center p-10 rounded-lg"
+        className="min-h-[240px] flex flex-col justify-center items-end gap-6 bg-cover bg-center p-6 sm:p-8 lg:p-10 rounded-lg"
         style={{ backgroundImage: `url(${banner1})` }}
       >
         <h1 className="text-yellow-400 border rounded-lg px-6 py-2 text-lg">
@@ -33,7 +33,7 @@ function Type() {
       <div
         data-aos="zoom-in"
         data-aos-delay="100"
-        className="flex flex-col justify-center items-end gap-6 bg-cover bg-center p-10 rounded-lg"
+        className="min-h-[240px] flex flex-col justify-center items-end gap-6 bg-cover bg-center p-6 sm:p-8 lg:p-10 rounded-lg"
         style={{ backgroundImage: `url(${banner2})` }}
       >
         <h1 className="text-yellow-400 border rounded-lg px-6 py-2 text-lg">
@@ -51,7 +51,7 @@ function Type() {
       <div
         data-aos="zoom-in"
         data-aos-delay="100"
-        className="flex flex-col justify-center items-end gap-6 bg-cover bg-center p-10 rounded-lg"
+        className="min-h-[240px] flex flex-col justify-center items-end gap-6 bg-cover bg-center p-6 sm:p-8 lg:p-10 rounded-lg"
         style={{ backgroundImage: `url(${banner3})` }}
       >
         <h1 className="text-yellow-400 border rounded-lg px-6 py-2 text-lg">

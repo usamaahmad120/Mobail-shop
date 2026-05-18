@@ -61,7 +61,7 @@ const Contact = () => {
         <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-10">
           <div>
             <p className="shop-eyebrow mb-3">Contact Us</p>
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-5">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-5">
               Need help with an order or product?
             </h1>
             <p className="text-gray-600 text-lg leading-8">
@@ -84,7 +84,7 @@ const Contact = () => {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="shop-card p-6 md:p-8">
+          <form onSubmit={handleSubmit} className="shop-card p-5 sm:p-6 md:p-8">
             <div className="grid md:grid-cols-2 gap-5">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Name</label>

@@ -102,7 +102,7 @@ const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, ha
         {/* Product Image */}
         <img
           src={item.img || item.image}
-          className="w-full h-48 object-cover rounded-lg mb-3 mt-10 bg-slate-100"
+          className="w-full h-44 sm:h-48 object-cover rounded-lg mb-3 mt-10 bg-slate-100"
           alt={item.name}
         />
 
@@ -110,7 +110,7 @@ const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, ha
           {item.category}
         </h1>
 
-        <p className="text-base font-semibold text-slate-900 whitespace-nowrap overflow-hidden text-ellipsis">
+        <p className="text-base font-semibold text-slate-900 line-clamp-2 min-h-12">
           {item.name}
         </p>
 
@@ -260,11 +260,11 @@ function Latest() {
   }
 
   return (
-    <div id="latest" className="w-full lg:px-20 px-5 py-[80px] bg-gray-100">
+    <div id="latest" className="w-full responsive-section py-[60px] sm:py-[80px] bg-gray-100">
       <h1
         data-aos="zoom-in"
         data-aos-delay="300"
-        className="text-[42px] leading-[50px] font-semibold text-slate-950 text-start"
+        className="responsive-heading font-semibold text-slate-950 text-start"
       >
         Newest Products
       </h1>

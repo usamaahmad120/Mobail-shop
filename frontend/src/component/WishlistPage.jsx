@@ -89,11 +89,11 @@ const WishlistPage = () => {
     <div className="min-h-screen bg-gray-50 py-20">
       <ToastContainer />
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <h1 className="text-4xl font-bold text-slate-950">My Wishlist</h1>
           <button
             onClick={handleClearAll}
-            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition flex items-center gap-2"
+            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition flex items-center justify-center gap-2 w-full sm:w-auto"
           >
             <FaTrash /> Clear All
           </button>

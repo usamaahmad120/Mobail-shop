@@ -27,6 +27,8 @@ body,
 #root {
   font-family: "Inter", sans-serif;
   font-weight: 400;
+  min-width: 0;
+  overflow-x: hidden;
 }
 
 body {
@@ -226,4 +228,45 @@ input:focus,
 textarea:focus,
 select:focus {
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+.slick-slider,
+.slick-list,
+.slick-track {
+  min-width: 0;
+}
+
+.responsive-section {
+  padding-left: clamp(1rem, 4vw, 5rem);
+  padding-right: clamp(1rem, 4vw, 5rem);
+}
+
+.responsive-heading {
+  font-size: clamp(2rem, 5vw, 2.625rem);
+  line-height: 1.15;
+}
+
+@media (max-width: 640px) {
+  button:not(:disabled):hover,
+  .shop-card-hover:hover {
+    transform: none;
+  }
+
+  .Toastify__toast-container {
+    left: 0.75rem;
+    right: 0.75rem;
+    width: auto;
+  }
+
+  .shop-icon-button {
+    height: 2.25rem;
+    width: 2.25rem;
+  }
 }

@@ -13,276 +13,127 @@ import pay3 from "../assets/pay-3.jpg";
 import pay4 from "../assets/pay-4.jpg";
 import { FaArrowUp } from "react-icons/fa";
 
+const brandLogos = [
+  [client1, "Samsung"],
+  [client2, "Acer"],
+  [client3, "Lenovo"],
+  [client4, "Sony"],
+  [client5, "Asus"],
+  [client6, "Logitech"],
+];
+
 const Footer = () => {
   return (
     <footer className="bg-gray-100">
-      {/* Logo Row */}
-      <div className="bg-[#5C2EC0] py-10 px-4 flex flex-wrap justify-center gap-30">
-        <img
-          src={client1}
-          alt="Samsung"
-          className="h-6 brightness-75 hover:brightness-100 transition duration-100"
-        />
-        <img
-          src={client2}
-          alt="Acer"
-          className="h-6 brightness-75 hover:brightness-100 transition duration-100"
-        />
-        <img
-          src={client3}
-          alt="Lenovo"
-          className="h-6 brightness-75 hover:brightness-100 transition duration-100"
-        />
-        <img
-          src={client4}
-          alt="Sony"
-          className="h-6 brightness-75 hover:brightness-100 transition duration-100"
-        />
-        <img
-          src={client5}
-          alt="Asus"
-          className="h-6 brightness-75 hover:brightness-100 transition duration-100"
-        />
-        <img
-          src={client6}
-          alt="Logitech"
-          className="h-6 brightness-75 hover:brightness-100 transition duration-100"
-        />
+      <div className="bg-[#5C2EC0] py-8 px-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 items-center justify-items-center gap-6 sm:gap-8">
+        {brandLogos.map(([src, alt]) => (
+          <img
+            key={alt}
+            src={src}
+            alt={alt}
+            className="h-6 brightness-75 hover:brightness-100 transition duration-100"
+          />
+        ))}
       </div>
 
-      {/* Footer Content */}
-      <div className="px-8 lg:px-20 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10 text-gray-500 bg-gray-100">
-        {/* Brand Description */}
+      <div className="responsive-section py-10 sm:py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-8 sm:gap-10 text-gray-500 bg-gray-100">
         <div className="lg:col-span-2">
           <h2 className="text-[#5C2EC0] font-bold text-2xl italic mb-4">
-            Mobail Shop
+            Electra Shop
           </h2>
-          <p className="text-lg mb-4">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel aperiam
-            facilis atque ullam pariatur. Nemo eligendi officiis exercitationem
-            officia reprehenderit.
+          <p className="text-base sm:text-lg mb-4">
+            Focused electronics shopping for laptops, gaming laptops,
+            smartphones, tablets, and essential tech accessories.
           </p>
-          <p className="font-semibold mb-2 text-lg text-[25px] text-black">
+          <p className="font-semibold mb-2 text-xl sm:text-2xl text-black">
             Download Our App
           </p>
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
             <img src={google} alt="Google Play" className="h-10" />
             <img src={apple} alt="App Store" className="h-10" />
           </div>
         </div>
 
-        {/* Useful Links */}
         <div>
           <h3 className="font-bold text-lg text-black mb-3">Useful Links</h3>
-          <ul className="space-y-3 text-lg font-semibold">
-            <li>
-              <a
-                href="#"
-                className="hover:text-black transition cursor-pointer"
-              >
-                Home
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="hover:text-black transition cursor-pointer"
-              >
-                About
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="hover:text-black transition cursor-pointer"
-              >
-                Services
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="hover:text-black transition cursor-pointer"
-              >
-                Blogs
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="hover:text-black transition cursor-pointer"
-              >
-                Contact
-              </a>
-            </li>
+          <ul className="space-y-3 text-base sm:text-lg font-semibold">
+            <li><a href="/" className="hover:text-black transition">Home</a></li>
+            <li><a href="/about" className="hover:text-black transition">About</a></li>
+            <li><a href="/products" className="hover:text-black transition">Products</a></li>
+            <li><a href="/contact" className="hover:text-black transition">Contact</a></li>
           </ul>
         </div>
 
-        {/* Information */}
         <div>
-          <h3 className="font-bold text-lg  text-black mb-3">Information</h3>
-          <ul className="space-y-3 text-lg font-semibold">
-            <li>
-              <a
-                href="#"
-                className="hover:text-black transition cursor-pointer"
-              >
-                Return Policy
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="hover:text-black transition cursor-pointer"
-              >
-                Privacy Policy
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="hover:text-black transition cursor-pointer"
-              >
-                Refund Policy
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="hover:text-black transition cursor-pointer"
-              >
-                Agreement
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="hover:text-black transition cursor-pointer"
-              >
-                We Our Brand
-              </a>
-            </li>
+          <h3 className="font-bold text-lg text-black mb-3">Information</h3>
+          <ul className="space-y-3 text-base sm:text-lg font-semibold">
+            <li><a href="/contact" className="hover:text-black transition">Return Policy</a></li>
+            <li><a href="/contact" className="hover:text-black transition">Privacy Policy</a></li>
+            <li><a href="/contact" className="hover:text-black transition">Refund Policy</a></li>
+            <li><a href="/contact" className="hover:text-black transition">Support</a></li>
           </ul>
         </div>
 
-        {/* Top Category */}
         <div>
           <h3 className="font-bold text-lg text-black mb-3">Top Category</h3>
-          <ul className="space-y-3 text-lg font-semibold">
-            <li>
-              <a
-                href="#"
-                className="hover:text-black transition cursor-pointer"
-              >
-                Wireless headphone
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="hover:text-black transition cursor-pointer"
-              >
-                Bluetooth speakers
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="hover:text-black transition cursor-pointer"
-              >
-                Portable devices
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="hover:text-black transition cursor-pointer"
-              >
-                Monio live camera
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="hover:text-black transition cursor-pointer"
-              >
-                Movie projector T6
-              </a>
-            </li>
+          <ul className="space-y-3 text-base sm:text-lg font-semibold">
+            <li><a href="/products" className="hover:text-black transition">Laptops</a></li>
+            <li><a href="/products" className="hover:text-black transition">Gaming Laptops</a></li>
+            <li><a href="/products" className="hover:text-black transition">Smartphones</a></li>
+            <li><a href="/products" className="hover:text-black transition">Tablets</a></li>
           </ul>
         </div>
 
-        {/* Contact Info */}
         <div>
-          <h3 className="font-bold text-lg  text-black mb-3">Contact Info</h3>
-          <ul className="space-y-3 text-lg font-semibold">
+          <h3 className="font-bold text-lg text-black mb-3">Contact Info</h3>
+          <ul className="space-y-3 text-base sm:text-lg font-semibold">
             <li>
-              <a
-                href="tel:+1234567890"
-                className="hover:text-black transition cursor-pointer"
-              >
+              <a href="tel:+1234567890" className="hover:text-black transition">
                 Phone: +1 234 567 890
               </a>
             </li>
             <li>
-              <a
-                href="mailto:info@domain.com"
-                className="hover:text-black transition cursor-pointer"
-              >
+              <a href="mailto:info@domain.com" className="hover:text-black transition break-words">
                 Email: info@domain.com
               </a>
             </li>
-            <li className="hover:text-black transition cursor-pointer">
-              401 SaveMart, 3th floor,
-              <br />
-              Said pur, road, Rawalpindi
+            <li>
+              401 SaveMart, 3rd floor, Saidpur Road, Rawalpindi
             </li>
           </ul>
         </div>
       </div>
 
-      {/* Back to Top Button */}
-      <div className="flex justify-end px-8 pb-6">
-       <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="bg-[#5C2EC0] text-white p-3 rounded-full shadow-md hover:bg-[#4b22a3] transition duration-300 absolute right-4 bottom-4 md:static md:ml-auto"
-        >
-          <FaArrowUp />
-        </button>
-      </div>
-      <div className="w-full lg:px-20 px-5 py-[20px] grid grid-cols-1 lg:grid-cols-4 justify-center items-center gap-10 border-t border-gray-300 bg-[#f5f6f8] py-6 px-8 flex flex-col md:flex-row items-center justify-between gap-10 relative">
-        {/* Left - Payment Icons */}
-        <div className="flex gap-4">
+      <div className="w-full responsive-section border-t border-gray-300 bg-[#f5f6f8] py-6 grid grid-cols-1 lg:grid-cols-[1fr_1.4fr_1fr_auto] items-center gap-6">
+        <div className="flex flex-wrap justify-center lg:justify-start gap-3">
           <img src={pay1} alt="Visa" className="h-8" />
           <img src={pay2} alt="MasterCard" className="h-8" />
           <img src={pay3} alt="PayPal" className="h-8" />
           <img src={pay4} alt="Discover" className="h-8" />
         </div>
 
-        {/* Center - Newsletter */}
         <div className="text-center">
           <h3 className="font-semibold text-xl mb-4">Subscribe Newsletter</h3>
-          <div className="flex">
+          <div className="flex flex-col sm:flex-row w-full sm:w-auto justify-center">
             <input
               type="email"
               placeholder="Enter Your Email"
-              className="px-4 py-2 rounded-l-md outline-none text-sm w-64"
+              className="px-4 py-2 rounded-t-md sm:rounded-l-md sm:rounded-tr-none outline-none text-sm w-full sm:w-64"
             />
-            <button className="bg-[#5C2EC0] text-white px-4 py-2 rounded-r-md font-semibold text-sm">
+            <button className="bg-[#5C2EC0] text-white px-4 py-2 rounded-b-md sm:rounded-r-md sm:rounded-bl-none font-semibold text-sm">
               SUBMIT
             </button>
           </div>
         </div>
 
-        {/* Right - Copyright */}
-        <div className="text-sm text-gray-600 text-center md:text-right">
-          © 2024 Power by Debug Entity
+        <div className="text-sm text-gray-600 text-center lg:text-right">
+          © 2026 Electra Shop
         </div>
 
-        {/* Scroll-to-top Button */}
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="bg-[#5C2EC0] text-white p-3 rounded-full shadow-md hover:bg-[#4b22a3] transition duration-300 absolute right-4 bottom-4 md:static md:ml-auto"
+          className="bg-[#5C2EC0] text-white p-3 rounded-full shadow-md hover:bg-[#4b22a3] transition duration-300 justify-self-center lg:justify-self-end"
+          aria-label="Back to top"
         >
           <FaArrowUp />
         </button>

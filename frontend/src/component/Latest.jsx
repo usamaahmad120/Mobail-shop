@@ -150,7 +150,8 @@ function Latest() {
       try {
         const response = await fetch("http://127.0.0.1:8000/api/products/home")
 
-        const data = await response.json();
+        const payload = await response.json();
+        const data = payload.data || payload;
 
         const formattedProducts = data.newest.map((product) => ({
           ...product,

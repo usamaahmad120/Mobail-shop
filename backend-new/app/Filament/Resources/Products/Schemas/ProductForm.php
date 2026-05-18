@@ -97,9 +97,9 @@ class ProductForm
                     ->label('Show in Trending Products Section')
                     ->helperText('Display this product in the "Trending Products" section on homepage'),
 
-                Toggle::make('is_mens_fashion')
-                    ->label("Show in Men's Fashion Section")
-                    ->helperText('Display this product in the "Men\'s Fashion" section on homepage'),
+                Toggle::make('is_electronics_showcase')
+                    ->label('Show in Electronics Showcase Section')
+                    ->helperText('Display this product in the electronics showcase section on homepage'),
 
                 Toggle::make('is_featured')
                     ->label('Show in Featured Products Section')

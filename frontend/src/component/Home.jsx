@@ -9,7 +9,7 @@ import Review from './Review'
 import Insta from './Insta'
 import Banner2 from './Banner2'
 import Latest from './Latest'
-import MenFashion from './MenFashion'
+import ElectronicsShowcase from './ElectronicsShowcase'
 
 
 const Home = () => {
@@ -23,7 +23,7 @@ const Home = () => {
       <Banner2/>
       <Product/>
       <Baner/>
-      <MenFashion/>
+      <ElectronicsShowcase/>
       <Review/>
       <Insta/>
   

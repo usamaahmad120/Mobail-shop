@@ -1,97 +1,76 @@
-
-import latest1 from './assets/latest-product/latest1.webp';
+import latest1 from "./assets/latest-product/latest1.webp";
 import latest8 from "./assets/latest-product/latest8.webp";
 import latest9 from "./assets/latest-product/latest9.webp";
 import latest10 from "./assets/latest-product/latest10.webp";
-import sunglasses1 from "./assets/latest-product/sunglasses1.jpeg";
-import man6 from "./assets/man.6.jpeg";
-import cosmatics4 from "./assets/girls-cosmatics4.jpeg";
-import Smartwatch from "./assets/smart-watch1.jpeg"
-import jacket from "./assets/girls.1.jpeg"
-
-
+import smartwatch from "./assets/smart-watch1.jpeg";
+import laptop from "./assets/laptop.jpg";
+import dslr from "./assets/dslr.jpg";
+import mouse from "./assets/mouse.jpg";
 
 export const latestProducts = [
- 
   {
     id: "latest_001",
     name: "Wireless Headphones",
-    price: "Rs 89",
-    category: "Electronics",
+    price: "Rs 18999",
+    category: "Smartphones",
     img: latest1,
     maxStock: 10,
   },
   {
     id: "latest_002",
-    name: "Running Shoes",
-    price: "Rs 120",
-    category: "Shoes",
-    img: man6,
+    name: "Gaming Laptop Cooling Stand",
+    price: "Rs 12999",
+    category: "Gaming Laptops",
+    img: laptop,
     maxStock: 15,
   },
   {
     id: "latest_003",
-    name: "Makeup Kit",
-    price: "Rs 45",
-    category: "Cosmetics",
-    img: cosmatics4,
+    name: "Tablet Creative Kit",
+    price: "Rs 45999",
+    category: "Tablets",
+    img: latest8,
     maxStock: 20,
   },
   {
     id: "latest_004",
     name: "Smartwatch",
-    price: "Rs 150",
-    category: "Gadgets",
-    img: Smartwatch ,
+    price: "Rs 52999",
+    category: "Smartphones",
+    img: smartwatch,
     maxStock: 8,
   },
   {
     id: "latest_005",
-    name: "Sunglasses",
-    price: "Rs 35",
-    category: "Fashion",
-    img: sunglasses1,
-    maxStock: 25,
+    name: "Creator Camera",
+    price: "Rs 145999",
+    category: "Smartphones",
+    img: dslr,
+    maxStock: 5,
   },
   {
     id: "latest_006",
-    name: "Bluetooth",
-    price: "Rs 75",
-    category: "Electronics",
+    name: "Bluetooth Audio Hub",
+    price: "Rs 24999",
+    category: "Tablets",
     img: latest10,
     maxStock: 12,
   },
   {
     id: "latest_007",
-    name: "Girls Denim Jacket",
-    price: "Rs 95",
-    category: "Girls Fashion",
-    img: jacket,
+    name: "USB-C Laptop Dock",
+    price: "Rs 34999",
+    category: "Laptops",
+    img: latest9,
     maxStock: 18,
   },
   {
     id: "latest_008",
-    name: "Trendy Backpack",
-    price: "Rs 60",
-    category: "Bags",
-    img: latest8,
+    name: "Wireless Laptop Mouse",
+    price: "Rs 8999",
+    category: "Laptops",
+    img: mouse,
     maxStock: 22,
-  },
-  {
-    id: "latest_009",
-    name: "Perfume Set",
-    price: "Rs 40",
-    category: "Beauty",
-    img: latest9,
-    maxStock: 30,
-  },
-  {
-    id: "latest_010",
-    name: "Men’s Casual Shirt",
-    price: "Rs 49",
-    category: "Shirts",
-    img: latest10,
-    maxStock: 14,
   },
 ];
 

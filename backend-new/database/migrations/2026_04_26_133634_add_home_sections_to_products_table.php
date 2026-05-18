@@ -17,7 +17,7 @@ return new class extends Migration
 
             $table->boolean('is_trending')->default(false);
 
-            $table->boolean('is_mens_fashion')->default(false);
+            $table->boolean('is_electronics_showcase')->default(false);
 
             $table->boolean('is_featured')->default(false);
 
@@ -38,7 +38,7 @@ return new class extends Migration
             $table->dropColumn([
                 'is_newest',
                 'is_trending',
-                'is_mens_fashion',
+                'is_electronics_showcase',
                 'is_featured',
                 'is_flash_sale',
                 'is_top_rated',

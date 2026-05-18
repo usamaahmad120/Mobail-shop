@@ -14,13 +14,13 @@ const CategoryDropdown = ({ category, onClose }) => {
     return product.category.toLowerCase().includes(category.toLowerCase()) ||
            (category === 'Electronics' && ['Gadgets', 'Speakers', 'Earphones', 'Audio'].some(cat => 
              product.category.toLowerCase().includes(cat.toLowerCase()))) ||
-           (category === 'Fashion' && ['Clothing', 'Menswear', 'Girls Fashion', 'Shoes'].some(cat => 
+           (category === 'Laptops' && ['Gaming Laptops', 'Laptop'].some(cat =>
              product.category.toLowerCase().includes(cat.toLowerCase()))) ||
-           (category === 'Accessories' && ['Bags', 'Smart Watch'].some(cat => 
+           (category === 'Smartphones' && ['Phone', 'Smartwatch', 'Earbuds'].some(cat =>
              product.category.toLowerCase().includes(cat.toLowerCase()))) ||
-           (category === 'Beauty & Cosmetics' && ['Skincare', 'Cosmetics', 'Beauty'].some(cat => 
+           (category === 'Tablets' && ['Tablet', 'USB-C'].some(cat =>
              product.category.toLowerCase().includes(cat.toLowerCase()))) ||
-           (category === 'Cameras & Photography' && ['Camera', 'DSLR'].some(cat => 
+           (category === 'Cameras & Photography' && ['Camera', 'DSLR'].some(cat =>
              product.category.toLowerCase().includes(cat.toLowerCase())));
   });
 

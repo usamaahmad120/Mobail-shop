@@ -10,7 +10,8 @@ function Category() {
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/products")
       .then((res) => res.json())
-      .then((data) => {
+      .then((payload) => {
+        const data = payload.data || payload;
         setAllProducts(data);
       })
       .catch((err) => console.log(err));
@@ -119,17 +120,11 @@ function Category() {
 function getCategoryDisplayName(category) {
   const displayNames = {
     Electronics: "Electronic Gadgets",
-    "Jewellery & Watches": "Watches & Jewelry",
-    "Girls Fashion": "Women's Fashion",
-    "Health & Beauty": "Beauty Products",
-    Fashion: "Fashion Accessories",
-    Baby: "Baby Products",
+    Laptops: "Laptops",
+    "Gaming Laptops": "Gaming Laptops",
+    Smartphones: "Smartphones",
+    Tablets: "Tablets",
     Gadgets: "Smart Gadgets",
-    Shoes: "Footwear",
-    Cosmetics: "Makeup & Cosmetics",
-    Bags: "Bags & Backpacks",
-    Beauty: "Beauty Essentials",
-    Shirts: "Men's Shirts",
   };
 
   return displayNames[category] || category;

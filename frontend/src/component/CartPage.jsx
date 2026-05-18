@@ -147,8 +147,9 @@ const CartPage = () => {
 useEffect(() => {
   const fetchProducts = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/products");
-      const data = await response.json();
+      const response = await fetch("http://127.0.0.1:8000/api/products?per_page=48");
+      const payload = await response.json();
+      const data = payload.data || payload;
 
       const formattedProducts = data.map((product) => ({
         ...product,

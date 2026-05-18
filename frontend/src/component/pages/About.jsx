@@ -12,7 +12,7 @@ const About = () => {
               Smart shopping for phones, gadgets, and everyday tech.
             </h1>
             <p className="text-gray-600 text-lg leading-8">
-              Electra Shop brings reliable electronics, fashion accessories, and daily-use products into one simple store. We focus on clean product browsing, clear prices, fast ordering, and helpful service after checkout.
+              Electra Shop brings reliable laptops, gaming laptops, smartphones, tablets, and essential electronics into one focused store. We focus on clean product browsing, clear prices, fast ordering, and helpful service after checkout.
             </p>
           </div>
 
@@ -49,7 +49,7 @@ const About = () => {
           </div>
           <div className="shop-card p-6">
             <h2 className="text-xl font-bold text-gray-900 mb-3">What We Sell</h2>
-            <p className="text-gray-600">Mobiles, electronics, accessories, fashion picks, and practical products selected for everyday use.</p>
+            <p className="text-gray-600">Laptops, gaming laptops, smartphones, tablets, audio gear, storage, and practical electronics selected for everyday use.</p>
           </div>
           <div className="shop-card p-6">
             <h2 className="text-xl font-bold text-gray-900 mb-3">Why Choose Us</h2>

@@ -3,114 +3,132 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
-    // ✅ Get all categories
     public function getCategories()
     {
-        return response()->json(Category::select('id', 'name', 'slug')->get());
+        $categories = Category::query()
+            ->where('is_active', true)
+            ->select('id', 'name', 'slug', 'image')
+            ->withCount(['products' => fn ($query) => $query->where('is_active', true)])
+            ->orderBy('name')
+            ->get();
+
+        return response()->json([
+            'data' => $categories,
+        ]);
     }
 
-    // ✅ Get all products (with optional category filter)
     public function getProducts(Request $request)
     {
-        $query = Product::with('category')
-            ->where('is_active', 1)
-            ->latest();
+        try {
+            $validated = $request->validate([
+                'category' => ['nullable', 'string', 'max:120'],
+                'search' => ['nullable', 'string', 'max:120'],
+                'page' => ['nullable', 'integer', 'min:1'],
+                'per_page' => ['nullable', 'integer', 'min:1', 'max:48'],
+            ]);
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'message' => 'Invalid product filter parameters.',
+                'errors' => $exception->errors(),
+            ], 422);
+        }
 
-        // 🔥 Filter by category (IMPORTANT)
-        if ($request->category) {
-            $query->whereHas('category', function ($q) use ($request) {
-                $q->where('slug', $request->category);
+        $query = Product::query()
+            ->with('category:id,name,slug')
+            ->where('is_active', true)
+            ->whereHas('category', fn ($category) => $category->where('is_active', true))
+            ->latest('products.created_at');
+
+        if (! empty($validated['category'])) {
+            $query->whereHas('category', function ($category) use ($validated) {
+                $category
+                    ->where('slug', $validated['category'])
+                    ->orWhere('name', $validated['category']);
             });
         }
 
-        $products = $query->get();
+        if (! empty($validated['search'])) {
+            $search = mb_strtolower($validated['search']);
 
-        // Debug: Log how many products found
-        \Log::info('Products API called', [
-            'total_active' => Product::where('is_active', 1)->count(),
-            'total_all' => Product::count(),
-            'returned' => $products->count(),
-            'category_filter' => $request->category
+            $query->where(function ($productQuery) use ($search) {
+                $productQuery
+                    ->whereRaw('LOWER(name) LIKE ?', ["%{$search}%"])
+                    ->orWhereRaw('LOWER(description) LIKE ?', ["%{$search}%"])
+                    ->orWhereHas('category', fn ($category) => $category->whereRaw('LOWER(name) LIKE ?', ["%{$search}%"]));
+            });
+        }
+
+        $perPage = (int) ($validated['per_page'] ?? 12);
+        $products = $query->paginate($perPage)->withQueryString();
+
+        return response()->json([
+            'data' => $products->getCollection()->map(fn ($product) => $this->formatProduct($product)),
+            'meta' => [
+                'current_page' => $products->currentPage(),
+                'last_page' => $products->lastPage(),
+                'per_page' => $products->perPage(),
+                'total' => $products->total(),
+            ],
         ]);
-
-        return response()->json($products->map(fn($product) => $this->formatProduct($product)));
     }
 
-    // ✅ Get single product
-    public function getProductBySlug($slug)
+    public function getProductBySlug(string $slug)
     {
-        $product = Product::with('category')
+        $product = Product::query()
+            ->with('category:id,name,slug')
             ->where('slug', $slug)
-            ->where('is_active', 1)
+            ->where('is_active', true)
+            ->whereHas('category', fn ($category) => $category->where('is_active', true))
             ->first();
 
-        if (!$product) {
+        if (! $product) {
             return response()->json([
-                'message' => 'Product not found'
+                'message' => 'Product not found.',
             ], 404);
         }
 
-        return response()->json($this->formatProduct($product));
-    }
-
-    // 🔥 NEW: Get homepage sections (grouped products)
-    public function home()
-    {
-        $baseQuery = Product::with('category')->where('is_active', 1);
-
         return response()->json([
-            'newest' => $baseQuery->clone()
-                ->where('is_newest', 1)
-                ->latest()
-                ->limit(10)
-                ->get()
-                ->map(fn($product) => $this->formatProduct($product)),
-
-            'trending' => $baseQuery->clone()
-                ->where('is_trending', 1)
-                ->latest()
-                ->limit(10)
-                ->get()
-                ->map(fn($product) => $this->formatProduct($product)),
-
-            'mens_fashion' => $baseQuery->clone()
-                ->where('is_mens_fashion', 1)
-                ->latest()
-                ->limit(10)
-                ->get()
-                ->map(fn($product) => $this->formatProduct($product)),
-
-            'featured' => $baseQuery->clone()
-                ->where('is_featured', 1)
-                ->latest()
-                ->limit(10)
-                ->get()
-                ->map(fn($product) => $this->formatProduct($product)),
-
-            'flash_sale' => $baseQuery->clone()
-                ->where('is_flash_sale', 1)
-                ->latest()
-                ->limit(10)
-                ->get()
-                ->map(fn($product) => $this->formatProduct($product)),
-
-            'top_rated' => $baseQuery->clone()
-                ->where('is_top_rated', 1)
-                ->latest()
-                ->limit(10)
-                ->get()
-                ->map(fn($product) => $this->formatProduct($product)),
+            'data' => $this->formatProduct($product),
         ]);
     }
 
-    // 🔥 Reusable formatter (VERY IMPORTANT)
-    private function formatProduct($product)
+    public function home()
+    {
+        $baseQuery = Product::query()
+            ->with('category:id,name,slug')
+            ->where('is_active', true)
+            ->whereHas('category', fn ($category) => $category->where('is_active', true));
+
+        return response()->json([
+            'data' => [
+                'newest' => $this->sectionProducts($baseQuery, 'is_newest'),
+                'trending' => $this->sectionProducts($baseQuery, 'is_trending'),
+                'electronics_showcase' => $this->sectionProducts($baseQuery, 'is_electronics_showcase'),
+                'featured' => $this->sectionProducts($baseQuery, 'is_featured'),
+                'flash_sale' => $this->sectionProducts($baseQuery, 'is_flash_sale'),
+                'top_rated' => $this->sectionProducts($baseQuery, 'is_top_rated'),
+            ],
+        ]);
+    }
+
+    private function sectionProducts($baseQuery, string $section)
+    {
+        return $baseQuery->clone()
+            ->where($section, true)
+            ->latest('products.created_at')
+            ->limit(10)
+            ->get()
+            ->map(fn ($product) => $this->formatProduct($product));
+    }
+
+    private function formatProduct(Product $product): array
     {
         $stock = max((int) $product->stock, 0);
         $rating = min(max((float) ($product->rating ?? 0), 0), 5);
@@ -120,12 +138,11 @@ class ProductController extends Controller
             'id' => $product->id,
             'name' => $product->name,
             'slug' => $product->slug,
-            'price' => $product->price,
-            'discount_price' => $product->discount_price,
-            'final_price' => $product->discount_price ?? $product->price,
-            'image' => $product->image 
-                ? asset('storage/' . $product->image)
-                : null,
+            'description' => $product->description,
+            'price' => (float) $product->price,
+            'discount_price' => $product->discount_price ? (float) $product->discount_price : null,
+            'final_price' => (float) ($product->discount_price ?? $product->price),
+            'image' => $product->image ? asset('storage/' . $product->image) : null,
             'stock' => $stock,
             'maxStock' => $stock,
             'is_in_stock' => $stock > 0,

@@ -11,7 +11,7 @@ import {
   removeFromWishlist,
   selectIsInWishlist,
 } from "../store/wishlistSlice";
-import { FaHeart, FaEye } from "react-icons/fa";
+import { FaEye, FaHeart } from "react-icons/fa";
 import { TiHeartOutline } from "react-icons/ti";
 import { MdOutlineAddShoppingCart } from "react-icons/md";
 import { IoIosStar } from "react-icons/io";
@@ -27,8 +27,14 @@ import {
   isProductInStock,
 } from "../utils/productMeta";
 
-// 🔥 Separate component to fix React Hooks violation
-const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, handleToggleWishlist, handleEyeClick }) => {
+const ProductCard = ({
+  item,
+  addingToCart,
+  addingToWishlist,
+  handleAddToCart,
+  handleToggleWishlist,
+  handleEyeClick,
+}) => {
   const cartQuantity = useSelector((state) =>
     selectCartItemQuantity(state, item.id)
   );
@@ -41,57 +47,40 @@ const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, ha
   return (
     <div className="shop-card shop-card-hover group flex h-full flex-col justify-between gap-3 p-4 cursor-pointer relative overflow-hidden">
       <div className="flex gap-3 text-lg absolute top-4 left-1/2 -translate-x-1/2 z-10 md:opacity-0 md:group-hover:opacity-100 opacity-100 transition duration-300 justify-center items-center">
-        <div
-          className="shop-icon-button cursor-pointer transition"
-          onClick={() => handleEyeClick(item)}
-        >
+        <button className="shop-icon-button transition" onClick={() => handleEyeClick(item)}>
           <FaEye />
-        </div>
+        </button>
 
-        <div
-          className={`shop-icon-button cursor-pointer transition ${
-            isInWishlist
-              ? "bg-red-500 text-white hover:bg-red-600"
-              : ""
-          }`}
+        <button
+          className={`shop-icon-button transition ${isInWishlist ? "bg-red-500 text-white hover:bg-red-600" : ""}`}
           onClick={() => handleToggleWishlist(item, isInWishlist)}
           disabled={isAddingToWishlistState}
         >
           {isAddingToWishlistState ? (
-            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
           ) : isInWishlist ? (
             <FaHeart />
           ) : (
             <TiHeartOutline />
           )}
-        </div>
+        </button>
 
-        <div
-          className={`shop-icon-button cursor-pointer transition ${
-            isAddingToCart
-              ? "bg-green-500 text-white"
-              : ""
-          }`}
+        <button
+          className={`shop-icon-button transition ${isAddingToCart ? "bg-green-500 text-white" : ""}`}
           onClick={() => handleAddToCart(item)}
           disabled={isAddingToCart}
         >
           {isAddingToCart ? (
-            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
           ) : (
             <MdOutlineAddShoppingCart />
           )}
-        </div>
+        </button>
       </div>
 
       {cartQuantity > 0 && (
         <div className="absolute top-3 right-3 bg-[#5C2EC0] text-white text-xs px-2 py-1 rounded-full z-20">
           {cartQuantity}
-        </div>
-      )}
-
-      {isInWishlist && (
-        <div className="absolute top-3 left-3 bg-red-500 text-white text-xs px-2 py-1 rounded-full z-20">
-          ❤️
         </div>
       )}
 
@@ -101,70 +90,70 @@ const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, ha
         alt={item.name}
       />
 
+      <p className="text-xs font-semibold uppercase text-slate-500">
+        {item.category}
+      </p>
       <div className="flex items-center gap-2">
         <div className="flex items-start gap-1">
-        {[...Array(5)].map((_, i) => (
-          <IoIosStar
-            key={i}
-            className={`text-lg ${i < Math.round(getProductRating(item)) ? "text-yellow-400" : "text-slate-300"}`}
-          />
-        ))}
+          {[...Array(5)].map((_, i) => (
+            <IoIosStar
+              key={i}
+              className={`text-lg ${i < Math.round(getProductRating(item)) ? "text-yellow-400" : "text-slate-300"}`}
+            />
+          ))}
         </div>
         <span className="text-xs font-medium text-slate-500">
           {formatRating(item)}
         </span>
       </div>
 
-      <h1 className="text-base font-semibold text-center text-slate-900 line-clamp-2">{item.name}</h1>
+      <h2 className="text-base font-semibold text-center text-slate-900 line-clamp-2">
+        {item.name}
+      </h2>
       <p className="text-xs text-slate-500">{formatReviewCount(item)}</p>
-      <h1 className="shop-price text-xl mt-1">
-        {formatPrice(item.price)}
-      </h1>
+      <p className="shop-price text-xl mt-1">{formatPrice(item.price)}</p>
     </div>
   );
 };
 
-function MenFashion() {
+function ElectronicsShowcase() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const cartItems = useSelector((state) => state.cart.items);
   const [addingToCart, setAddingToCart] = useState(null);
   const [addingToWishlist, setAddingToWishlist] = useState(null);
-  const [menProducts, setMenProducts] = useState([]);
+  const [showcaseProducts, setShowcaseProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const cartItems = useSelector((state) => state.cart.items);
 
   useEffect(() => {
     AOS.init({ offset: 100, duration: 500, easing: "ease-in-out" });
     AOS.refresh();
   }, []);
 
-  // 🔥 FETCH MEN'S FASHION PRODUCTS FROM API
   useEffect(() => {
-    const fetchMenProducts = async () => {
+    const fetchShowcaseProducts = async () => {
       try {
         setLoading(true);
         const response = await fetch("http://127.0.0.1:8000/api/products/home");
-        const data = await response.json();
-
-        const formattedProducts = data.mens_fashion.map((product) => ({
+        const payload = await response.json();
+        const sections = payload.data || payload;
+        const formattedProducts = (sections.electronics_showcase || []).map((product) => ({
           ...product,
           img: product.image,
           category: product.category?.name || "Unknown",
         }));
 
-        setMenProducts(formattedProducts);
+        setShowcaseProducts(formattedProducts);
       } catch (error) {
-        console.error("Error fetching men's fashion products:", error);
+        console.error("Error fetching electronics showcase products:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchMenProducts();
+    fetchShowcaseProducts();
   }, []);
 
-  // 🛒 Add to Cart with Toasts
   const handleAddToCart = (product) => {
     if (!isProductInStock(product)) {
       toast.warning("Product is out of stock!", {
@@ -176,9 +165,7 @@ function MenFashion() {
     }
 
     setAddingToCart(product.id);
-
     const existingItem = cartItems.find((item) => String(item.id) === String(product.id));
-
     toast.dismiss();
 
     if (existingItem) {
@@ -196,59 +183,52 @@ function MenFashion() {
       });
     }
 
-    setTimeout(() => {
-      setAddingToCart(null);
-    }, 500);
+    setTimeout(() => setAddingToCart(null), 500);
   };
 
-  // ❤️ Wishlist toggle with Toasts
   const handleToggleWishlist = (product, isInWishlist) => {
     setAddingToWishlist(product.id);
-
     toast.dismiss();
 
     if (isInWishlist) {
       dispatch(removeFromWishlist(product.id));
-      toast.warning("💔 Removed from wishlist!", {
+      toast.warning("Removed from wishlist!", {
         position: "top-right",
         autoClose: 1800,
         theme: "colored",
       });
     } else {
       dispatch(addToWishlist(product));
-      toast.success("❤️ Added to wishlist!", {
+      toast.success("Added to wishlist!", {
         position: "top-right",
         autoClose: 1800,
         theme: "colored",
       });
     }
 
-    setTimeout(() => {
-      setAddingToWishlist(null);
-    }, 300);
+    setTimeout(() => setAddingToWishlist(null), 300);
   };
 
-  // 🔥 FIX: Use product.id instead of index
   const handleEyeClick = (product) => {
     dispatch(setSelectedProduct(product.id));
-    navigate(`/cart`);
+    navigate("/cart");
   };
 
   if (loading) {
     return (
       <div className="w-full lg:px-20 px-5 py-[80px] flex justify-center items-center bg-gray-100">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#502EC3]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#502EC3]" />
       </div>
     );
   }
 
-  if (menProducts.length === 0) {
+  if (showcaseProducts.length === 0) {
     return null;
   }
 
   return (
     <div
-      id="men-fashion"
+      id="electronics-showcase"
       className="w-full lg:px-20 px-5 py-[80px] flex flex-col justify-center items-start gap-4 bg-gray-100"
     >
       <h1
@@ -256,7 +236,7 @@ function MenFashion() {
         data-aos-delay="300"
         className="text-[42px] leading-[50px] font-semibold text-slate-950"
       >
-        Men's Fashion
+        Electronics Showcase
       </h1>
 
       <div
@@ -264,7 +244,7 @@ function MenFashion() {
         data-aos-delay="300"
         className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-10"
       >
-        {menProducts.map((item) => (
+        {showcaseProducts.map((item) => (
           <ProductCard
             key={item.id}
             item={item}
@@ -287,4 +267,4 @@ function MenFashion() {
   );
 }
 
-export default MenFashion;
+export default ElectronicsShowcase;

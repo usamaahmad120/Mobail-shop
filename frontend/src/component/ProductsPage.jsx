@@ -50,7 +50,7 @@ const ProductsPage = () => {
   const [sortBy, setSortBy] = useState("name");
   const [filterCategory, setFilterCategory] = useState("all"); // Always start with "all"
   const [searchTerm, setSearchTerm] = useState("");
-  const [priceRange] = useState([0, 1000]);
+  const [priceRange] = useState([0, 1000000]);
 
   // Debug: Log when filter changes
   useEffect(() => {
@@ -64,10 +64,11 @@ useEffect(() => {
       setLoading(true);
 
       const response = await fetch(
-        "http://127.0.0.1:8000/api/products"
+        "http://127.0.0.1:8000/api/products?per_page=48"
       );
 
-      const data = await response.json();
+      const payload = await response.json();
+      const data = payload.data || payload;
       
       console.log("✅ Fetched products from API:", data.length, "products");
 
@@ -78,6 +79,7 @@ useEffect(() => {
           category:
             product.category?.name ||
             "Unknown",
+          categorySlug: product.category?.slug || "",
         })
       );
 
@@ -224,8 +226,9 @@ console.log("📂 Available categories:", categories);
   const filteredProducts = products
     .filter((product) => {
       const matchesCategory =
-        filterCategory === "all" || 
-        product.category.toLowerCase() === filterCategory.toLowerCase();
+        filterCategory === "all" ||
+        product.category.toLowerCase() === filterCategory.toLowerCase() ||
+        product.categorySlug.toLowerCase() === filterCategory.toLowerCase();
       const matchesSearch =
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.category.toLowerCase().includes(searchTerm.toLowerCase());

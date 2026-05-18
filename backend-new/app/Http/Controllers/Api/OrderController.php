@@ -64,7 +64,7 @@ class OrderController extends Controller
 
     public function myOrders($id)
     {
-        return Order::with('items')
+        return Order::with(['items.review'])
             ->where('user_id', $id)
             ->latest()
             ->get();

@@ -62,20 +62,6 @@ class ProductForm
                     ->default(0)
                     ->label('Stock Quantity'),
 
-                TextInput::make('rating')
-                    ->numeric()
-                    ->minValue(0)
-                    ->maxValue(5)
-                    ->step(0.1)
-                    ->default(0)
-                    ->label('Rating (0-5)'),
-
-                TextInput::make('review_count')
-                    ->numeric()
-                    ->minValue(0)
-                    ->default(0)
-                    ->label('Review Count'),
-
                 Toggle::make('is_active')
                     ->label('Active Product')
                     ->default(true),

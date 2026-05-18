@@ -6,11 +6,13 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\ProductReviewController;
 
 
 
 Route::get('/products/home', [ProductController::class, 'home']);
 Route::post('/place-order', [OrderController::class, 'placeOrder']);
+Route::post('/product-reviews', [ProductReviewController::class, 'store']);
 Route::post('/contact', [ContactController::class, 'send']);
 Route::get('/my-orders/{id}', [OrderController::class, 'myOrders']);
 

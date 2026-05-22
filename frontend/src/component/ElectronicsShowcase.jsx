@@ -26,6 +26,7 @@ import {
   getProductRating,
   isProductInStock,
 } from "../utils/productMeta";
+import { formatProduct } from "../services/api";
 
 const ProductCard = ({
   item,
@@ -137,11 +138,7 @@ function ElectronicsShowcase() {
         const response = await fetch("http://127.0.0.1:8000/api/products/home");
         const payload = await response.json();
         const sections = payload.data || payload;
-        const formattedProducts = (sections.electronics_showcase || []).map((product) => ({
-          ...product,
-          img: product.image,
-          category: product.category?.name || "Unknown",
-        }));
+        const formattedProducts = (sections.electronics_showcase || []).map(formatProduct);
 
         setShowcaseProducts(formattedProducts);
       } catch (error) {

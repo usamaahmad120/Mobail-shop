@@ -23,6 +23,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { formatPrice } from "../utils/currency";
 import { formatRating, formatReviewCount, isProductInStock } from "../utils/productMeta";
+import { formatProduct } from "../services/api";
 
 // 🔥 Separate component to fix React Hooks violation
 const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, handleToggleWishlist, handleEyeClick }) => {
@@ -153,11 +154,7 @@ function Latest() {
         const payload = await response.json();
         const data = payload.data || payload;
 
-        const formattedProducts = data.newest.map((product) => ({
-          ...product,
-          img: product.image,
-          category: product.category?.name || "Unknown",
-        }));
+        const formattedProducts = data.newest.map(formatProduct);
 
         setLatestProducts(formattedProducts);
       } catch (error) {

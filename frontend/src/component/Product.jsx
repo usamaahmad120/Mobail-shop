@@ -26,6 +26,7 @@ import {
   getProductRating,
   isProductInStock,
 } from "../utils/productMeta";
+import { formatProduct } from "../services/api";
 
 // 🔥 Separate component to fix React Hooks violation
 const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, handleToggleWishlist, handleEyeClick }) => {
@@ -149,11 +150,7 @@ function Product() {
         const payload = await response.json();
         const data = payload.data || payload;
 
-        const formattedProducts = data.trending.map((product) => ({
-          ...product,
-          img: product.image,
-          category: product.category?.name || "Unknown",
-        }));
+        const formattedProducts = data.trending.map(formatProduct);
 
         setTrendingProducts(formattedProducts);
       } catch (error) {

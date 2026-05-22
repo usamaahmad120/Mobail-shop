@@ -27,6 +27,7 @@ import {
   getStockStatus,
   isProductInStock,
 } from '../utils/productMeta';
+import { formatProduct } from '../services/api';
 
 const renderStars = (rating = 0) => {
   return [...Array(5)].map((_, i) => (
@@ -151,11 +152,7 @@ useEffect(() => {
       const payload = await response.json();
       const data = payload.data || payload;
 
-      const formattedProducts = data.map((product) => ({
-        ...product,
-        img: product.image,
-        category: product.category?.name || "Unknown",
-      }));
+      const formattedProducts = data.map(formatProduct);
 
       setAllProducts(formattedProducts);
     } catch (error) {

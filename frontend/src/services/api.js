@@ -1,5 +1,7 @@
 const API_BASE_URL = "http://127.0.0.1:8000/api";
 
+import { resolveProductImage } from "../utils/productImage";
+
 export const unwrapData = (payload) => payload?.data ?? payload;
 
 export const getCategories = async () => {
@@ -61,7 +63,8 @@ export const getHomeSections = async () => {
 
 export const formatProduct = (product) => ({
   ...product,
-  img: product.image,
+  image: resolveProductImage(product.image),
+  img: resolveProductImage(product.image),
   category: product.category?.name || "Unknown",
   categorySlug: product.category?.slug || "",
 });

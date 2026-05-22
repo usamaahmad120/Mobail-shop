@@ -1,7 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { parsePrice } from '../utils/currency.js';
 import { getProductRating, getProductStock, getReviewCount } from '../utils/productMeta.js';
+import { resolveProductImage } from '../utils/productImage.js';
 import { getScopedStorageKey } from '../utils/storageScope.js';
+
+const normalizeCartItems = (items = []) =>
+  items.map((item) => ({
+    ...item,
+    image: resolveProductImage(item.image || item.img),
+  }));
 
 // Helper function to load cart from localStorage
 const loadCartFromStorageHelper = () => {
@@ -19,6 +26,7 @@ const loadCartFromStorageHelper = () => {
     const cart = JSON.parse(serializedCart);
     return {
       ...cart,
+      items: normalizeCartItems(cart.items),
       isCartOpen: false, // Always start with cart closed
       selectedProductId: cart.selectedProductId || null,
     };
@@ -90,7 +98,7 @@ const cartSlice = createSlice({
           id: product.id,
           name: product.name,
           price: product.price,
-          image: product.img || product.image,
+          image: resolveProductImage(product.img || product.image),
           category: product.category,
           quantity: 1,
           stock: maxStock,

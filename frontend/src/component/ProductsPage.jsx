@@ -35,6 +35,7 @@ import {
   getStockStatus,
   isProductInStock,
 } from "../utils/productMeta";
+import { formatProduct } from "../services/api";
 
 const ProductsPage = () => {
   const dispatch = useDispatch();
@@ -72,16 +73,7 @@ useEffect(() => {
       
       console.log("✅ Fetched products from API:", data.length, "products");
 
-      const formattedProducts = data.map(
-        (product) => ({
-          ...product,
-          img: product.image,
-          category:
-            product.category?.name ||
-            "Unknown",
-          categorySlug: product.category?.slug || "",
-        })
-      );
+      const formattedProducts = data.map(formatProduct);
 
       setProducts(formattedProducts);
       console.log("✅ Formatted products:", formattedProducts.length, "products");

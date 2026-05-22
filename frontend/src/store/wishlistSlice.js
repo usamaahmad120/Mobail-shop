@@ -1,8 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getProductRating, getProductStock, getReviewCount } from '../utils/productMeta.js';
+import { resolveProductImage } from '../utils/productImage.js';
 import { getScopedStorageKey } from '../utils/storageScope.js';
 
 const isSameProduct = (leftId, rightId) => String(leftId) === String(rightId);
+const normalizeWishlistItems = (items = []) =>
+  items.map((item) => ({
+    ...item,
+    image: resolveProductImage(item.image || item.img),
+  }));
 
 // Helper function to load wishlist from localStorage
 const loadWishlistFromStorageHelper = () => {
@@ -15,7 +21,10 @@ const loadWishlistFromStorageHelper = () => {
       };
     }
     const wishlist = JSON.parse(serializedWishlist);
-    return wishlist;
+    return {
+      ...wishlist,
+      items: normalizeWishlistItems(wishlist.items),
+    };
   } catch (err) {
     console.error('Error loading wishlist from localStorage:', err);
     return {
@@ -54,7 +63,7 @@ const wishlistSlice = createSlice({
           id: product.id,
           name: product.name,
           price: product.price,
-          image: product.img || product.image,
+          image: resolveProductImage(product.img || product.image),
           category: product.category,
           stock: getProductStock(product),
           maxStock: getProductStock(product),

@@ -20,6 +20,6 @@ trait UsesSalesAnalyticsFilters
 
     public static function canView(): bool
     {
-        return auth()->user()?->role === 'admin';
+        return (bool) auth()->user()?->isAdmin();
     }
 }

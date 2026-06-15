@@ -8,7 +8,7 @@ class SalesAnalyticsRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->role === 'admin';
+        return (bool) $this->user()?->isAdmin();
     }
 
     public function rules(): array

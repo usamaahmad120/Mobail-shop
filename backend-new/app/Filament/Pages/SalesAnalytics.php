@@ -36,7 +36,7 @@ class SalesAnalytics extends Dashboard
 
     public static function canAccess(): bool
     {
-        return auth()->user()?->role === 'admin';
+        return (bool) auth()->user()?->isAdmin();
     }
 
     public function persistsFiltersInSession(): bool

@@ -35,7 +35,8 @@ import {
   getStockStatus,
   isProductInStock,
 } from "../utils/productMeta";
-import { formatProduct } from "../services/api";
+import { products as fallbackProducts } from "../product";
+import { formatProduct, getProducts } from "../services/api";
 
 const ProductsPage = () => {
   const dispatch = useDispatch();
@@ -64,11 +65,7 @@ useEffect(() => {
     try {
       setLoading(true);
 
-      const response = await fetch(
-        "http://127.0.0.1:8000/api/products?per_page=48"
-      );
-
-      const payload = await response.json();
+      const payload = await getProducts({ perPage: 48 });
       const data = payload.data || payload;
       
       console.log("✅ Fetched products from API:", data.length, "products");
@@ -78,8 +75,8 @@ useEffect(() => {
       setProducts(formattedProducts);
       console.log("✅ Formatted products:", formattedProducts.length, "products");
     } catch (error) {
-      console.error("❌ Error fetching products:", error);
-      setProducts([]); // Set empty array on error
+      console.warn("Using local products because the API is unavailable:", error.message);
+      setProducts(fallbackProducts.map(formatProduct));
     } finally {
       setLoading(false);
     }

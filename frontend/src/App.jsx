@@ -8,7 +8,7 @@ import Footer from "./component/Footer";
 import Home from "./component/Home";
 import ProductsPage from "./component/ProductsPage";
 import CartPage from "./component/CartPage";
-import ShoppingCartPage from "./component/ShoppingCartPage";
+//import ShoppingCartPage from "./component/ShoppingCartPage";
 import CheckoutPage from "./component/CheckoutPage";
 import WishlistPage from "./component/WishlistPage";
 import Login from "./component/pages/Login";

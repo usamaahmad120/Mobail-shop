@@ -145,7 +145,7 @@ class SalesAnalyticsService
             ->selectRaw('COALESCE(products.name, order_items.product_name) as product_name')
             ->selectRaw('SUM(order_items.quantity) as quantity_sold')
             ->selectRaw('SUM(order_items.subtotal) as revenue')
-            ->groupBy('product_name')
+            ->groupByRaw('COALESCE(products.name, order_items.product_name)')
             ->orderByDesc('quantity_sold')
             ->limit(10)
             ->get();

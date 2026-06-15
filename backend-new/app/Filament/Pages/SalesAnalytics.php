@@ -26,13 +26,13 @@ class SalesAnalytics extends Dashboard
 
     protected static string $routePath = '/sales-analytics';
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Reports';
+    protected static string|\UnitEnum|null $navigationGroup = 'Shop Management';
 
     protected static string|\BackedEnum|null $navigationIcon = Heroicon::ChartBar;
 
     protected static ?string $navigationLabel = 'Sales Analytics';
 
-    protected static ?int $navigationSort = 10;
+    protected static ?int $navigationSort = 5;
 
     public static function canAccess(): bool
     {

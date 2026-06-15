@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\ProductReviewController;
+use App\Http\Controllers\Api\Admin\SalesAnalyticsController;
 
 
 
@@ -20,6 +21,17 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+
+Route::middleware(['auth:sanctum', 'admin'])
+    ->prefix('admin/sales-analytics')
+    ->group(function () {
+        Route::get('/summary', [SalesAnalyticsController::class, 'summary']);
+        Route::get('/daily-sales', [SalesAnalyticsController::class, 'dailySales']);
+        Route::get('/monthly-sales', [SalesAnalyticsController::class, 'monthlySales']);
+        Route::get('/order-status', [SalesAnalyticsController::class, 'orderStatus']);
+        Route::get('/top-products', [SalesAnalyticsController::class, 'topProducts']);
+    });
+
 // Public API Routes for your React Frontend
 Route::get('/categories', [ProductController::class, 'getCategories']);
 Route::get('/products', [ProductController::class, 'getProducts']);

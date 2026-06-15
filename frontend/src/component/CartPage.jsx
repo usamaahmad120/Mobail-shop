@@ -27,7 +27,8 @@ import {
   getStockStatus,
   isProductInStock,
 } from '../utils/productMeta';
-import { formatProduct } from '../services/api';
+import { products as fallbackProducts } from '../product';
+import { formatProduct, getProducts } from '../services/api';
 
 const renderStars = (rating = 0) => {
   return [...Array(5)].map((_, i) => (
@@ -148,15 +149,15 @@ const CartPage = () => {
 useEffect(() => {
   const fetchProducts = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/products?per_page=48");
-      const payload = await response.json();
+      const payload = await getProducts({ perPage: 48 });
       const data = payload.data || payload;
 
       const formattedProducts = data.map(formatProduct);
 
       setAllProducts(formattedProducts);
     } catch (error) {
-      console.log(error);
+      console.warn("Using local cart products because the API is unavailable:", error.message);
+      setAllProducts(fallbackProducts.map(formatProduct));
     }
   };
 

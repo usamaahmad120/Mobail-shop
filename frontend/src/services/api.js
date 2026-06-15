@@ -1,18 +1,26 @@
-const API_BASE_URL = "http://127.0.0.1:8000/api";
-
 import { resolveProductImage } from "../utils/productImage";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api";
 
 export const unwrapData = (payload) => payload?.data ?? payload;
 
-export const getCategories = async () => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/categories`);
-    if (!response.ok) throw new Error("Failed to fetch categories");
-    return unwrapData(await response.json());
-  } catch (error) {
-    console.error("Error fetching categories:", error);
-    throw error;
+const requestJson = async (url, errorMessage) => {
+  const response = await fetch(url);
+  const contentType = response.headers.get("content-type") || "";
+
+  if (!response.ok) {
+    throw new Error(`${errorMessage}: ${response.status} ${response.statusText}`);
   }
+
+  if (!contentType.includes("application/json")) {
+    throw new Error(`${errorMessage}: expected JSON response`);
+  }
+
+  return response.json();
+};
+
+export const getCategories = async () => {
+  return unwrapData(await requestJson(`${API_BASE_URL}/categories`, "Failed to fetch categories"));
 };
 
 export const getProducts = async ({
@@ -21,53 +29,38 @@ export const getProducts = async ({
   page = 1,
   perPage = 12,
 } = {}) => {
-  try {
-    const params = new URLSearchParams({
-      page: String(page),
-      per_page: String(perPage),
-    });
+  const params = new URLSearchParams({
+    page: String(page),
+    per_page: String(perPage),
+  });
 
-    if (category) params.set("category", category);
-    if (search) params.set("search", search);
+  if (category) params.set("category", category);
+  if (search) params.set("search", search);
 
-    const response = await fetch(`${API_BASE_URL}/products?${params.toString()}`);
-    if (!response.ok) throw new Error("Failed to fetch products");
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    throw error;
-  }
+  return await requestJson(`${API_BASE_URL}/products?${params.toString()}`, "Failed to fetch products");
 };
 
 export const getProductBySlug = async (slug) => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/products/${slug}`);
-    if (!response.ok) throw new Error("Failed to fetch product");
-    return unwrapData(await response.json());
-  } catch (error) {
-    console.error("Error fetching product:", error);
-    throw error;
-  }
+  return unwrapData(await requestJson(`${API_BASE_URL}/products/${slug}`, "Failed to fetch product"));
 };
 
 export const getHomeSections = async () => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/products/home`);
-    if (!response.ok) throw new Error("Failed to fetch home sections");
-    return unwrapData(await response.json());
-  } catch (error) {
-    console.error("Error fetching home sections:", error);
-    throw error;
-  }
+  return unwrapData(await requestJson(`${API_BASE_URL}/products/home`, "Failed to fetch home sections"));
 };
 
-export const formatProduct = (product) => ({
-  ...product,
-  image: resolveProductImage(product.image),
-  img: resolveProductImage(product.image),
-  category: product.category?.name || "Unknown",
-  categorySlug: product.category?.slug || "",
-});
+export const formatProduct = (product) => {
+  const category = typeof product.category === "string" ? product.category : product.category?.name;
+  const categorySlug = typeof product.category === "string" ? product.category : product.category?.slug;
+  const image = resolveProductImage(product.image || product.img);
+
+  return {
+    ...product,
+    image,
+    img: image,
+    category: category || "Unknown",
+    categorySlug: categorySlug || "",
+  };
+};
 
 export default {
   getCategories,

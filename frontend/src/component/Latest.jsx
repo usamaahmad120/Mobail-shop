@@ -23,7 +23,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { formatPrice } from "../utils/currency";
 import { formatRating, formatReviewCount, isProductInStock } from "../utils/productMeta";
-import { formatProduct } from "../services/api";
+import { latestProducts as fallbackLatestProducts } from "../Latest";
+import { formatProduct, getHomeSections } from "../services/api";
 
 // 🔥 Separate component to fix React Hooks violation
 const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, handleToggleWishlist, handleEyeClick }) => {
@@ -149,16 +150,13 @@ function Latest() {
   useEffect(() => {
     const fetchNewestProducts = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/products/home")
-
-        const payload = await response.json();
-        const data = payload.data || payload;
-
-        const formattedProducts = data.newest.map(formatProduct);
+        const data = await getHomeSections();
+        const formattedProducts = (data.newest || []).map(formatProduct);
 
         setLatestProducts(formattedProducts);
       } catch (error) {
-        console.log(error);
+        console.warn("Using local newest products because the API is unavailable:", error.message);
+        setLatestProducts(fallbackLatestProducts.map(formatProduct));
       }
     };
 

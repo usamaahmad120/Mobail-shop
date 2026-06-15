@@ -26,7 +26,8 @@ import {
   getProductRating,
   isProductInStock,
 } from "../utils/productMeta";
-import { formatProduct } from "../services/api";
+import { products as fallbackProducts } from "../product";
+import { formatProduct, getHomeSections } from "../services/api";
 
 const ProductCard = ({
   item,
@@ -135,14 +136,13 @@ function ElectronicsShowcase() {
     const fetchShowcaseProducts = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://127.0.0.1:8000/api/products/home");
-        const payload = await response.json();
-        const sections = payload.data || payload;
+        const sections = await getHomeSections();
         const formattedProducts = (sections.electronics_showcase || []).map(formatProduct);
 
         setShowcaseProducts(formattedProducts);
       } catch (error) {
-        console.error("Error fetching electronics showcase products:", error);
+        console.warn("Using local showcase products because the API is unavailable:", error.message);
+        setShowcaseProducts(fallbackProducts.slice(0, 8).map(formatProduct));
       } finally {
         setLoading(false);
       }

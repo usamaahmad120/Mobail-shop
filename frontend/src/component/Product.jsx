@@ -26,7 +26,8 @@ import {
   getProductRating,
   isProductInStock,
 } from "../utils/productMeta";
-import { formatProduct } from "../services/api";
+import { products as fallbackProducts } from "../product";
+import { formatProduct, getHomeSections } from "../services/api";
 
 // 🔥 Separate component to fix React Hooks violation
 const ProductCard = ({ item, addingToCart, addingToWishlist, handleAddToCart, handleToggleWishlist, handleEyeClick }) => {
@@ -146,15 +147,13 @@ function Product() {
     const fetchTrendingProducts = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://127.0.0.1:8000/api/products/home");
-        const payload = await response.json();
-        const data = payload.data || payload;
-
-        const formattedProducts = data.trending.map(formatProduct);
+        const data = await getHomeSections();
+        const formattedProducts = (data.trending || []).map(formatProduct);
 
         setTrendingProducts(formattedProducts);
       } catch (error) {
-        console.error("Error fetching trending products:", error);
+        console.warn("Using local trending products because the API is unavailable:", error.message);
+        setTrendingProducts(fallbackProducts.slice(0, 10).map(formatProduct));
       } finally {
         setLoading(false);
       }

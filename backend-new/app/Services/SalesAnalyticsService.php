@@ -49,13 +49,14 @@ class SalesAnalyticsService
     public function getDailySales(array $filters = []): array
     {
         [$startDate, $endDate] = $this->resolveDateRange($filters);
+        $dateExpression = $this->dateExpression('created_at');
 
         $salesByDate = $this->revenueOrdersInRange($startDate, $endDate)
-            ->selectRaw('DATE(created_at) as sales_date, COALESCE(SUM(total), 0) as total_sales, COUNT(*) as orders_count')
+            ->selectRaw("{$dateExpression} as sales_date, COALESCE(SUM(total), 0) as total_sales, COUNT(*) as orders_count")
             ->groupBy('sales_date')
             ->orderBy('sales_date')
             ->get()
-            ->keyBy('sales_date');
+            ->keyBy(fn ($row): string => Carbon::parse($row->sales_date)->toDateString());
 
         $labels = [];
         $sales = [];
@@ -82,13 +83,14 @@ class SalesAnalyticsService
         $year = isset($filters['year']) ? (int) $filters['year'] : (int) now()->year;
         $startDate = Carbon::create($year, 1, 1)->startOfDay();
         $endDate = Carbon::create($year, 12, 31)->endOfDay();
+        $monthExpression = $this->monthExpression('created_at');
 
         $salesByMonth = $this->revenueOrdersInRange($startDate, $endDate)
-            ->selectRaw('MONTH(created_at) as sales_month, COALESCE(SUM(total), 0) as total_sales, COUNT(*) as orders_count')
+            ->selectRaw("{$monthExpression} as sales_month, COALESCE(SUM(total), 0) as total_sales, COUNT(*) as orders_count")
             ->groupBy('sales_month')
             ->orderBy('sales_month')
             ->get()
-            ->keyBy('sales_month');
+            ->keyBy(fn ($row): int => (int) $row->sales_month);
 
         $labels = [];
         $sales = [];
@@ -169,6 +171,24 @@ class SalesAnalyticsService
                     ->whereIn('order_status', self::REVENUE_ORDER_STATUSES)
                     ->orWhereIn('payment_status', self::REVENUE_PAYMENT_STATUSES);
             });
+    }
+
+    private function dateExpression(string $column): string
+    {
+        return match (DB::connection()->getDriverName()) {
+            'pgsql' => "DATE({$column})",
+            'sqlite' => "DATE({$column})",
+            default => "DATE({$column})",
+        };
+    }
+
+    private function monthExpression(string $column): string
+    {
+        return match (DB::connection()->getDriverName()) {
+            'pgsql' => "EXTRACT(MONTH FROM {$column})",
+            'sqlite' => "CAST(strftime('%m', {$column}) AS INTEGER)",
+            default => "MONTH({$column})",
+        };
     }
 
     /**

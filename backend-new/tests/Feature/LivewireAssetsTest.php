@@ -19,4 +19,9 @@ class LivewireAssetsTest extends TestCase
             ->assertOk()
             ->assertSee('/livewire/livewire.js', false);
     }
+
+    public function test_php_builtin_server_router_exists(): void
+    {
+        $this->assertFileExists(base_path('server.php'));
+    }
 }

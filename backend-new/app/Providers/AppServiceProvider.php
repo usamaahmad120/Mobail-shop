@@ -27,5 +27,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Route::get('/livewire.js', [FrontendAssets::class, 'returnJavaScriptAsFile']);
+        Route::get('/livewire-{hash}/livewire.js', fn () => app(FrontendAssets::class)->returnJavaScriptAsFile())
+            ->where('hash', '[A-Za-z0-9]+');
     }
 }
